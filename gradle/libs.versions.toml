@@ -1,5 +1,11 @@
 [versions]
 
+# Jetpack Compose...
+jetpackCompose = "1.5.3"
+
+# Jetpack Compose (BOM)...
+jetpackComposeBOM = "2023.03.00"
+
 # Plugins...
 androidGradlePlugin = "8.1.2"
 activityCompose = "1.8.0"
@@ -25,6 +31,9 @@ hiltAndroid = "2.48.1"
 roomRuntime = "2.5.2"
 
 [libraries]
+
+# Jetpack Compose...
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "jetpackComposeBOM" }
 
 # Kotlin (Jetpack Compose)...
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
