@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -10,7 +11,20 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/achievements" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/camera" />
+            <option value="$PROJECT_DIR$/commons" />
+            <option value="$PROJECT_DIR$/faq" />
+            <option value="$PROJECT_DIR$/food" />
+            <option value="$PROJECT_DIR$/home" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/notifications" />
+            <option value="$PROJECT_DIR$/profile" />
+            <option value="$PROJECT_DIR$/search" />
+            <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/termination" />
+            <option value="$PROJECT_DIR$/update" />
           </set>
         </option>
       </GradleProjectSettings>
