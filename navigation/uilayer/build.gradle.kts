@@ -1,25 +1,19 @@
 plugins {
-    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.dagger.hilt.android.plugin)
 }
 
 android {
-    namespace = "emmanuelmuturia.snapbite"
+    namespace = "emmanuelmuturia.navgraph"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "emmanuelmuturia.snapbite"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.00"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -56,11 +50,8 @@ dependencies {
     // Commons Module...
     implementation(project(":commons:uilayer"))
 
-    // Navigation Module...
-    implementation(project(":navigation:uilayer"))
-
-    // Navigation...
-    implementation(libs.androidx.navigation.compose)
+    // Welcome Module...
+    implementation(project(":welcome:uilayer"))
 
     // Dagger-Hilt...
     implementation(libs.hilt.android)
@@ -68,11 +59,6 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     "ksp"(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-
-    // Room...
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    "ksp"(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

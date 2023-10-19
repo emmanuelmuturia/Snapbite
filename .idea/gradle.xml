@@ -12,6 +12,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/commons" />
+            <option value="$PROJECT_DIR$/commons/domainlayer" />
+            <option value="$PROJECT_DIR$/commons/uilayer" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/navigation/uilayer" />
+            <option value="$PROJECT_DIR$/welcome" />
+            <option value="$PROJECT_DIR$/welcome/uilayer" />
           </set>
         </option>
       </GradleProjectSettings>
