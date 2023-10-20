@@ -50,15 +50,18 @@ dependencies {
     // Commons Module...
     implementation(project(":commons:uilayer"))
 
-    // Welcome Module...
+    // Welcome Screen...
     implementation(project(":welcome:uilayer"))
+
+    // Home Screen...
+    implementation(project(":home:uilayer"))
 
     // Dagger-Hilt...
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.work)
-    "ksp"(libs.androidx.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Navigation...
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

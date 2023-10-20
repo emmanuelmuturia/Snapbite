@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Snapbite"
 include(":app")
-include(":commons:domainlayer")
 include(":commons:uilayer")
-include(":welcome:uilayer")
 include(":navigation:uilayer")
+include(":welcome:uilayer")
+include(":home:uilayer")
