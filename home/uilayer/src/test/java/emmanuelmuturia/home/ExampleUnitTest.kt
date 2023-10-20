@@ -1,4 +1,4 @@
-package emmanuelmuturia.uilayer
+package emmanuelmuturia.home
 
 import org.junit.Test
 

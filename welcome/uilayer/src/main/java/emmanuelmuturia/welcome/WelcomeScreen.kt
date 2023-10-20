@@ -1,4 +1,4 @@
-package emmanuelmuturia.welcomescreen
+package emmanuelmuturia.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -16,25 +16,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import emmanuelmuturia.uilayer.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navController: NavHostController
+) {
 
     val sheetState = rememberModalBottomSheetState()
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.snapbite),
-            contentDescription = "Background Image...",
+            contentDescription = "Background Image",
             contentScale = ContentScale.FillBounds
         )
-
     }
+
     ModalBottomSheet(
         modifier = Modifier.fillMaxSize(),
         onDismissRequest = { },
@@ -57,4 +59,5 @@ fun WelcomeScreen() {
             )
         }
     }
+
 }

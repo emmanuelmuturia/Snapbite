@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.welcome"
+    namespace = "emmanuelmuturia.home"
     compileSdk = 34
 
     defaultConfig {
