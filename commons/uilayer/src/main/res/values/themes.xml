@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme.Snapbite" parent="android:Theme.Material.Light.NoActionBar" />
+
 </resources>

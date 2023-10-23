@@ -57,7 +57,7 @@ dependencies {
     implementation(project(":commons:uilayer"))
 
     // Navigation Module...
-    implementation(project(":navigation:uilayer"))
+    implementation(project(":navigation"))
 
     // Navigation...
     implementation(libs.androidx.navigation.compose)
