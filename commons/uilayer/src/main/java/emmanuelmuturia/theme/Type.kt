@@ -14,39 +14,3 @@ val Caveat = FontFamily(
     Font(R.font.caveat_semi_bold),
     Font(R.font.caveat_bold)
 )
-
-// Set of Material typography styles to start with
-val Typography = Typography(
-
-    titleLarge = TextStyle(
-        fontFamily = Caveat,
-        fontWeight = FontWeight.Bold,
-        fontSize = 21.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-
-    headlineLarge = TextStyle(
-        fontFamily = Caveat,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 21.sp,
-        letterSpacing = 0.sp
-    ),
-
-    bodyLarge = TextStyle(
-        fontFamily = Caveat,
-        fontWeight = FontWeight.Medium,
-        fontSize = 7.sp,
-        lineHeight = 21.sp,
-        letterSpacing = 0.sp
-    ),
-
-    labelLarge = TextStyle(
-        fontFamily = Caveat,
-        fontWeight = FontWeight.Normal,
-        fontSize = 3.sp,
-        lineHeight = 21.sp,
-        letterSpacing = 0.sp
-    )
-)
