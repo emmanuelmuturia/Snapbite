@@ -1,0 +1,55 @@
+
+I
+gradle/libs.versions.toml,d/7/d7595319a0658be6f1ed500ad590d42e4b28bc4f
+P
+ welcome/uilayer/build.gradle.kts,e/c/ecd3e0cc8d974839fb8b76f0a58a6c9a8a15bd63
+P
+ commons/uilayer/build.gradle.kts,8/5/851efa9af21ac9a63bbdfba89e4147a2461c287f
+@
+build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+D
+app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+K
+navigation/build.gradle.kts,7/2/72a63bd429fe806a7ac06bbbb579bf88f04b3e2b
+}
+Mhome/dependencyinjection/src/main/java/emmanuelmuturia/hilt/HomeHiltModule.kt,e/6/e6cc7b711f88ba344895ccf5a14bfcf25455db4d
+v
+Fhome/uilayer/src/main/java/emmanuelmuturia/home/HomeScreenViewModel.kt,2/b/2b65612cc77b8497904847096155314fa04b2612
+Y
+)home/dependencyinjection/build.gradle.kts,8/4/84fa9a5a32b0abdb8e6f66e642cca055505b8446
+m
+=navigation/src/main/java/emmanuelmuturia/navgraph/NavGraph.kt,a/2/a225b5d4805eb7a7d5ab4df7b6dd89ec154fdf42
+k
+;commons/uilayer/src/main/java/emmanuelmuturia/theme/Type.kt,b/3/b36e88e3d143dd58eb450cc51a66a5141b1dc4bb
+f
+6app/src/main/java/emmanuelmuturia/main/MainActivity.kt,e/f/ef7323220c24330e2f350e1ab656260106d3b056
+l
+<commons/uilayer/src/main/java/emmanuelmuturia/theme/Theme.kt,2/d/2dd62310ee365c31f763c291228d027f9c53451c
+C
+settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
+m
+=home/uilayer/src/main/java/emmanuelmuturia/home/HomeScreen.kt,4/6/46a8fa93cbb7be3284ee9fa26968de8e6a785fdd
+s
+Csearch/uilayer/src/main/java/emmanuelmuturia/search/SearchScreen.kt,f/8/f8bc6b109a4a923b2556ff65a78e0a3a2408be9a
+O
+update/uilayer/build.gradle.kts,2/c/2cba29c402145d76c891bb647d6722fe783b0ac2
+M
+food/uilayer/build.gradle.kts,d/8/d83b121a319645fca75d3de52c46759fa6ddd4db
+V
+&notifications/uilayer/build.gradle.kts,d/0/d0a71d82e01a5476921e43d2890557882ac08982
+T
+$termination/uilayer/build.gradle.kts,d/c/dcae4b0e01b5efa5b972649352108f176fd28a1b
+L
+faq/uilayer/build.gradle.kts,6/1/61039977cad785b09b96d012d07a44f01813f58e
+Q
+!settings/uilayer/build.gradle.kts,1/6/1629f88d3fcfb10210f162364ae1063e53c17c1a
+U
+%achievements/uilayer/build.gradle.kts,c/7/c776118b6cf304d6ecf522bc7828835c50bf5016
+P
+ profile/uilayer/build.gradle.kts,8/7/87918e119d197c0da5944f8fde10a309cc8d73d2
+O
+search/uilayer/build.gradle.kts,2/3/23cd7c803ab33d282d01e53836d7e5a12ecdc474
+M
+home/uilayer/build.gradle.kts,5/e/5e93cc0047854e3b6b51034ac708e404311ab897

@@ -4,7 +4,7 @@
 jetpackCompose = "1.5.3"
 
 # Jetpack Compose (BOM)...
-jetpackComposeBOM = "2023.10.00"
+jetpackComposeBOM = "2023.10.01"
 
 # Plugins...
 androidGradlePlugin = "8.1.2"
@@ -29,9 +29,10 @@ espressoCore = "3.5.1"
 
 # Dagger-Hilt...
 daggerHilt = "2.48.1"
+hiltNavigation = "1.0.0"
 
 # Room...
-roomRuntime = "2.5.2"
+roomRuntime = "2.6.0"
 
 [libraries]
 
@@ -51,6 +52,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 # Dagger-Hilt...
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 
 # Testing...
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
