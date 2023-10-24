@@ -33,8 +33,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import emmanuelmuturia.theme.Caveat
 
+
 @Composable
-fun HomeScreen(
+fun HomeScreen() {
+
+    // If list is empty then show EmptyHomeScreen. Else, show FilledHomeScreen...
+
+}
+
+
+@Composable
+fun FilledHomeScreen(
     navController: NavHostController
 ) {
 
@@ -46,17 +55,40 @@ fun HomeScreen(
             contentScale = ContentScale.FillBounds
         )
 
-        HomeScreenHeader()
+        HomeScreenHeader(navController = navController)
+
+        // Lazy Column with FoodCard items...
 
     }
 
-    HomeScreenFooter()
+    HomeScreenFooter(navController = navController)
+
+}
+
+@Composable
+fun EmptyHomeScreen(
+    navController: NavHostController
+) {
+
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        Image(
+            painter = painterResource(id = emmanuelmuturia.uilayer.R.drawable.snapbite),
+            contentDescription = "Background Image",
+            contentScale = ContentScale.FillBounds
+        )
+
+        HomeScreenHeader(navController = navController)
+
+    }
+
+    HomeScreenFooter(navController = navController)
 
 }
 
 
 @Composable
-fun HomeScreenHeader() {
+fun HomeScreenHeader(navController: NavHostController) {
 
     Row(
         modifier = Modifier
@@ -80,16 +112,17 @@ fun HomeScreenHeader() {
             Icon(
                 modifier = Modifier
                     .padding(end = 21.dp)
-                    .size(size = 30.dp),
+                    .size(size = 30.dp)
+                    .clickable { navController.navigate(route = "searchScreen") },
                 imageVector = Icons.Rounded.Search,
-                contentDescription = "Search Icon",
+                contentDescription = "Search Button",
                 tint = Color.Black
             )
 
             Icon(
-                modifier = Modifier.size(size = 30.dp),
+                modifier = Modifier.size(size = 30.dp).clickable { navController.navigate(route = "notificationsScreen") },
                 imageVector = Icons.Rounded.Notifications,
-                contentDescription = "Search Icon",
+                contentDescription = "Notifications Button",
                 tint = Color.Black
             )
         }
@@ -98,7 +131,13 @@ fun HomeScreenHeader() {
 
 
 @Composable
-fun HomeScreenFooter() {
+fun FoodCard() {
+
+}
+
+
+@Composable
+fun HomeScreenFooter(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,10 +145,10 @@ fun HomeScreenFooter() {
         verticalAlignment = Alignment.Bottom
     ) {
         Icon(
-            modifier = Modifier.size(size = 40.dp),
+            modifier = Modifier.size(size = 40.dp).clickable { navController.navigate(route = "settingsScreen") },
             imageVector = Icons.Rounded.Settings,
             tint = Color.Black,
-            contentDescription = "Settings"
+            contentDescription = "Settings Button"
         )
 
         Spacer(modifier = Modifier.weight(weight = 1f))
@@ -118,16 +157,16 @@ fun HomeScreenFooter() {
             modifier = Modifier.size(size = 42.dp),
             imageVector = Icons.Rounded.AddCircle,
             tint = Color.Black,
-            contentDescription = "Add Food Entry"
+            contentDescription = "Add Food Entry Button"
         )
 
         Spacer(modifier = Modifier.weight(weight = 1f))
 
         Icon(
-            modifier = Modifier.size(size = 40.dp),
+            modifier = Modifier.size(size = 40.dp).clickable { navController.navigate(route = "profileScreen") },
             imageVector = Icons.Rounded.AccountCircle,
             tint = Color.Black,
-            contentDescription = "User Profile"
+            contentDescription = "User Profile Button"
         )
     }
 }
