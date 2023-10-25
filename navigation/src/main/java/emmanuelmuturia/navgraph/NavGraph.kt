@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import emmanuelmuturia.day.DayScreen
 import emmanuelmuturia.home.EmptyHomeScreen
-import emmanuelmuturia.home.HomeScreen
 import emmanuelmuturia.notifications.NotificationsScreen
 import emmanuelmuturia.profile.ProfileScreen
 import emmanuelmuturia.routes.Routes
@@ -39,6 +39,10 @@ fun NavGraph(navController: NavHostController) {
 
         composable(route = Routes.ProfileScreen.routes) {
             ProfileScreen(navController = navController)
+        }
+
+        composable(route = Routes.FoodScreen.routes) {
+            DayScreen(navController = navController)
         }
 
     }

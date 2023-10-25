@@ -54,6 +54,12 @@ dependencies {
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.android.compiler)
 
+    // Room...
+    implementation(libs.androidx.room.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    "ksp"(libs.androidx.room.compiler)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
