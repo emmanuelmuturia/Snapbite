@@ -65,6 +65,9 @@ dependencies {
     // Profile Module...
     implementation(project(":profile:uilayer"))
 
+    // Food Module...
+    implementation(project(":food:uilayer"))
+
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 

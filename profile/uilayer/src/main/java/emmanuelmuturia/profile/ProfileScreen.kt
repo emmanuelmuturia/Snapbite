@@ -47,24 +47,22 @@ fun ProfileScreen(navController: NavHostController) {
 fun ProfileScreenHeader(navController: NavHostController) {
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 42.dp, start = 14.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 42.dp, start = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Start
     ) {
+        Row(modifier = Modifier.fillMaxWidth(0.33f)) {
 
-        Icon(
-            modifier = Modifier.clickable { navController.popBackStack() },
-            imageVector = Icons.Rounded.ArrowBack,
-            contentDescription = "Back Arrow",
-            tint = Color.Black
-        )
+            Icon(
+                modifier = Modifier.clickable { navController.popBackStack() },
+                imageVector = Icons.Rounded.ArrowBack,
+                contentDescription = "Back Arrow",
+                tint = Color.Black
+            )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
+        }
+
+        Row(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = "My Profile",
                 fontFamily = Caveat,
@@ -73,7 +71,6 @@ fun ProfileScreenHeader(navController: NavHostController) {
                 fontWeight = FontWeight.Bold
             )
         }
-
     }
 
 }

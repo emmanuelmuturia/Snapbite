@@ -14,4 +14,6 @@ sealed class Routes(val routes: String) {
 
     data object ProfileScreen : Routes(routes = "profileScreen")
 
+    data object FoodScreen : Routes(routes = "foodScreen")
+
 }

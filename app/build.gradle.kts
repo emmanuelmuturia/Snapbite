@@ -59,6 +59,9 @@ dependencies {
     // Navigation Module...
     implementation(project(":navigation"))
 
+    // Food Module (Data Layer)...
+    implementation(project(":food:datalayer"))
+
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 
