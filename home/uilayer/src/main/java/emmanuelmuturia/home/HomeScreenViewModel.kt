@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import emmanuelmuturia.database.SnapbiteDatabase
+import emmanuelmuturia.entities.DayEntity
 import emmanuelmuturia.hilt.FoodHiltModule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +19,8 @@ class HomeScreenViewModel  @Inject constructor(
     application: Application
 ) : AndroidViewModel(application = application) {
 
-    private var _daysList = MutableStateFlow<List<emmanuelmuturia.entities.DayEntity>>(value = emptyList())
-    val daysList: StateFlow<List<emmanuelmuturia.entities.DayEntity>> = _daysList.asStateFlow()
+    private var _daysList = MutableStateFlow<List<DayEntity>>(value = emptyList())
+    val daysList: StateFlow<List<DayEntity>> = _daysList.asStateFlow()
 
 
     private val snapbiteDatabase = SnapbiteDatabase.getSnapbiteDatabase(context = application)
@@ -35,6 +36,12 @@ class HomeScreenViewModel  @Inject constructor(
             dayRepository.getAllDays().collectLatest { days ->
                 _daysList.value = days
             }
+        }
+    }
+
+    fun deleteAllDays() {
+        viewModelScope.launch {
+            dayRepository.deleteDays()
         }
     }
 

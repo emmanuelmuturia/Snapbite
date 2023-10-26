@@ -50,12 +50,19 @@ dependencies {
     // Commons Module...
     implementation((project(":commons:uilayer")))
 
+    // Food Module (Domain Layer)
+    implementation(project(":food:domainlayer"))
+
+    // Food Module (Data Layer)
+    implementation(project(":food:datalayer"))
+
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 
     // Dagger-Hilt...
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

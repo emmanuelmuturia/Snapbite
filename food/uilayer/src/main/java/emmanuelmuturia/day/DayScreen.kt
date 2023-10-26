@@ -1,5 +1,7 @@
 package emmanuelmuturia.day
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,10 +27,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.theme.Caveat
 import emmanuelmuturia.uilayer.R
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayScreen(navController: NavHostController) {
 
@@ -49,6 +54,7 @@ fun DayScreen(navController: NavHostController) {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayScreenHeader(navController: NavHostController) {
 
@@ -80,7 +86,7 @@ fun DayScreenHeader(navController: NavHostController) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "21st October 2023",
+                text = formatCurrentDate(),
                 fontFamily = Caveat,
                 fontSize = 28.sp,
                 color = Color.Black,
@@ -102,10 +108,29 @@ fun DayScreenFooter() {
     ) {
 
         Image(
-            modifier = Modifier.size(size = 49.dp).clickable {  },
+            modifier = Modifier
+                .size(size = 49.dp)
+                .clickable { },
             painter = painterResource(id = R.drawable.photo_camera),
             contentDescription = "Camera Button"
         )
 
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+private fun formatCurrentDate(): String {
+    val currentDate = LocalDate.now()
+    val dayOfMonth = currentDate.dayOfMonth
+    val month = currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
+    val year = currentDate.year
+
+    val daySuffix = when (dayOfMonth) {
+        1, 21, 31 -> "st"
+        2, 22 -> "nd"
+        3, 23 -> "rd"
+        else -> "th"
+    }
+
+    return "$dayOfMonth$daySuffix $month $year"
 }
