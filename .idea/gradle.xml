@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="jbr-17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/achievements" />
+            <option value="$PROJECT_DIR$/achievements/uilayer" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/commons" />
+            <option value="$PROJECT_DIR$/commons/uilayer" />
+            <option value="$PROJECT_DIR$/faq" />
+            <option value="$PROJECT_DIR$/faq/uilayer" />
+            <option value="$PROJECT_DIR$/food" />
+            <option value="$PROJECT_DIR$/food/datalayer" />
+            <option value="$PROJECT_DIR$/food/dependencyinjection" />
+            <option value="$PROJECT_DIR$/food/domainlayer" />
+            <option value="$PROJECT_DIR$/food/uilayer" />
+            <option value="$PROJECT_DIR$/home" />
+            <option value="$PROJECT_DIR$/home/dependencyinjection" />
+            <option value="$PROJECT_DIR$/home/uilayer" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/notifications" />
+            <option value="$PROJECT_DIR$/notifications/uilayer" />
+            <option value="$PROJECT_DIR$/profile" />
+            <option value="$PROJECT_DIR$/profile/uilayer" />
+            <option value="$PROJECT_DIR$/search" />
+            <option value="$PROJECT_DIR$/search/uilayer" />
+            <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/settings/uilayer" />
+            <option value="$PROJECT_DIR$/termination" />
+            <option value="$PROJECT_DIR$/termination/uilayer" />
+            <option value="$PROJECT_DIR$/update" />
+            <option value="$PROJECT_DIR$/update/uilayer" />
+            <option value="$PROJECT_DIR$/welcome" />
+            <option value="$PROJECT_DIR$/welcome/uilayer" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
