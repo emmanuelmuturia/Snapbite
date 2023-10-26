@@ -16,6 +16,9 @@ interface DayDAO {
     @Query(value = "SELECT * FROM snapbiteDays ORDER BY dayDate DESC")
     fun getAllDays(): Flow<List<DayEntity>>
 
+    @Query("DELETE FROM snapbiteDays")
+    suspend fun deleteAllDays()
+
     @Query(value = "SELECT * FROM snapbiteDays WHERE dayId = :dayId")
     suspend fun getDayById(dayId: Int): DayEntity
 

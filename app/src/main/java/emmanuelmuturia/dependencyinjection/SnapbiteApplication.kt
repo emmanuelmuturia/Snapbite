@@ -5,9 +5,4 @@ import dagger.hilt.android.HiltAndroidApp
 import emmanuelmuturia.database.SnapbiteDatabase
 
 @HiltAndroidApp
-class SnapbiteApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        SnapbiteDatabase.getSnapbiteDatabase(context = this)
-    }
-}
+class SnapbiteApplication : Application()

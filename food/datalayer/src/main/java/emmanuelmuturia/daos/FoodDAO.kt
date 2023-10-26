@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import emmanuelmuturia.entities.FoodEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,9 @@ interface FoodDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFood(foodEntity: FoodEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateFood(foodEntity: FoodEntity)
 
     @Query(value = "SELECT * FROM snapBiteFoods WHERE dayId = :dayId")
     fun getAllFoods(dayId: Int): Flow<List<FoodEntity>>
