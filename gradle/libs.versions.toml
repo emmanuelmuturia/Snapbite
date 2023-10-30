@@ -34,6 +34,9 @@ hiltNavigation = "1.0.0"
 # Room...
 roomRuntime = "2.6.0"
 
+# CameraX...
+cameraX = "1.4.0-alpha02"
+
 [libraries]
 
 # Jetpack Compose...
@@ -63,6 +66,13 @@ junit = { module = "junit:junit", version.ref = "junit" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+
+# CameraX...
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraX" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraX" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraX" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraX" }
+androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "cameraX" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

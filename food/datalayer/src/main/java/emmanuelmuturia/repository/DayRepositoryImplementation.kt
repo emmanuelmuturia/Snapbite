@@ -12,10 +12,6 @@ class DayRepositoryImplementation(private val dayDAO: emmanuelmuturia.daos.DayDA
         return dayDAO.getAllDays()
     }
 
-    override suspend fun deleteDays() {
-        return dayDAO.deleteAllDays()
-    }
-
     override suspend fun getDayById(dayId: Int): DayEntity {
         return dayDAO.getDayById(dayId = dayId)
     }

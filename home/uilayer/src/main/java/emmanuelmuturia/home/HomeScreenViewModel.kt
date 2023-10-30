@@ -39,10 +39,6 @@ class HomeScreenViewModel  @Inject constructor(
         }
     }
 
-    fun deleteAllDays() {
-        viewModelScope.launch {
-            dayRepository.deleteDays()
-        }
-    }
+
 
 }
