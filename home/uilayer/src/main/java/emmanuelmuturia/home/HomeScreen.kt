@@ -217,7 +217,7 @@ fun HomeScreenFooter(navController: NavHostController) {
         Icon(
             modifier = Modifier
                 .size(size = 42.dp)
-                .clickable { navController.navigate(route = "foodScreen") },
+                .clickable { navController.navigate(route = "dayScreen") },
             imageVector = Icons.Rounded.AddCircle,
             tint = Color.Black,
             contentDescription = "Add Food Entry Button"

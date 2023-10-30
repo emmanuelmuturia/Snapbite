@@ -10,8 +10,6 @@ interface DayRepository {
 
     fun getAllDays(): Flow<List<DayEntity>>
 
-    suspend fun deleteDays()
-
     suspend fun getDayById(dayId: Int): DayEntity
 
 }
