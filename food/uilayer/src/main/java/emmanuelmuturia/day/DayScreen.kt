@@ -1,6 +1,14 @@
 package emmanuelmuturia.day
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,10 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.theme.Caveat
@@ -49,7 +59,7 @@ fun DayScreen(navController: NavHostController) {
 
     }
 
-    DayScreenFooter()
+    DayScreenFooter(navController = navController, context = LocalContext.current)
 
 }
 
@@ -98,7 +108,21 @@ fun DayScreenHeader(navController: NavHostController) {
 
 
 @Composable
-fun DayScreenFooter() {
+fun DayScreenFooter(navController: NavHostController, context: Context) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+    val cameraPermissionQueue = dayScreenViewModel.visiblePermissionDialogQueue
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            dayScreenViewModel.onPermissionResult(
+                permission = Manifest.permission.CAMERA,
+                isGranted = isGranted
+            )
+        }
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,19 +134,46 @@ fun DayScreenFooter() {
         Image(
             modifier = Modifier
                 .size(size = 49.dp)
-                .clickable { },
+                .clickable {
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    // navController.navigate(route = "editFoodScreen")
+                },
             painter = painterResource(id = R.drawable.photo_camera),
             contentDescription = "Camera Button"
         )
 
     }
+    cameraPermissionQueue.reversed().forEach { permission ->
+        PermissionDialog(
+            permissionTextProvider = when (permission) {
+                Manifest.permission.CAMERA -> CameraPermissionTextProvider()
+                else -> return@forEach
+            },
+            isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
+                LocalContext.current as Activity, permission
+            ),
+            onDismiss = dayScreenViewModel::dismissDialog,
+            onOkClick = { dayScreenViewModel.dismissDialog() },
+            onGoToAppSettingsClick = { (context as Activity).openAppSettings() }
+
+        )
+    }
+}
+
+
+fun Activity.openAppSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 private fun formatCurrentDate(): String {
     val currentDate = LocalDate.now()
     val dayOfMonth = currentDate.dayOfMonth
-    val month = currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
+    val month =
+        currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
     val year = currentDate.year
 
     val daySuffix = when (dayOfMonth) {

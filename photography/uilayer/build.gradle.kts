@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.navigation"
+    namespace = "emmanuelmuturia.uilayer"
     compileSdk = 34
 
     defaultConfig {
@@ -47,29 +47,8 @@ android {
 
 dependencies {
 
-    // Home Module (UI Layer)...
-    implementation(project(":home:uilayer"))
-
-    // Welcome Module...
-    implementation(project(":welcome:uilayer"))
-
-    // Search Module...
-    implementation(project(":search:uilayer"))
-
-    // Notifications Module...
-    implementation(project(":notifications:uilayer"))
-
-    // Settings Module...
-    implementation(project(":settings:uilayer"))
-
-    // Profile Module...
-    implementation(project(":profile:uilayer"))
-
-    // Food Module...
-    implementation(project(":food:uilayer"))
-
-    // Photography Module...
-    implementation(project(":photography:uilayer"))
+    // Commons Module...
+    implementation((project(":commons:uilayer")))
 
     // Navigation...
     implementation(libs.androidx.navigation.compose)
@@ -77,6 +56,14 @@ dependencies {
     // Dagger-Hilt...
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // CameraX...
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

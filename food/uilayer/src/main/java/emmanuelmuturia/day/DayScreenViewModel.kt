@@ -1,6 +1,7 @@
 package emmanuelmuturia.day
 
 import android.app.Application
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,21 @@ class DayScreenViewModel @Inject constructor(
 
     private var _daysList = MutableStateFlow<List<DayEntity>>(value = emptyList())
     val daysList: StateFlow<List<DayEntity>> = _daysList.asStateFlow()
+
+    val visiblePermissionDialogQueue = mutableStateListOf<String>()
+
+    fun dismissDialog() {
+        visiblePermissionDialogQueue.removeFirst()
+    }
+
+    fun onPermissionResult(
+        permission: String,
+        isGranted: Boolean
+    ) {
+        if (!isGranted) {
+            visiblePermissionDialogQueue.add(element = permission)
+        }
+    }
 
     fun addDay(dayEntity: DayEntity) {
         viewModelScope.launch {

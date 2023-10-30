@@ -1,19 +1,25 @@
 package emmanuelmuturia.routes
 
-sealed class Routes(val routes: String) {
+sealed class Routes(val route: String) {
 
-    data object WelcomeScreen : Routes(routes = "welcomeScreen")
+    data object WelcomeScreen : Routes(route = "welcomeScreen")
 
-    data object HomeScreen : Routes(routes = "homeScreen")
+    data object HomeScreen : Routes(route = "homeScreen")
 
-    data object SearchScreen : Routes(routes = "searchScreen")
+    data object SearchScreen : Routes(route = "searchScreen")
 
-    data object NotificationsScreen : Routes(routes = "notificationsScreen")
+    data object NotificationsScreen : Routes(route = "notificationsScreen")
 
-    data object SettingsScreen : Routes(routes = "settingsScreen")
+    data object SettingsScreen : Routes(route = "settingsScreen")
 
-    data object ProfileScreen : Routes(routes = "profileScreen")
+    data object ProfileScreen : Routes(route = "profileScreen")
 
-    data object FoodScreen : Routes(routes = "foodScreen")
+    data object DayScreen : Routes(route = "dayScreen")
+
+    data object EditFoodScreen : Routes(route = "editFoodScreen")
+
+    data object ViewFoodScreen : Routes(route = "viewFoodScreen")
+
+    data object PhotoScreen : Routes(route = "photoScreen")
 
 }
