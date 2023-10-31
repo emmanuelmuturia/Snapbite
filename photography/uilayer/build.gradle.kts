@@ -47,9 +47,6 @@ android {
 
 dependencies {
 
-    // Commons Module...
-    implementation((project(":commons:uilayer")))
-
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 

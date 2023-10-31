@@ -136,9 +136,9 @@ fun DayScreenFooter(navController: NavHostController, context: Context) {
                 .size(size = 49.dp)
                 .clickable {
                     cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-                    // navController.navigate(route = "editFoodScreen")
+                    navController.navigate(route = "photoScreen")
                 },
-            painter = painterResource(id = R.drawable.photo_camera),
+            painter = painterResource(id = R.drawable.camera),
             contentDescription = "Camera Button"
         )
 
