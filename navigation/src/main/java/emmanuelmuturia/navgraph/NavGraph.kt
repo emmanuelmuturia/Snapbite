@@ -15,7 +15,7 @@ import emmanuelmuturia.profile.ProfileScreen
 import emmanuelmuturia.routes.Routes
 import emmanuelmuturia.search.SearchScreen
 import emmanuelmuturia.settings.SettingsScreen
-import emmanuelmuturia.uilayer.photography.PhotoScreen
+import emmanuelmuturia.photography.PhotoScreen
 import emmanuelmuturia.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.O)

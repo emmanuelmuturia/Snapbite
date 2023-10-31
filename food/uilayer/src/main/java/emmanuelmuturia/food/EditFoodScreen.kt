@@ -2,11 +2,13 @@ package emmanuelmuturia.food
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -23,17 +28,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import emmanuelmuturia.theme.Caveat
 import emmanuelmuturia.uilayer.R
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -49,7 +58,23 @@ fun EditFoodScreen(navController: NavHostController) {
 
         EditFoodScreenHeader(navController = navController)
 
-        FoodDetails()
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            Spacer(modifier = Modifier.height(height = 210.dp))
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+
+                item {
+                    FoodList()
+                }
+
+                item {
+                    FoodCaption()
+                }
+
+            }
+
+        }
 
     }
 
@@ -116,7 +141,7 @@ fun EditFoodScreenHeader(navController: NavHostController) {
 
         }
 
-        Spacer(modifier = Modifier.height(height = 42.dp))
+        Spacer(modifier = Modifier.height(height = 21.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -136,38 +161,75 @@ fun EditFoodScreenHeader(navController: NavHostController) {
 
 }
 
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FoodDetails() {
+fun FoodList(
+    modifier: Modifier = Modifier,
+    pagerPaddingValues: PaddingValues = PaddingValues(horizontal = 65.dp),
+    imageCornerRadius: Dp = 16.dp,
+    imageHeight: Dp = 300.dp,
+) {
+
+    val pizzaImagesList = List(10) { R.drawable.pizza }
+
+    val pagerState = rememberPagerState(pageCount = {
+        pizzaImagesList.size
+    })
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
     ) {
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            HorizontalPager(
+                state = pagerState,
+                contentPadding = pagerPaddingValues,
+                modifier = modifier.weight(1f)
+            ) { page ->
+                // Calculate the absolute offset for the current page from the
+                // scroll position. We use the absolute value which allows us to mirror
+                // any effects for both directions
+                val pageOffset =
+                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
 
-        Image(
-            painter = painterResource(id = R.drawable.pizza),
-            contentDescription = "Test Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(size = 300.dp)
-                .clip(shape = RoundedCornerShape(size = 21.dp))
-        )
+                val scaleFactor = 0.75f + (1f - 0.75f) * (1f - pageOffset.absoluteValue)
 
-        Spacer(modifier = Modifier.height(height = 14.dp))
+                Box(modifier = modifier
+                    .graphicsLayer {
+                        scaleX = scaleFactor
+                        scaleY = scaleFactor
+                    }
+                    .alpha(
+                        scaleFactor.coerceIn(0f, 1f)
+                    )
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(imageCornerRadius))) {
+                    Image(painter = painterResource(id = pizzaImagesList[page]), contentDescription = "Food Photos", contentScale = ContentScale.Crop, modifier = modifier
+                        .height(imageHeight))
+                }
+            }
 
-        Text(
-            text = "Lorem Ipsum...",
-            fontFamily = Caveat,
-            color = Color.Black,
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Bold
-        )
-
+        }
     }
+
+}
+
+
+@Composable
+fun FoodCaption() {
+
+    Spacer(modifier = Modifier.height(height = 14.dp))
+
+    Text(
+        text = "Lorem Ipsum...",
+        fontFamily = Caveat,
+        color = Color.Black,
+        fontSize = 21.sp,
+        fontWeight = FontWeight.Bold
+    )
 
 }
 
