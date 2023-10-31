@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -29,6 +28,8 @@
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/notifications" />
             <option value="$PROJECT_DIR$/notifications/uilayer" />
+            <option value="$PROJECT_DIR$/photography" />
+            <option value="$PROJECT_DIR$/photography/uilayer" />
             <option value="$PROJECT_DIR$/profile" />
             <option value="$PROJECT_DIR$/profile/uilayer" />
             <option value="$PROJECT_DIR$/search" />
