@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import emmanuelmuturia.uilayer.R
+import emmanuelmuturia.commons.uilayer.R
+import emmanuelmuturia.components.SnapbiteProgressIndicator
 
 @Composable
 fun ErrorScreen() {
@@ -20,10 +21,7 @@ fun ErrorScreen() {
 
         Image(painter = painterResource(id = R.drawable.snapbite), contentDescription = "Background Image")
 
-        CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.background,
-            strokeWidth = 7.dp
-        )
+        SnapbiteProgressIndicator()
 
     }
 }
