@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.home.dependencyinjection"
+    namespace = "emmanuelmuturia.home.domainlayer"
     compileSdk = 34
 
     defaultConfig {
@@ -43,24 +43,19 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    libraryVariants.all {
+        addJavaSourceFoldersToModel(
+            File(buildDir, "generated/ksp/$name/kotlin")
+        )
+    }
+
 }
 
 dependencies {
 
-    // Module(s)...
-    val moduleList = listOf(
-        "home:domainlayer",
-        "home:datalayer",
-        ":food:domainlayer"
-    )
-
-    moduleList.forEach { module ->
-        implementation(project(path = ":$module"))
-    }
-
-    // Firebase...
-    implementation(dependencyNotation = platform(libs.firebase.bom))
-    implementation(dependencyNotation = libs.firebase.cloud.firestore)
+    // Food Module (Domain Layer)...
+    implementation(dependencyNotation = project(path = ":food:domainlayer"))
 
     // Dagger-Hilt...
     implementation(dependencyNotation = libs.hilt.android)

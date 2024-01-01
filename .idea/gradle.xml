@@ -33,7 +33,9 @@
             <option value="$PROJECT_DIR$/food/domainlayer" />
             <option value="$PROJECT_DIR$/food/uilayer" />
             <option value="$PROJECT_DIR$/home" />
+            <option value="$PROJECT_DIR$/home/datalayer" />
             <option value="$PROJECT_DIR$/home/dependencyinjection" />
+            <option value="$PROJECT_DIR$/home/domainlayer" />
             <option value="$PROJECT_DIR$/home/uilayer" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/notifications" />

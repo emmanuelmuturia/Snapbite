@@ -1,7 +1,9 @@
 package emmanuelmuturia.home
 
 import android.icu.util.Calendar
-import androidx.compose.foundation.Image
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,46 +17,105 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.entities.DayEntity
+import emmanuelmuturia.state.ErrorScreen
+import emmanuelmuturia.state.LoadingScreen
+import emmanuelmuturia.state.SnapbiteState
 import emmanuelmuturia.theme.Caveat
+import emmanuelmuturia.theme.snapbiteMaroon
+import emmanuelmuturia.theme.snapbiteOrange
 
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
 
-    val homeScreen: HomeScreenViewModel = hiltViewModel()
-    val dayList = homeScreen.daysList.collectAsState(initial = listOf())
+    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 
-    // If list is empty then show EmptyHomeScreen. Else, show FilledHomeScreen...
-    when {
-        dayList.value.isEmpty() -> EmptyHomeScreen(navController = navController)
-        else -> FilledHomeScreen(navController = navController)
+    val dayList by homeScreenViewModel.daysList.collectAsStateWithLifecycle()
+
+    val daysState by homeScreenViewModel.daysState.collectAsStateWithLifecycle()
+
+    val exitDialogState = rememberSaveable { mutableStateOf(value = false) }
+
+    val context = LocalContext.current
+
+    val isLoading by homeScreenViewModel.isLoading.collectAsStateWithLifecycle()
+
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
+
+    BackHandler(enabled = true) { exitDialogState.value = !exitDialogState.value }
+
+    if (exitDialogState.value) {
+        ExitConfirmationDialog(
+            onConfirmExit = {
+                (context as? ComponentActivity)?.finish()
+            },
+            onDismiss = {
+                exitDialogState.value = false
+            }
+        )
     }
 
+    when(daysState) {
+
+        is SnapbiteState.Error -> ErrorScreen()
+        is SnapbiteState.Loading -> LoadingScreen()
+        else -> SwipeRefresh(
+            state = swipeRefreshState,
+            onRefresh = homeScreenViewModel::refreshDaysList,
+            indicator = { state, refreshTrigger ->
+                SwipeRefreshIndicator(
+                    state = state,
+                    refreshTriggerDistance = refreshTrigger,
+                    backgroundColor = snapbiteOrange,
+                    contentColor = Color.Black
+                )
+            }) {
+
+            dayList.takeIf { it.isNotEmpty() }?.let {
+               FilledHomeScreen(navController = navController)
+            } ?: EmptyHomeScreen(navController = navController)
+
+        }
+
+    }
 
 }
 
@@ -74,13 +135,15 @@ fun FilledHomeScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+
             HomeScreenHeader(navController = navController)
 
             // Lazy Column with FoodCard items...
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 70.dp),
+                    .padding(bottom = 70.dp)
+                    .weight(weight = 1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -96,7 +159,7 @@ fun FilledHomeScreen(
 
     }
 
-    //HomeScreenFooter(navController = navController, dayEntity = dayList.value)
+    HomeScreenFooter(navController = navController, dayEntity = null)
 
 }
 
@@ -109,11 +172,17 @@ fun EmptyHomeScreen(
 
         SnapbiteBackgroundImage()
 
-        HomeScreenHeader(navController = navController)
+        Column {
+
+            HomeScreenHeader(navController = navController)
+
+            Spacer(modifier = Modifier.weight(weight = 1f))
+
+            HomeScreenFooter(navController = navController, dayEntity = null)
+
+        }
 
     }
-
-    HomeScreenFooter(navController = navController, dayEntity = null)
 
 }
 
@@ -229,6 +298,62 @@ fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
             contentDescription = "User Profile Button"
         )
     }
+}
+
+@Composable
+fun ExitConfirmationDialog(
+    onConfirmExit: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(size = 21.dp)),
+        onDismissRequest = { onDismiss() },
+        tonalElevation = 21.dp,
+        text = {
+            Text(
+                text = "Are you sure you want to exit the app?",
+                style = MaterialTheme.typography.titleLarge,
+                lineHeight = 30.sp
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onConfirmExit()
+                    onDismiss()
+                },
+                shape = RoundedCornerShape(size = 21.dp),
+                border = BorderStroke(width = 1.dp, color = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
+            ) {
+                Text(
+                    text = "Yes",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = { onDismiss() },
+                shape = RoundedCornerShape(size = 21.dp),
+                border = BorderStroke(width = 1.dp, color = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
+            ) {
+                Text(
+                    text = "No",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        },
+        containerColor = snapbiteOrange,
+        textContentColor = Color.Black,
+        titleContentColor = Color.Black,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        )
+    )
 }
 
 private fun displayGreeting(): String {

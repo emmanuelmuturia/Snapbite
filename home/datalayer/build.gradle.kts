@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.home.dependencyinjection"
+    namespace = "emmanuelmuturia.home.datalayer"
     compileSdk = 34
 
     defaultConfig {
@@ -49,8 +49,8 @@ dependencies {
 
     // Module(s)...
     val moduleList = listOf(
+        "commons:dependencyinjection",
         "home:domainlayer",
-        "home:datalayer",
         ":food:domainlayer"
     )
 
@@ -58,14 +58,13 @@ dependencies {
         implementation(project(path = ":$module"))
     }
 
-    // Firebase...
-    implementation(dependencyNotation = platform(libs.firebase.bom))
-    implementation(dependencyNotation = libs.firebase.cloud.firestore)
-
     // Dagger-Hilt...
     implementation(dependencyNotation = libs.hilt.android)
     "ksp"(dependencyNotation = libs.hilt.android.compiler)
     implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
+
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
 
     // Android...
     implementation(dependencyNotation = libs.androidx.core.ktx)
@@ -73,8 +72,9 @@ dependencies {
     implementation(dependencyNotation = libs.material)
 
     // Testing...
+    testImplementation(dependencyNotation = libs.robolectric)
+    testImplementation(dependencyNotation = libs.kotlinx.coroutines.test)
     testImplementation(dependencyNotation = libs.junit)
     androidTestImplementation(dependencyNotation = libs.androidx.junit)
     androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
-
 }

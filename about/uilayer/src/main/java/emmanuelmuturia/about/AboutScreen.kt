@@ -24,29 +24,24 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import emmanuelmuturia.about.uilayer.R
-import emmanuelmuturia.components.EmmanuelMuturiaBackgroundImage
-import emmanuelmuturia.components.EmmanuelMuturiaFooter
-import emmanuelmuturia.components.EmmanuelMuturiaHeader
+import emmanuelmuturia.components.SnapbiteBackgroundImage
+import emmanuelmuturia.components.SnapbiteHeader
 
 @Composable
 fun AboutScreen(navigateBack: () -> Unit) {
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        EmmanuelMuturiaBackgroundImage()
+        SnapbiteBackgroundImage()
 
         Column(modifier = Modifier.fillMaxSize()) {
 
-            EmmanuelMuturiaHeader(
+            SnapbiteHeader(
                 navigateBack = navigateBack,
                 headerTitle = stringResource(id = R.string.about)
             )
 
             AboutScreenContent()
-
-            Spacer(modifier = Modifier.weight(weight = 1f))
-
-            EmmanuelMuturiaFooter()
 
         }
 
