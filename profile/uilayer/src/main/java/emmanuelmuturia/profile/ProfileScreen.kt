@@ -22,19 +22,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.theme.Caveat
-import emmanuelmuturia.uilayer.R
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        Image(
-            painter = painterResource(id = R.drawable.snapbite),
-            contentDescription = "Background Image",
-            contentScale = ContentScale.FillBounds
-        )
+        SnapbiteBackgroundImage()
 
         ProfileScreenHeader(navController = navController)
 
@@ -47,7 +43,9 @@ fun ProfileScreen(navController: NavHostController) {
 fun ProfileScreenHeader(navController: NavHostController) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 42.dp, start = 14.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 42.dp, start = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {

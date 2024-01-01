@@ -1,28 +1,28 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.library)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
 }
 
 android {
-    namespace = "emmanuelmuturia.hilt"
+    namespace = "emmanuelmuturia.home.dependencyinjection"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        consumerProguardFiles(proguardFiles = arrayOf("consumer-rules.pro"))
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+            proguardFiles(files = arrayOf(
+                getDefaultProguardFile(name = "proguard-android-optimize.txt"),
                 "proguard-rules.pro"
-            )
+            ))
         }
     }
     compileOptions {
@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
@@ -47,32 +47,34 @@ android {
 
 dependencies {
 
-    // Home Module (UI Layer)...
-    implementation(project(":home:uilayer"))
+    // Module(s)...
+    val moduleList = listOf(
+        "home:domainlayer",
+        "home:datalayer",
+        ":food:domainlayer"
+    )
+
+    moduleList.forEach { module ->
+        implementation(project(path = ":$module"))
+    }
+
+    // Firebase...
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
-    // Room...
-    implementation(libs.androidx.room.room.ktx)
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    "ksp"(libs.androidx.room.compiler)
+    // Android...
+    implementation(dependencyNotation = libs.androidx.core.ktx)
+    implementation(dependencyNotation = libs.appcompat)
+    implementation(dependencyNotation = libs.material)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Testing...
+    testImplementation(dependencyNotation = libs.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
+
 }

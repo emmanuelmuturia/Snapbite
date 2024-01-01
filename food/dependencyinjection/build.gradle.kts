@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
@@ -57,28 +57,28 @@ dependencies {
     implementation(project(":food:datalayer"))
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
     // Room...
-    implementation(libs.androidx.room.room.ktx)
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    "ksp"(libs.androidx.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    "ksp"(libs.room.compiler)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
+
+    // Android...
+    implementation(dependencyNotation = libs.androidx.core.ktx)
+    implementation(dependencyNotation = libs.appcompat)
+    implementation(dependencyNotation = libs.material)
+
+    // Testing...
+    testImplementation(dependencyNotation = libs.robolectric)
+    testImplementation(dependencyNotation = libs.kotlinx.coroutines.test)
+    testImplementation(dependencyNotation = libs.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
+
 }

@@ -1,9 +1,10 @@
 package emmanuelmuturia.repository
 
+import emmanuelmuturia.daos.DayDAO
 import emmanuelmuturia.entities.DayEntity
 import kotlinx.coroutines.flow.Flow
 
-class DayRepositoryImplementation(private val dayDAO: emmanuelmuturia.daos.DayDAO) : DayRepository {
+class DayRepositoryImplementation(private val dayDAO: DayDAO) : DayRepository {
     override suspend fun insertDay(dayEntity: DayEntity) {
         return dayDAO.insertDay(dayEntity = dayEntity)
     }
