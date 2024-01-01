@@ -1,18 +1,18 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.library)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
 }
 
 android {
-    namespace = "emmanuelmuturia.faq"
+    namespace = "emmanuelmuturia.faq.uilayer"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "emmanuelmuturia.faq.TestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -36,40 +36,75 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    libraryVariants.all {
+        addJavaSourceFoldersToModel(
+            File(buildDir, "generated/ksp/$name/kotlin")
+        )
+    }
+
 }
 
 dependencies {
 
-    // Commons Module...
-    implementation((project(":commons:uilayer")))
+    // Module(s)...
+    val moduleList = listOf(
+        "commons:uilayer",
+        "commons:domainlayer",
+        "commons:dependencyinjection",
+        "faq:dependencyinjection",
+        "faq:domainlayer",
+        "faq:datalayer"
+    )
 
-    // Navigation...
-    implementation(libs.androidx.navigation.compose)
+    moduleList.forEach { module ->
+        implementation(project(path = ":$module"))
+    }
+
+    // Firebase...
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
+
+    // Swipe To Refresh (Accompanist)...
+    implementation(dependencyNotation = libs.accompanist.swiperefresh)
+
+    // Android...
+    implementation(dependencyNotation = libs.androidx.core.ktx)
+    implementation(dependencyNotation = libs.lifecycle.runtime.compose)
+    implementation(dependencyNotation = libs.androidx.lifecycle.runtime.ktx)
+    implementation(dependencyNotation = libs.androidx.activity.compose)
+    implementation(dependencyNotation = platform(libs.androidx.compose.bom))
+    implementation(dependencyNotation = libs.compose.ui)
+    implementation(dependencyNotation = libs.compose.ui.graphics)
+    implementation(dependencyNotation = libs.compose.ui.tooling.preview)
+    implementation(dependencyNotation = libs.material3)
+
+    // Testing...
+    testImplementation(dependencyNotation = libs.robolectric)
+    testImplementation(dependencyNotation = libs.kotlinx.coroutines.test)
+    testImplementation(dependencyNotation = libs.mockK)
+    testImplementation(dependencyNotation = libs.junit)
+    androidTestImplementation(dependencyNotation = libs.hilt.testing)
+    androidTestImplementation(dependencyNotation = libs.androidx.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
+    androidTestImplementation(dependencyNotation = platform(libs.androidx.compose.bom))
+    androidTestImplementation(dependencyNotation = libs.compose.ui.test.junit4)
+    debugImplementation(dependencyNotation = libs.compose.ui.tooling)
+    debugImplementation(dependencyNotation = libs.compose.ui.test.manifest)
+
 }

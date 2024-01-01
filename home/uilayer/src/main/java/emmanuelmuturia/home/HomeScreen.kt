@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.entities.DayEntity
 import emmanuelmuturia.theme.Caveat
 
@@ -68,11 +69,7 @@ fun FilledHomeScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        Image(
-            painter = painterResource(id = emmanuelmuturia.uilayer.R.drawable.snapbite),
-            contentDescription = "Background Image",
-            contentScale = ContentScale.FillBounds
-        )
+        SnapbiteBackgroundImage()
 
         Column(
             modifier = Modifier.fillMaxSize()
@@ -81,7 +78,9 @@ fun FilledHomeScreen(
 
             // Lazy Column with FoodCard items...
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(bottom = 70.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 70.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -97,7 +96,7 @@ fun FilledHomeScreen(
 
     }
 
-    HomeScreenFooter(navController = navController)
+    //HomeScreenFooter(navController = navController, dayEntity = dayList.value)
 
 }
 
@@ -108,17 +107,13 @@ fun EmptyHomeScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        Image(
-            painter = painterResource(id = emmanuelmuturia.uilayer.R.drawable.snapbite),
-            contentDescription = "Background Image",
-            contentScale = ContentScale.FillBounds
-        )
+        SnapbiteBackgroundImage()
 
         HomeScreenHeader(navController = navController)
 
     }
 
-    HomeScreenFooter(navController = navController)
+    HomeScreenFooter(navController = navController, dayEntity = null)
 
 }
 
@@ -196,7 +191,7 @@ fun DayCard(dayEntity: DayEntity) {
 
 
 @Composable
-fun HomeScreenFooter(navController: NavHostController) {
+fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -217,7 +212,7 @@ fun HomeScreenFooter(navController: NavHostController) {
         Icon(
             modifier = Modifier
                 .size(size = 42.dp)
-                .clickable { navController.navigate(route = "dayScreen") },
+                .clickable { navController.navigate(route = "dayScreen/${dayEntity?.dayId}") },
             imageVector = Icons.Rounded.AddCircle,
             tint = Color.Black,
             contentDescription = "Add Food Entry Button"

@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import emmanuelmuturia.search.uilayer.R
 import emmanuelmuturia.theme.Caveat
-import emmanuelmuturia.uilayer.R
 
 @Composable
 fun SearchScreen(navController: NavHostController) {

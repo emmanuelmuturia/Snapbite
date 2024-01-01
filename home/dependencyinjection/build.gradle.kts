@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
@@ -53,12 +53,6 @@ dependencies {
     // Dagger-Hilt...
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.android.compiler)
-
-    // Room...
-    implementation(libs.androidx.room.room.ktx)
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    "ksp"(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

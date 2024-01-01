@@ -40,7 +40,7 @@ import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.theme.Caveat
-import emmanuelmuturia.uilayer.R
+import emmanuelmuturia.commons.uilayer.R
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)

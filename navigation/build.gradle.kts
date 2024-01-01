@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
@@ -49,9 +49,6 @@ dependencies {
 
     // Home Module (UI Layer)...
     implementation(project(":home:uilayer"))
-
-    // Welcome Module...
-    implementation(project(":welcome:uilayer"))
 
     // Search Module...
     implementation(project(":search:uilayer"))
@@ -70,6 +67,9 @@ dependencies {
 
     // Photography Module...
     implementation(project(":photography:uilayer"))
+
+    // FAQ Module...
+    implementation(project(":faq:uilayer"))
 
     // Navigation...
     implementation(libs.androidx.navigation.compose)

@@ -7,25 +7,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import emmanuelmuturia.day.DayScreen
+import emmanuelmuturia.faq.FAQScreen
 import emmanuelmuturia.food.EditFoodScreen
 import emmanuelmuturia.food.ViewFoodScreen
 import emmanuelmuturia.home.HomeScreen
 import emmanuelmuturia.notifications.NotificationsScreen
+import emmanuelmuturia.photography.PhotoScreen
 import emmanuelmuturia.profile.ProfileScreen
 import emmanuelmuturia.routes.Routes
 import emmanuelmuturia.search.SearchScreen
 import emmanuelmuturia.settings.SettingsScreen
-import emmanuelmuturia.photography.PhotoScreen
-import emmanuelmuturia.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.HomeScreen.route) {
-
-        composable(route = Routes.WelcomeScreen.route) {
-            WelcomeScreen(navController = navController)
-        }
 
         composable(route = Routes.HomeScreen.route) {
             HomeScreen(navController = navController)
@@ -36,11 +32,14 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(route = Routes.NotificationsScreen.route) {
-            NotificationsScreen(navController = navController)
+            NotificationsScreen(navigateBack = { navController.popBackStack() })
         }
 
         composable(route = Routes.SettingsScreen.route) {
-            SettingsScreen(navController = navController)
+            SettingsScreen(
+                navigateToAbout = { navController.navigate(route = Routes.AboutScreen.route) },
+                navigateBack = { navController.popBackStack() },
+                navigateToFAQ = { navController.navigate(route = Routes.FAQScreen.route) })
         }
 
         composable(route = Routes.ProfileScreen.route) {
@@ -61,6 +60,14 @@ fun NavGraph(navController: NavHostController) {
 
         composable(route = Routes.PhotoScreen.route) {
             PhotoScreen(navController = navController)
+        }
+
+        composable(route = Routes.FAQScreen.route) {
+            FAQScreen { navController.popBackStack() }
+        }
+
+        composable(route = Routes.AboutScreen.route) {
+
         }
 
     }

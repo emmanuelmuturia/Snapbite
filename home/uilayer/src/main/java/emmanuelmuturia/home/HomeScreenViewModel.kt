@@ -23,7 +23,7 @@ class HomeScreenViewModel  @Inject constructor(
     val daysList: StateFlow<List<DayEntity>> = _daysList.asStateFlow()
 
 
-    private val snapbiteDatabase = SnapbiteDatabase.getSnapbiteDatabase(context = application)
+    private val snapbiteDatabase = FoodHiltModule.providesSnapbiteDatabase(context = application)
     private val dayDao = FoodHiltModule.providesDayDao(snapbiteDatabase = snapbiteDatabase)
     private val dayRepository = FoodHiltModule.providesDayRepository(dayDAO = dayDao)
 
@@ -38,7 +38,5 @@ class HomeScreenViewModel  @Inject constructor(
             }
         }
     }
-
-
 
 }
