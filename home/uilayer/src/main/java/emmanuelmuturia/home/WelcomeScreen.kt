@@ -2,7 +2,6 @@ package emmanuelmuturia.home
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.home.uilayer.BuildConfig
+import emmanuelmuturia.theme.snapbiteMaroon
 import emmanuelmuturia.theme.snapbiteOrange
 
 @Composable
@@ -142,7 +142,7 @@ private fun WelcomeScreenBottomSheet(navigateToHomeScreen: () -> Unit) {
                             isChecked = it
                         }, colors = CheckboxDefaults.colors(
                             checkedColor = Color.Black,
-                            checkmarkColor = Color.Black
+                            checkmarkColor = Color.White
                         )
                     )
 
@@ -165,13 +165,12 @@ private fun WelcomeScreenBottomSheet(navigateToHomeScreen: () -> Unit) {
                     onClick = navigateToHomeScreen,
                     shape = RoundedCornerShape(size = 15.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        disabledContainerColor = Color.Transparent,
+                        containerColor = snapbiteMaroon,
+                        disabledContainerColor = Color.LightGray,
                         contentColor = Color.Black,
                         disabledContentColor = Color.White
                     ),
-                    enabled = isChecked,
-                    border = BorderStroke(width = 1.dp, color = Color.White)
+                    enabled = isChecked
                 ) {
                     Text(
                         text = "Let's Go!",

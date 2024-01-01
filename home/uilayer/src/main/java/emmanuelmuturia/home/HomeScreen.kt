@@ -64,7 +64,13 @@ import emmanuelmuturia.theme.snapbiteOrange
 
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(
+    navigateToSearchScreen: () -> Unit,
+    navigateToNotificationsScreen: () -> Unit,
+    navigateToProfileScreen: () -> Unit,
+    navigateToDayScreen: () -> Unit,
+    navigateToSettingsScreen: () -> Unit,
+) {
 
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 
@@ -93,7 +99,7 @@ fun HomeScreen(navController: NavHostController) {
         )
     }
 
-    when(daysState) {
+    when (daysState) {
 
         is SnapbiteState.Error -> ErrorScreen()
         is SnapbiteState.Loading -> LoadingScreen()
@@ -110,8 +116,20 @@ fun HomeScreen(navController: NavHostController) {
             }) {
 
             dayList.takeIf { it.isNotEmpty() }?.let {
-               FilledHomeScreen(navController = navController)
-            } ?: EmptyHomeScreen(navController = navController)
+                FilledHomeScreen(
+                    navigateToSearchScreen = navigateToSearchScreen,
+                    navigateToNotificationsScreen = navigateToNotificationsScreen,
+                    navigateToSettingsScreen = navigateToSettingsScreen,
+                    navigateToProfileScreen = navigateToProfileScreen,
+                    navigateToDayScreen = navigateToDayScreen
+                )
+            } ?: EmptyHomeScreen(
+                navigateToDayScreen = navigateToDayScreen,
+                navigateToProfileScreen = navigateToProfileScreen,
+                navigateToSettingsScreen = navigateToSettingsScreen,
+                navigateToNotificationsScreen = navigateToNotificationsScreen,
+                navigateToSearchScreen = navigateToSearchScreen
+            )
 
         }
 
@@ -122,7 +140,11 @@ fun HomeScreen(navController: NavHostController) {
 
 @Composable
 fun FilledHomeScreen(
-    navController: NavHostController
+    navigateToSearchScreen: () -> Unit,
+    navigateToNotificationsScreen: () -> Unit,
+    navigateToProfileScreen: () -> Unit,
+    navigateToDayScreen: () -> Unit,
+    navigateToSettingsScreen: () -> Unit,
 ) {
 
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
@@ -136,7 +158,10 @@ fun FilledHomeScreen(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            HomeScreenHeader(navController = navController)
+            HomeScreenHeader(
+                navigateToSearchScreen = navigateToSearchScreen,
+                navigateToNotificationsScreen = navigateToNotificationsScreen
+            )
 
             // Lazy Column with FoodCard items...
             LazyColumn(
@@ -159,13 +184,21 @@ fun FilledHomeScreen(
 
     }
 
-    HomeScreenFooter(navController = navController, dayEntity = null)
+    HomeScreenFooter(
+        navigateToProfileScreen = navigateToProfileScreen,
+        navigateToDayScreen = navigateToDayScreen,
+        navigateToSettingsScreen = navigateToSettingsScreen
+    )
 
 }
 
 @Composable
 fun EmptyHomeScreen(
-    navController: NavHostController
+    navigateToSearchScreen: () -> Unit,
+    navigateToNotificationsScreen: () -> Unit,
+    navigateToProfileScreen: () -> Unit,
+    navigateToDayScreen: () -> Unit,
+    navigateToSettingsScreen: () -> Unit,
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -174,11 +207,23 @@ fun EmptyHomeScreen(
 
         Column {
 
-            HomeScreenHeader(navController = navController)
+            HomeScreenHeader(
+                navigateToNotificationsScreen = navigateToNotificationsScreen,
+                navigateToSearchScreen = navigateToSearchScreen
+            )
+
+            Text(
+                text = "You have no food items...",
+                style = MaterialTheme.typography.titleLarge
+            )
 
             Spacer(modifier = Modifier.weight(weight = 1f))
 
-            HomeScreenFooter(navController = navController, dayEntity = null)
+            HomeScreenFooter(
+                navigateToProfileScreen = navigateToProfileScreen,
+                navigateToDayScreen = navigateToDayScreen,
+                navigateToSettingsScreen = navigateToSettingsScreen
+            )
 
         }
 
@@ -188,7 +233,10 @@ fun EmptyHomeScreen(
 
 
 @Composable
-fun HomeScreenHeader(navController: NavHostController) {
+fun HomeScreenHeader(
+    navigateToSearchScreen: () -> Unit,
+    navigateToNotificationsScreen: () -> Unit,
+) {
 
     Row(
         modifier = Modifier
@@ -213,7 +261,7 @@ fun HomeScreenHeader(navController: NavHostController) {
                 modifier = Modifier
                     .padding(end = 21.dp)
                     .size(size = 30.dp)
-                    .clickable { navController.navigate(route = "searchScreen") },
+                    .clickable(onClick = navigateToSearchScreen),
                 imageVector = Icons.Rounded.Search,
                 contentDescription = "Search Button",
                 tint = Color.Black
@@ -222,7 +270,7 @@ fun HomeScreenHeader(navController: NavHostController) {
             Icon(
                 modifier = Modifier
                     .size(size = 30.dp)
-                    .clickable { navController.navigate(route = "notificationsScreen") },
+                    .clickable(onClick = navigateToNotificationsScreen),
                 imageVector = Icons.Rounded.Notifications,
                 contentDescription = "Notifications Button",
                 tint = Color.Black
@@ -260,7 +308,11 @@ fun DayCard(dayEntity: DayEntity) {
 
 
 @Composable
-fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
+fun HomeScreenFooter(
+    navigateToProfileScreen: () -> Unit,
+    navigateToSettingsScreen: () -> Unit,
+    navController: NavHostController
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -270,7 +322,7 @@ fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
         Icon(
             modifier = Modifier
                 .size(size = 40.dp)
-                .clickable { navController.navigate(route = "settingsScreen") },
+                .clickable(onClick = navigateToSettingsScreen),
             imageVector = Icons.Rounded.Settings,
             tint = Color.Black,
             contentDescription = "Settings Button"
@@ -281,7 +333,7 @@ fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
         Icon(
             modifier = Modifier
                 .size(size = 42.dp)
-                .clickable { navController.navigate(route = "dayScreen/${dayEntity?.dayId}") },
+                .clickable { navController.navigate(route = "dayScreen/") },
             imageVector = Icons.Rounded.AddCircle,
             tint = Color.Black,
             contentDescription = "Add Food Entry Button"
@@ -292,7 +344,7 @@ fun HomeScreenFooter(navController: NavHostController, dayEntity: DayEntity?) {
         Icon(
             modifier = Modifier
                 .size(size = 40.dp)
-                .clickable { navController.navigate(route = "profileScreen") },
+                .clickable(onClick = navigateToProfileScreen),
             imageVector = Icons.Rounded.AccountCircle,
             tint = Color.Black,
             contentDescription = "User Profile Button"

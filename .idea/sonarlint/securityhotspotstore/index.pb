@@ -179,3 +179,9 @@ Whome/datalayer/src/main/java/emmanuelmuturia/repository/HomeRepositoryImplement
 Khome/domainlayer/src/main/java/emmanuelmuturia/repository/HomeRepository.kt,4/7/47d084e49cdb5ffb683f964cabc754e4d4ec40b9
 †
 Vfood/datalayer/src/main/java/emmanuelmuturia/repository/DayRepositoryImplementation.kt,1/f/1f7c95ad627f6b7d0918964c62b067a38c9a7521
+t
+Dfood/uilayer/src/main/java/emmanuelmuturia/day/DayScreenViewModel.kt,e/4/e4193de32100884086887ca4820b3260b7e08df0
+|
+Lphotography/uilayer/src/main/java/emmanuelmuturia/photography/PhotoScreen.kt,f/b/fbb49f779f9234b77212eb2a10a6a6b48caa9f25
+…
+Uphotography/uilayer/src/main/java/emmanuelmuturia/photography/PhotoScreenViewModel.kt,5/3/53f18710164f56e7926c08136cc5872a70aba995
