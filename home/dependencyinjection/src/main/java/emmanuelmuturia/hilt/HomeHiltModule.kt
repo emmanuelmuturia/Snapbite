@@ -1,19 +1,20 @@
 package emmanuelmuturia.hilt
 
-import android.app.Application
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import emmanuelmuturia.home.HomeScreenViewModel
+import emmanuelmuturia.daos.DayDAO
+import emmanuelmuturia.repository.HomeRepository
+import emmanuelmuturia.repository.HomeRepositoryImplementation
 
 @Module
 @InstallIn(SingletonComponent::class)
 object HomeHiltModule {
 
     @Provides
-    fun providesHomeScreenViewModel(application: Application): HomeScreenViewModel {
-        return HomeScreenViewModel(application = application)
+    fun providesHomeRepository(dayDAO: DayDAO): HomeRepository {
+        return HomeRepositoryImplementation(dayDAO = dayDAO)
     }
 
 }

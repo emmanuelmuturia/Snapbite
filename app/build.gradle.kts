@@ -1,20 +1,24 @@
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.application)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.google.gms.google.services)
+    alias(notation = libs.plugins.com.google.firebase.crashlytics)
+    alias(notation = libs.plugins.com.google.firebase.performance)
+    alias(notation = libs.plugins.com.guardsquare.appsweep)
 }
 
 android {
-    namespace = "emmanuelmuturia.snapbite"
+    namespace = "snapbite.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "emmanuelmuturia.snapbite"
+        applicationId = "snapbite.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.00"
+        versionCode = 2
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,11 +28,12 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(files = arrayOf(
+                getDefaultProguardFile(name = "proguard-android-optimize.txt"),
                 "proguard-rules.pro"
-            )
+            ))
         }
     }
     compileOptions {
@@ -40,53 +45,81 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    applicationVariants.all {
+        addJavaSourceFoldersToModel(
+            File(buildDir, "generated/ksp/$name/kotlin")
+        )
+    }
+
 }
 
 dependencies {
 
-    // Commons Module...
-    implementation(project(":commons:uilayer"))
+    // Module(s)...
+    val moduleList = listOf(
+        "navigation",
+        "commons:uilayer",
+        "notifications:datalayer",
+        "notifications:domainlayer",
+        "notifications:dependencyinjection"
+    )
 
-    // Navigation Module...
-    implementation(project(":navigation"))
+    moduleList.forEach { module ->
+        implementation(project(path = ":$module"))
+    }
 
-    // Food Module (Data Layer)...
-    implementation(project(":food:datalayer"))
+    // Firebase...
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.analytics)
+    implementation(dependencyNotation = libs.firebase.cloud.messaging)
+    implementation(dependencyNotation = libs.firebase.performance)
 
-    // Navigation...
-    implementation(libs.androidx.navigation.compose)
+    // Splash Screen API...
+    implementation(dependencyNotation = libs.androidx.core.splashscreen)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
-    // Room...
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    "ksp"(libs.androidx.room.compiler)
+    // Navigation...
+    implementation(dependencyNotation = libs.androidx.navigation.compose)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // App Compat...
+    implementation(dependencyNotation = libs.appcompat)
+
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
+
+    // Android...
+    implementation(dependencyNotation = libs.androidx.core.ktx)
+    implementation(dependencyNotation = libs.androidx.lifecycle.runtime.ktx)
+    implementation(dependencyNotation = libs.androidx.activity.compose)
+    implementation(dependencyNotation = platform(libs.androidx.compose.bom))
+    implementation(dependencyNotation = libs.compose.ui)
+    implementation(dependencyNotation = libs.compose.ui.graphics)
+    implementation(dependencyNotation = libs.compose.ui.tooling.preview)
+    implementation(dependencyNotation = libs.material3)
+
+    // Testing...
+    testImplementation(dependencyNotation = libs.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.junit)
+    androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
+    androidTestImplementation(dependencyNotation = platform(libs.androidx.compose.bom))
+    androidTestImplementation(dependencyNotation = libs.compose.ui.test.junit4)
+    debugImplementation(dependencyNotation = libs.compose.ui.tooling)
+    debugImplementation(dependencyNotation = libs.compose.ui.test.manifest)
+    debugImplementation(dependencyNotation = libs.leakCanary)
+
 }

@@ -1,6 +1,7 @@
 package emmanuelmuturia.hilt
 
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,11 @@ object FoodHiltModule {
     @Provides
     @Singleton
     fun providesSnapbiteDatabase(@ApplicationContext context: Context): SnapbiteDatabase {
-        return SnapbiteDatabase.getSnapbiteDatabase(context = context)
+        return Room.databaseBuilder(
+                context = context.applicationContext,
+                klass = SnapbiteDatabase::class.java,
+                name = "snapbiteDatabase"
+            ).build()
     }
 
     @Provides
