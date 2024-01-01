@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.search"
+    namespace = "emmanuelmuturia.search.uilayer"
     compileSdk = 34
 
     defaultConfig {
@@ -36,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.jetpackCompose.get()
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
     }
     packaging {
         resources {

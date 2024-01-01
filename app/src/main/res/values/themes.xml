@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Snapbite" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:windowTranslucentStatus">false</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+    </style>
+
+    <style name="Theme.EmmanuelMuturia.SplashScreen" parent="Theme.SplashScreen">
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="windowSplashScreenBackground">#0c2739</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.Snapbite</item>
+
+    </style>
+
+</resources>
