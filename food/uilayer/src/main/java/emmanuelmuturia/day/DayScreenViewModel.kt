@@ -4,9 +4,12 @@ import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import emmanuelmuturia.entities.DayEntity
@@ -34,22 +37,7 @@ class DayScreenViewModel @Inject constructor(
     private var _foodList = MutableStateFlow<List<FoodEntity>>(value = emptyList())
     val foodList: StateFlow<List<FoodEntity>> = _foodList.asStateFlow()
 
-    private var _dayList = MutableStateFlow<List<DayEntity>>(value = emptyList())
-
     val visiblePermissionDialogQueue = mutableStateListOf<String>()
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    var dayDate: MutableState<String> = mutableStateOf(value = formatCurrentDate())
-
-    var dayEmoji: MutableState<String> = mutableStateOf(value = "")
-
-    var foodCaption: MutableState<String> = mutableStateOf(value = "")
-
-    var foodEmoji: MutableState<String> = mutableStateOf(value = "\uD83D\uDE0B")
-
-    var foodName: MutableState<String> = mutableStateOf(value = "")
-
-    var listOfFoods: MutableState<List<FoodEntity>> = mutableStateOf(value = _foodList.value)
 
     private var _isLoading = MutableStateFlow(value = false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -81,14 +69,6 @@ class DayScreenViewModel @Inject constructor(
         viewModelScope.launch {
             foodRepository.insertFood(foodEntity = foodEntity)
         }
-    }
-
-    fun getDayById(dayId: Int?): DayEntity? {
-        return _dayList.value.find { it.dayId == dayId }
-    }
-
-    fun getFoodById(foodId: Int?): FoodEntity? {
-        return _foodList.value.find { it.foodId == foodId }
     }
 
     fun dismissDialog() {

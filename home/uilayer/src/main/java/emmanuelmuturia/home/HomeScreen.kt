@@ -252,14 +252,16 @@ fun HomeScreenHeader(
 
 
 @Composable
-fun FoodCard(foodEntity: FoodEntity, navController: NavHostController) {
+fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
     Card(
         modifier = Modifier
             .height(height = 121.dp)
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-            .clickable { navController.navigate(route = "editFoodScreen/${foodEntity.foodId}") },
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Red)
     ) {
@@ -270,6 +272,14 @@ fun FoodCard(foodEntity: FoodEntity, navController: NavHostController) {
         ) {
             Text(
                 text = foodEntity.foodName, textAlign = TextAlign.Start,
+                fontFamily = Caveat,
+                fontSize = 21.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = foodEntity.foodCaption, textAlign = TextAlign.Start,
                 fontFamily = Caveat,
                 fontSize = 21.sp,
                 color = Color.White,
@@ -296,9 +306,11 @@ fun FilledHomeScreenContent(navController: NavHostController) {
 
         items(foodList) { food ->
             FoodCard(
-                foodEntity = food,
-                navController = navController
-            )
+                foodEntity = food) {
+                navController.navigate(
+                    route = "editFoodScreen/${food.foodId}"
+                )
+            }
         }
 
     }

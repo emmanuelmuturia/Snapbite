@@ -16,7 +16,7 @@ sealed class Routes(val route: String) {
 
     data object DayScreen : Routes(route = "dayScreen")
 
-    data object EditFoodScreen : Routes(route = "editFoodScreen")
+    data object EditFoodScreen : Routes(route = "editFoodScreen/{foodId}")
 
     data object CreateFoodScreen : Routes(route = "createFoodScreen")
 

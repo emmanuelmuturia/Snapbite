@@ -83,7 +83,8 @@ fun NavGraph(navController: NavHostController) {
         composable(
             route = Routes.EditFoodScreen.route
             , arguments = listOf(navArgument(name = "foodId") {
-                type = NavType.IntType })
+                type = NavType.IntType
+            })
         ) {
             EditFoodScreen(navController = navController)
         }
