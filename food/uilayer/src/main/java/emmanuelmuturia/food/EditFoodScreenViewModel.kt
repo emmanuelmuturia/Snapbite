@@ -14,6 +14,7 @@ import emmanuelmuturia.state.SnapbiteState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,28 +30,28 @@ class EditFoodScreenViewModel @Inject constructor(
     var food by mutableStateOf<FoodEntity?>(value = null)
         private set
 
-    var myFoodName by mutableStateOf(value = "")
+    var foodName by mutableStateOf(value = "")
         private set
 
-    var myFoodCaption by mutableStateOf(value = "")
+    var foodCaption by mutableStateOf(value = "")
         private set
 
-    fun updateFoodName(foodName: String) {
-        myFoodName = foodName
+    init {
+        getAllFoods()
     }
 
-    fun updateFoodCaption(foodCaption: String) {
-        myFoodCaption = foodCaption
+    private fun getAllFoods() {
+        viewModelScope.launch {
+            foodRepository.getAllFoods().collectLatest { foodList ->
+                _foodList.value = foodList
+            }
+        }
     }
 
     fun updateFood(foodEntity: FoodEntity?) {
         if (foodEntity != null) {
             viewModelScope.launch {
-                val updatedFood = foodEntity!!.copy(
-                    foodName = myFoodName,
-                    foodCaption = myFoodCaption
-                )
-                foodRepository.updateFood(foodEntity = updatedFood)
+                foodRepository.updateFood(foodEntity = foodEntity)
             }
         }
     }

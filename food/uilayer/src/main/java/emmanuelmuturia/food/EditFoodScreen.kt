@@ -1,6 +1,7 @@
 package emmanuelmuturia.food
 
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -69,24 +71,19 @@ fun EditFoodScreenHeader(
 
     val editFoodScreenViewModel: EditFoodScreenViewModel = hiltViewModel()
 
-    var foodName by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.myFoodName) }
-
-    var foodCaption by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.myFoodCaption) }
-
     val foodId = navController.currentBackStackEntry?.arguments?.getInt("foodId")
 
-    val food = editFoodScreenViewModel.getFoodById(foodId = foodId)
+    val food = foodId?.let { editFoodScreenViewModel.getFoodById(foodId = it) }
 
-    food.let {
+    var foodName by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodName) }
 
-        if (it != null) {
+    var foodCaption by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodCaption) }
 
+    food?.let {
+        LaunchedEffect(Unit) {
             foodName = it.foodName
-
             foodCaption = it.foodCaption
-
         }
-
     }
 
     val context = LocalContext.current
@@ -112,7 +109,9 @@ fun EditFoodScreenHeader(
                     .size(size = 30.dp))
 
             Button(onClick = {
-                editFoodScreenViewModel.updateFood(foodEntity = food)
+                val updatedFood = food?.copy(foodName = foodName, foodCaption = foodCaption)
+                editFoodScreenViewModel.updateFood(foodEntity = updatedFood)
+                //editFoodScreenViewModel.updateFood(foodEntity = food)
                 navController.navigate(route = "homeScreen")
                 Toast.makeText(context, "Food item has been updated!", Toast.LENGTH_LONG).show()
             }, shape = RoundedCornerShape(size = 10.dp)) {
@@ -161,7 +160,7 @@ fun EditFoodScreenHeader(
 
             OutlinedTextField(
                 value = foodName,
-                onValueChange = { editFoodScreenViewModel.updateFoodName(foodName = it) },
+                onValueChange = { foodName = it },
                 label = {
                     Text(
                         text = "Write your food name...",
@@ -177,7 +176,7 @@ fun EditFoodScreenHeader(
 
         OutlinedTextField(
             value = foodCaption,
-            onValueChange = { editFoodScreenViewModel.updateFoodCaption(foodCaption = it) },
+            onValueChange = { foodCaption = it },
             label = {
                 Text(
                     text = "Write your food caption...",

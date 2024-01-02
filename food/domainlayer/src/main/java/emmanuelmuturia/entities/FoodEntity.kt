@@ -11,11 +11,11 @@ data class FoodEntity(
     @PrimaryKey(autoGenerate = true)
     val foodId: Int = 0,
     @ColumnInfo(name = "foodName")
-    val foodName: String,
+    var foodName: String,
     @ColumnInfo(name = "foodImage")
     val foodImage: String,
     @ColumnInfo(name = "foodEmoji")
     val foodEmoji: String,
     @ColumnInfo(name = "foodCaption")
-    val foodCaption: String
+    var foodCaption: String
 )
