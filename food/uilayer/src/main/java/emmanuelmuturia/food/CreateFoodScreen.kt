@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,50 +61,23 @@ import kotlin.math.absoluteValue
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EditFoodScreen(navController: NavHostController) {
+fun CreateFoodScreen(navController: NavHostController) {
 
     val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
     val foodList by dayScreenViewModel.foodList.collectAsState()
 
-    var foodId = navController.currentBackStackEntry?.arguments?.getInt("foodId")
-
-    var foodCaption by rememberSaveable { dayScreenViewModel.foodCaption }
-
-    var foodEmoji by rememberSaveable { dayScreenViewModel.foodEmoji }
-
-    var foodName by rememberSaveable { dayScreenViewModel.foodName }
-
-    val food = dayScreenViewModel.getFoodById(foodId = foodId)
-
-    food.let {
-
-        if (it != null) {
-
-            foodId = it.foodId
-
-            foodName = it.foodName
-
-            foodEmoji = it.foodEmoji
-
-            foodCaption = it.foodCaption
-
-        }
-
-    }
+    val foodCaption by rememberSaveable { mutableStateOf(dayScreenViewModel.foodCaption.value) }
+    val foodEmoji by rememberSaveable { mutableStateOf(dayScreenViewModel.foodEmoji.value) }
+    val foodName by rememberSaveable { mutableStateOf(dayScreenViewModel.foodName.value) }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
         SnapbiteBackgroundImage()
 
-        if (food != null) {
-            EditFoodScreenHeader(
-                navController = navController,
-                foodName = food.foodName,
-                foodEmoji = food.foodEmoji,
-                foodEntity = food
+            CreateFoodScreenHeader(
+                navController = navController
             )
-        }
 
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -116,7 +90,7 @@ fun EditFoodScreen(navController: NavHostController) {
                 }*/
 
                 item {
-                    FoodCaption(
+                    CreateFoodCaption(
                         foodCaption = foodCaption
                     )
                 }
@@ -132,14 +106,15 @@ fun EditFoodScreen(navController: NavHostController) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EditFoodScreenHeader(
-    navController: NavHostController,
-    foodName: String,
-    foodEmoji: String,
-    foodEntity: FoodEntity
+fun CreateFoodScreenHeader(
+    navController: NavHostController
 ) {
 
     val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
+    var foodCaption by rememberSaveable { mutableStateOf(value = "") }
+    var foodEmoji by rememberSaveable { mutableStateOf(value = "") }
+    var foodName by rememberSaveable { mutableStateOf(value = "") }
 
     val context = LocalContext.current
 
@@ -164,7 +139,12 @@ fun EditFoodScreenHeader(
                     .size(size = 30.dp))
 
             Button(onClick = {
-                dayScreenViewModel.addFood(foodEntity = foodEntity)
+                dayScreenViewModel.addFood(foodEntity = FoodEntity(
+                    foodName = foodName,
+                    foodImage = "",
+                    foodCaption = foodCaption,
+                    foodEmoji = foodEmoji
+                ))
                 navController.navigate(route = "homeScreen")
                 Toast.makeText(context, "Food item has been created!", Toast.LENGTH_LONG).show()
             }, shape = RoundedCornerShape(size = 10.dp)) {
@@ -211,10 +191,8 @@ fun EditFoodScreenHeader(
             horizontalArrangement = Arrangement.Center
         ) {
 
-            val myFoodName = rememberSaveable { mutableStateOf(value = foodName) }
-
             OutlinedTextField(
-                value = myFoodName.value, onValueChange = { myFoodName.value = it },
+                value = foodName, onValueChange = { foodName = it },
                 label = {
                     Text(
                         text = "Write your food name...",
@@ -295,7 +273,7 @@ fun FoodList(
 
 
 @Composable
-fun FoodCaption(foodCaption: String) {
+fun CreateFoodCaption(foodCaption: String) {
 
     val myFoodCaption = rememberSaveable { mutableStateOf(value = foodCaption) }
 

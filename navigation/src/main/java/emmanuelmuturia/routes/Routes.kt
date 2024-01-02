@@ -18,6 +18,8 @@ sealed class Routes(val route: String) {
 
     data object EditFoodScreen : Routes(route = "editFoodScreen")
 
+    data object CreateFoodScreen : Routes(route = "createFoodScreen")
+
     data object ViewFoodScreen : Routes(route = "viewFoodScreen")
 
     data object PhotoScreen : Routes(route = "photoScreen")

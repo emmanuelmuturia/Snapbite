@@ -94,7 +94,7 @@ private fun SettingsContent(
                     modifier = Modifier.size(size = 28.dp),
                     imageVector = Icons.Rounded.Notifications,
                     contentDescription = "Notification Settings",
-                    tint = Color.White
+                    tint = Color.Black
                 )
 
                 Spacer(modifier = Modifier.width(width = 21.dp))
@@ -144,7 +144,7 @@ private fun SettingsContent(
                     modifier = Modifier.size(size = 28.dp),
                     imageVector = Icons.Rounded.Info,
                     contentDescription = "About",
-                    tint = Color.White
+                    tint = Color.Black
                 )
 
                 Spacer(modifier = Modifier.width(width = 21.dp))
@@ -183,7 +183,7 @@ private fun SettingsContent(
                     modifier = Modifier.size(size = 28.dp),
                     imageVector = Icons.Rounded.Star,
                     contentDescription = "FAQ",
-                    tint = Color.White
+                    tint = Color.Black
                 )
 
                 Spacer(modifier = Modifier.width(width = 21.dp))
@@ -222,7 +222,7 @@ private fun SettingsContent(
                     modifier = Modifier.size(size = 28.dp),
                     imageVector = Icons.Rounded.Star,
                     contentDescription = "Ratings",
-                    tint = Color.White
+                    tint = Color.Black
                 )
 
                 Spacer(modifier = Modifier.width(width = 21.dp))

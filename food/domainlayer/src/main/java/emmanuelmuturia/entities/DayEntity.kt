@@ -9,7 +9,9 @@ data class DayEntity(
     @PrimaryKey(autoGenerate = true)
     val dayId: Int = 0,
     @ColumnInfo(name = "dayDate")
-    val dayDate: String?,
+    val dayDate: String,
     @ColumnInfo(name = "dayEmoji")
-    val dayEmoji: String?
+    val dayEmoji: String,
+    @ColumnInfo(name = "foodList")
+    val foodList: List<FoodEntity>
 )

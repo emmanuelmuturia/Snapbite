@@ -22,30 +22,65 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import emmanuelmuturia.theme.Caveat
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import emmanuelmuturia.commons.uilayer.R
-import java.time.LocalDate
+import emmanuelmuturia.components.SnapbiteHeader
+import emmanuelmuturia.entities.FoodEntity
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DayScreen(navController: NavHostController) {
+fun DayScreen(navigateBack: () -> Unit, navController: NavHostController) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
+    val foodList by dayScreenViewModel.foodList.collectAsState()
+
+    /*val dayId = navController.currentBackStackEntry?.arguments?.getInt("dayId")
+
+    val day = dayScreenViewModel.getDayById(dayId = dayId)
+
+    var dayDate by rememberSaveable { dayScreenViewModel.dayDate }
+
+    var dayEmoji by rememberSaveable { dayScreenViewModel.dayEmoji }
+
+    var listOfFoods by rememberSaveable { dayScreenViewModel.listOfFoods }
+
+    day.let {
+
+        if (it != null) {
+
+            dayDate = it.dayDate
+
+            dayEmoji = it.dayEmoji
+
+            listOfFoods = it.foodList
+
+        }
+
+    }*/
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -55,55 +90,25 @@ fun DayScreen(navController: NavHostController) {
             contentScale = ContentScale.FillBounds
         )
 
-        DayScreenHeader(navController = navController)
+        Column {
 
-    }
+            SnapbiteHeader(navigateBack = navigateBack, headerTitle = dayScreenViewModel.formatCurrentDate())
 
-    DayScreenFooter(navController = navController, context = LocalContext.current)
-
-}
-
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun DayScreenHeader(navController: NavHostController) {
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 42.dp, start = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            Icon(
-                modifier = Modifier.clickable { navController.popBackStack() },
-                imageVector = Icons.Rounded.ArrowBack,
-                contentDescription = "Back Arrow",
-                tint = Color.Black
-            )
+            LazyVerticalGrid(columns = GridCells.Fixed(count = 3)) {
+                items(items = foodList) { foodEntity ->
+                    FoodCard(foodEntity = foodEntity, navController = navController)
+                }
+            }
 
         }
 
-        Spacer(modifier = Modifier.height(height = 21.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = formatCurrentDate(),
-                fontFamily = Caveat,
-                fontSize = 28.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
-        }
     }
+
+    DayScreenFooter(
+        context = LocalContext.current,
+        navController = navController
+    )
+
 }
 
 
@@ -120,6 +125,9 @@ fun DayScreenFooter(navController: NavHostController, context: Context) {
                 permission = Manifest.permission.CAMERA,
                 isGranted = isGranted
             )
+            if (isGranted) {
+                navController.navigate(route = "photoScreen")
+            }
         }
     )
 
@@ -136,7 +144,6 @@ fun DayScreenFooter(navController: NavHostController, context: Context) {
                 .size(size = 49.dp)
                 .clickable {
                     cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-                    navController.navigate(route = "photoScreen")
                 },
             painter = painterResource(id = R.drawable.camera),
             contentDescription = "Camera Button"
@@ -160,28 +167,55 @@ fun DayScreenFooter(navController: NavHostController, context: Context) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun FoodCard(foodEntity: FoodEntity, navController: NavHostController) {
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Card(
+            modifier = Modifier
+                .height(height = 70.dp)
+                .width(width = 70.dp)
+                .clickable { foodEntity.foodId.let {
+                    navController.navigate(route = "editFoodScreen")
+                } }, shape = RoundedCornerShape(size = 21.dp)
+        ) {
+
+            Box(modifier = Modifier.fillMaxSize()) {
+
+                GlideImage(
+                    model = "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    contentDescription = "Food Item",
+                    contentScale = ContentScale.Crop
+                )
+
+            }
+
+        }
+
+        Spacer(modifier = Modifier.height(height = 10.dp))
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Text(
+                text = foodEntity.foodName,
+                style = MaterialTheme.typography.labelLarge
+            )
+
+        }
+
+    }
+
+}
+
 
 fun Activity.openAppSettings() {
     Intent(
         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
         Uri.fromParts("package", packageName, null)
     ).also(::startActivity)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-private fun formatCurrentDate(): String {
-    val currentDate = LocalDate.now()
-    val dayOfMonth = currentDate.dayOfMonth
-    val month =
-        currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
-    val year = currentDate.year
-
-    val daySuffix = when (dayOfMonth) {
-        1, 21, 31 -> "st"
-        2, 22 -> "nd"
-        3, 23 -> "rd"
-        else -> "th"
-    }
-
-    return "$dayOfMonth$daySuffix $month $year"
 }

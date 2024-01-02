@@ -5,11 +5,14 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import emmanuelmuturia.about.AboutScreen
 import emmanuelmuturia.day.DayScreen
 import emmanuelmuturia.faq.FAQScreen
+import emmanuelmuturia.food.CreateFoodScreen
 import emmanuelmuturia.food.EditFoodScreen
 import emmanuelmuturia.food.ViewFoodScreen
 import emmanuelmuturia.home.HomeScreen
@@ -39,11 +42,11 @@ fun NavGraph(navController: NavHostController) {
 
         composable(route = Routes.HomeScreen.route) {
             HomeScreen(
-                navigateToDayScreen = { navController.navigate(route = Routes.DayScreen.route) },
                 navigateToProfileScreen = { navController.navigate(route = Routes.ProfileScreen.route) },
                 navigateToSettingsScreen = { navController.navigate(route = Routes.SettingsScreen.route) },
                 navigateToNotificationsScreen = { navController.navigate(route = Routes.NotificationsScreen.route) },
-                navigateToSearchScreen = { navController.navigate(route = Routes.SearchScreen.route) }
+                navigateToSearchScreen = { navController.navigate(route = Routes.SearchScreen.route) },
+                navController = navController
             )
         }
 
@@ -66,11 +69,22 @@ fun NavGraph(navController: NavHostController) {
             ProfileScreen(navController = navController)
         }
 
-        composable(route = Routes.DayScreen.route) {
-            DayScreen(navController = navController)
+        composable(
+            route = Routes.DayScreen.route
+            //, arguments = listOf(navArgument(name = "dayId") {
+            //type = NavType.IntType })
+        ) {
+            DayScreen(
+                navigateBack = { navController.popBackStack() },
+                navController = navController
+            )
         }
 
-        composable(route = Routes.EditFoodScreen.route) {
+        composable(
+            route = Routes.EditFoodScreen.route
+            , arguments = listOf(navArgument(name = "foodId") {
+                type = NavType.IntType })
+        ) {
             EditFoodScreen(navController = navController)
         }
 
@@ -78,7 +92,11 @@ fun NavGraph(navController: NavHostController) {
             ViewFoodScreen(navController = navController)
         }
 
-        composable(route = Routes.PhotoScreen.route) {
+        composable(
+            route = Routes.PhotoScreen.route
+            //, arguments = listOf(navArgument(name = "dayId") {
+            //type = NavType.IntType })
+        ) {
             PhotoScreen(navController = navController)
         }
 
@@ -104,6 +122,10 @@ fun NavGraph(navController: NavHostController) {
                 navController.navigate(route = Routes.HomeScreen.route)
             }
 
+        }
+
+        composable(route = Routes.CreateFoodScreen.route) {
+            CreateFoodScreen(navController = navController)
         }
 
     }

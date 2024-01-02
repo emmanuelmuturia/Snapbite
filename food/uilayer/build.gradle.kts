@@ -50,11 +50,17 @@ dependencies {
     // Commons Module...
     implementation((project(":commons:uilayer")))
 
+    // Commons Module...
+    implementation((project(":commons:domainlayer")))
+
     // Food Module (Domain Layer)
     implementation(project(":food:domainlayer"))
 
     // Food Module (Data Layer)
     implementation(project(":food:datalayer"))
+
+    // Photography Module (UI Layer)
+    implementation(project(":photography:uilayer"))
 
     // Navigation...
     implementation(libs.androidx.navigation.compose)
@@ -64,6 +70,9 @@ dependencies {
     implementation(project(mapOf("path" to ":photography:uilayer")))
     "ksp"(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // Glide...
+    implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
