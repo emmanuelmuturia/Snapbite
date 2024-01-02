@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 v
 Fhome/uilayer/src/main/java/emmanuelmuturia/home/HomeScreenViewModel.kt,2/b/2b65612cc77b8497904847096155314fa04b2612
@@ -19,3 +20,5 @@ t
 Dfood/uilayer/src/main/java/emmanuelmuturia/day/DayScreenViewModel.kt,e/4/e4193de32100884086887ca4820b3260b7e08df0
 ‡
 Wfood/datalayer/src/main/java/emmanuelmuturia/repository/FoodRepositoryImplementation.kt,e/b/ebd350ce6df42ff810a2bcbd96548028cde4f3ee
+=======
+>>>>>>> da28d2ea34b9e4e7f928af0c5805b8047b4e35ba

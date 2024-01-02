@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.library)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.plugin.serialization)
 }
 
 android {
@@ -65,6 +66,9 @@ dependencies {
 
     // Timber...
     implementation(dependencyNotation = libs.timber)
+
+    // Kotlin Serialisation...
+    implementation(dependencyNotation = libs.kotlin.serialization)
 
     // Android...
     implementation(dependencyNotation = libs.androidx.core.ktx)

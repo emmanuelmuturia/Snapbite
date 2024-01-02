@@ -13,8 +13,8 @@ class FoodRepositoryImplementation(private val foodDAO: FoodDAO) : FoodRepositor
         return foodDAO.updateFood(foodEntity = foodEntity)
     }
 
-    override fun getAllFoods(dayId: Int): Flow<List<FoodEntity>> {
-        return foodDAO.getAllFoods(dayId = dayId)
+    override fun getAllFoods(): Flow<List<FoodEntity>> {
+        return foodDAO.getAllFoods()
     }
 
     override suspend fun getFoodById(foodId: Int): FoodEntity {

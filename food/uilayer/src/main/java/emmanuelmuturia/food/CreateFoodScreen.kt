@@ -1,7 +1,6 @@
 package emmanuelmuturia.food
 
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
@@ -25,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -42,17 +40,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.day.DayScreenViewModel
+import emmanuelmuturia.entities.FoodEntity
 import emmanuelmuturia.theme.Caveat
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EditFoodScreen(navController: NavHostController) {
+fun CreateFoodScreen(navController: NavHostController) {
 
     Box(modifier = Modifier.fillMaxSize()) {
 
         SnapbiteBackgroundImage()
 
-        EditFoodScreenHeader(
+        CreateFoodScreenHeader(
             navController = navController
         )
 
@@ -63,28 +62,15 @@ fun EditFoodScreen(navController: NavHostController) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EditFoodScreenHeader(
+fun CreateFoodScreenHeader(
     navController: NavHostController
 ) {
 
     val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
-    val editFoodScreenViewModel: EditFoodScreenViewModel = hiltViewModel()
-
-    val foodId = navController.currentBackStackEntry?.arguments?.getInt("foodId")
-
-    val food = foodId?.let { editFoodScreenViewModel.getFoodById(foodId = it) }
-
-    var foodName by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodName) }
-
-    var foodCaption by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodCaption) }
-
-    food?.let {
-        LaunchedEffect(Unit) {
-            foodName = it.foodName
-            foodCaption = it.foodCaption
-        }
-    }
+    var foodCaption by rememberSaveable { mutableStateOf(value = "") }
+    var foodEmoji by rememberSaveable { mutableStateOf(value = "\uD83D\uDE0B") }
+    var foodName by rememberSaveable { mutableStateOf(value = "") }
 
     val context = LocalContext.current
 
@@ -109,14 +95,19 @@ fun EditFoodScreenHeader(
                     .size(size = 30.dp))
 
             Button(onClick = {
-                val updatedFood = food?.copy(foodName = foodName, foodCaption = foodCaption)
-                editFoodScreenViewModel.updateFood(foodEntity = updatedFood)
-                //editFoodScreenViewModel.updateFood(foodEntity = food)
+                dayScreenViewModel.addFood(
+                    foodEntity = FoodEntity(
+                        foodName = foodName,
+                        foodImage = "",
+                        foodCaption = foodCaption,
+                        foodEmoji = foodEmoji
+                    )
+                )
                 navController.navigate(route = "homeScreen")
-                Toast.makeText(context, "Food item has been updated!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Food item has been created!", Toast.LENGTH_LONG).show()
             }, shape = RoundedCornerShape(size = 10.dp)) {
                 Text(
-                    text = "Update",
+                    text = "Save",
                     fontFamily = Caveat,
                     color = Color.White,
                     fontSize = 21.sp,
@@ -144,7 +135,7 @@ fun EditFoodScreenHeader(
 
             Text(
                 //modifier = Modifier.size(size = 10.dp),
-                text = "\uD83D\uDE0B",
+                text = foodEmoji,
                 fontSize = 28.sp
             )
 
@@ -159,8 +150,7 @@ fun EditFoodScreenHeader(
         ) {
 
             OutlinedTextField(
-                value = foodName,
-                onValueChange = { foodName = it },
+                value = foodName, onValueChange = { foodName = it },
                 label = {
                     Text(
                         text = "Write your food name...",
@@ -175,8 +165,7 @@ fun EditFoodScreenHeader(
         Spacer(modifier = Modifier.height(height = 14.dp))
 
         OutlinedTextField(
-            value = foodCaption,
-            onValueChange = { foodCaption = it },
+            value = foodCaption, onValueChange = { foodCaption = it },
             label = {
                 Text(
                     text = "Write your food caption...",

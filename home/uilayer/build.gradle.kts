@@ -64,7 +64,8 @@ dependencies {
         "home:domainlayer",
         "home:dependencyinjection",
         ":food:domainlayer",
-        ":food:dependencyinjection"
+        ":food:dependencyinjection",
+        ":food:uilayer"
     )
 
     moduleList.forEach { module ->

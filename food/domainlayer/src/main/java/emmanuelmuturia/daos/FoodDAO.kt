@@ -17,8 +17,8 @@ interface FoodDAO {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateFood(foodEntity: FoodEntity)
 
-    @Query(value = "SELECT * FROM snapBiteFoods WHERE dayId = :dayId")
-    fun getAllFoods(dayId: Int): Flow<List<FoodEntity>>
+    @Query(value = "SELECT * FROM snapBiteFoods")
+    fun getAllFoods(): Flow<List<FoodEntity>>
 
     @Query(value = "SELECT * FROM snapbiteFoods WHERE foodId = :foodId")
     suspend fun getFoodById(foodId: Int): FoodEntity
