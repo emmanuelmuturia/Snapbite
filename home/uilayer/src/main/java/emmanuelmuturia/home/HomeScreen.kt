@@ -1,8 +1,10 @@
 package emmanuelmuturia.home
 
 import android.icu.util.Calendar
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,10 +36,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,7 +57,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import emmanuelmuturia.components.SnapbiteBackgroundImage
-import emmanuelmuturia.entities.DayEntity
+import emmanuelmuturia.day.DayScreenViewModel
+import emmanuelmuturia.entities.FoodEntity
 import emmanuelmuturia.state.ErrorScreen
 import emmanuelmuturia.state.LoadingScreen
 import emmanuelmuturia.state.SnapbiteState
@@ -63,26 +67,35 @@ import emmanuelmuturia.theme.snapbiteMaroon
 import emmanuelmuturia.theme.snapbiteOrange
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     navigateToSearchScreen: () -> Unit,
     navigateToNotificationsScreen: () -> Unit,
     navigateToProfileScreen: () -> Unit,
-    navigateToDayScreen: () -> Unit,
     navigateToSettingsScreen: () -> Unit,
+    navController: NavHostController
 ) {
 
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
-    val dayList by homeScreenViewModel.daysList.collectAsStateWithLifecycle()
+    val foodList by dayScreenViewModel.foodList.collectAsStateWithLifecycle()
 
-    val daysState by homeScreenViewModel.daysState.collectAsStateWithLifecycle()
+    val foodState by dayScreenViewModel.daysState.collectAsStateWithLifecycle()
+
+    //val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+
+    //val dayList by homeScreenViewModel.daysList.collectAsStateWithLifecycle()
+
+    //val daysState by homeScreenViewModel.daysState.collectAsStateWithLifecycle()
 
     val exitDialogState = rememberSaveable { mutableStateOf(value = false) }
 
     val context = LocalContext.current
 
-    val isLoading by homeScreenViewModel.isLoading.collectAsStateWithLifecycle()
+    //val isLoading by homeScreenViewModel.isLoading.collectAsStateWithLifecycle()
+
+    val isLoading by dayScreenViewModel.isLoading.collectAsStateWithLifecycle()
 
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
 
@@ -99,13 +112,13 @@ fun HomeScreen(
         )
     }
 
-    when (daysState) {
+    when (foodState) {
 
         is SnapbiteState.Error -> ErrorScreen()
         is SnapbiteState.Loading -> LoadingScreen()
         else -> SwipeRefresh(
             state = swipeRefreshState,
-            onRefresh = homeScreenViewModel::refreshDaysList,
+            onRefresh = dayScreenViewModel::refreshFoodList,
             indicator = { state, refreshTrigger ->
                 SwipeRefreshIndicator(
                     state = state,
@@ -115,115 +128,73 @@ fun HomeScreen(
                 )
             }) {
 
-            dayList.takeIf { it.isNotEmpty() }?.let {
-                FilledHomeScreen(
-                    navigateToSearchScreen = navigateToSearchScreen,
-                    navigateToNotificationsScreen = navigateToNotificationsScreen,
-                    navigateToSettingsScreen = navigateToSettingsScreen,
-                    navigateToProfileScreen = navigateToProfileScreen,
-                    navigateToDayScreen = navigateToDayScreen
-                )
-            } ?: EmptyHomeScreen(
-                navigateToDayScreen = navigateToDayScreen,
-                navigateToProfileScreen = navigateToProfileScreen,
-                navigateToSettingsScreen = navigateToSettingsScreen,
-                navigateToNotificationsScreen = navigateToNotificationsScreen,
-                navigateToSearchScreen = navigateToSearchScreen
-            )
+            Box(modifier = Modifier.fillMaxSize()) {
 
-        }
+                SnapbiteBackgroundImage()
 
-    }
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
 
-}
+                    HomeScreenHeader(
+                        navigateToSearchScreen = navigateToSearchScreen,
+                        navigateToNotificationsScreen = navigateToNotificationsScreen
+                    )
 
-
-@Composable
-fun FilledHomeScreen(
-    navigateToSearchScreen: () -> Unit,
-    navigateToNotificationsScreen: () -> Unit,
-    navigateToProfileScreen: () -> Unit,
-    navigateToDayScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit,
-) {
-
-    val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
-    val dayList = homeScreenViewModel.daysList.collectAsState(initial = listOf())
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        SnapbiteBackgroundImage()
-
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            HomeScreenHeader(
-                navigateToSearchScreen = navigateToSearchScreen,
-                navigateToNotificationsScreen = navigateToNotificationsScreen
-            )
-
-            // Lazy Column with FoodCard items...
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 70.dp)
-                    .weight(weight = 1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                items(dayList.value) { day ->
-                    Row(
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        DayCard(dayEntity = day)
+                    Box(modifier = Modifier.weight(weight = 1f)) {
+                        if (foodList.isEmpty()) {
+                            EmptyHomeScreenContent()
+                        } else {
+                            FilledHomeScreenContent(navController = navController)
+                        }
                     }
+
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 21.dp),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+
+                        item(key = 1) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(size = 40.dp)
+                                    .clickable(onClick = navigateToSettingsScreen),
+                                imageVector = Icons.Rounded.Settings,
+                                tint = Color.Black,
+                                contentDescription = "Settings Button"
+                            )
+                        }
+
+                        item(key = 2) {
+
+                            Icon(
+                                modifier = Modifier
+                                    .size(size = 42.dp)
+                                    .clickable(onClick = { navController.navigate(route = "createFoodScreen") }),
+                                imageVector = Icons.Rounded.AddCircle,
+                                tint = Color.Black,
+                                contentDescription = "Add Food Entry Button"
+                            )
+                        }
+
+                        item(key = 3) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(size = 40.dp)
+                                    .clickable(onClick = navigateToProfileScreen),
+                                imageVector = Icons.Rounded.AccountCircle,
+                                tint = Color.Black,
+                                contentDescription = "User Profile Button"
+                            )
+                        }
+                    }
+
                 }
+
             }
-        }
-
-    }
-
-    HomeScreenFooter(
-        navigateToProfileScreen = navigateToProfileScreen,
-        navigateToDayScreen = navigateToDayScreen,
-        navigateToSettingsScreen = navigateToSettingsScreen
-    )
-
-}
-
-@Composable
-fun EmptyHomeScreen(
-    navigateToSearchScreen: () -> Unit,
-    navigateToNotificationsScreen: () -> Unit,
-    navigateToProfileScreen: () -> Unit,
-    navigateToDayScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit,
-) {
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        SnapbiteBackgroundImage()
-
-        Column {
-
-            HomeScreenHeader(
-                navigateToNotificationsScreen = navigateToNotificationsScreen,
-                navigateToSearchScreen = navigateToSearchScreen
-            )
-
-            Text(
-                text = "You have no food items...",
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            Spacer(modifier = Modifier.weight(weight = 1f))
-
-            HomeScreenFooter(
-                navigateToProfileScreen = navigateToProfileScreen,
-                navigateToDayScreen = navigateToDayScreen,
-                navigateToSettingsScreen = navigateToSettingsScreen
-            )
 
         }
 
@@ -281,12 +252,16 @@ fun HomeScreenHeader(
 
 
 @Composable
-fun DayCard(dayEntity: DayEntity) {
+fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
     Card(
         modifier = Modifier
             .height(height = 121.dp)
             .fillMaxWidth()
-            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp),
+            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Red)
     ) {
@@ -296,7 +271,15 @@ fun DayCard(dayEntity: DayEntity) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${dayEntity.dayDate}", textAlign = TextAlign.Start,
+                text = foodEntity.foodName, textAlign = TextAlign.Start,
+                fontFamily = Caveat,
+                fontSize = 21.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = foodEntity.foodCaption, textAlign = TextAlign.Start,
                 fontFamily = Caveat,
                 fontSize = 21.sp,
                 color = Color.White,
@@ -306,50 +289,54 @@ fun DayCard(dayEntity: DayEntity) {
     }
 }
 
+@Composable
+fun FilledHomeScreenContent(navController: NavHostController) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
+    val foodList by dayScreenViewModel.foodList.collectAsStateWithLifecycle()
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 70.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(space = 7.dp)
+    ) {
+
+        items(foodList) { food ->
+            FoodCard(
+                foodEntity = food) {
+                navController.navigate(
+                    route = "editFoodScreen/${food.foodId}"
+                )
+            }
+        }
+
+    }
+
+}
 
 @Composable
-fun HomeScreenFooter(
-    navigateToProfileScreen: () -> Unit,
-    navigateToSettingsScreen: () -> Unit,
-    navController: NavHostController
-) {
-    Row(
+fun EmptyHomeScreenContent() {
+
+    LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 21.dp),
-        verticalAlignment = Alignment.Bottom
+            .fillMaxSize()
+            .padding(bottom = 70.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Icon(
-            modifier = Modifier
-                .size(size = 40.dp)
-                .clickable(onClick = navigateToSettingsScreen),
-            imageVector = Icons.Rounded.Settings,
-            tint = Color.Black,
-            contentDescription = "Settings Button"
-        )
 
-        Spacer(modifier = Modifier.weight(weight = 1f))
+        item {
+            Text(
+                text = "You have no food items...",
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
 
-        Icon(
-            modifier = Modifier
-                .size(size = 42.dp)
-                .clickable { navController.navigate(route = "dayScreen/") },
-            imageVector = Icons.Rounded.AddCircle,
-            tint = Color.Black,
-            contentDescription = "Add Food Entry Button"
-        )
-
-        Spacer(modifier = Modifier.weight(weight = 1f))
-
-        Icon(
-            modifier = Modifier
-                .size(size = 40.dp)
-                .clickable(onClick = navigateToProfileScreen),
-            imageVector = Icons.Rounded.AccountCircle,
-            tint = Color.Black,
-            contentDescription = "User Profile Button"
-        )
     }
+
 }
 
 @Composable

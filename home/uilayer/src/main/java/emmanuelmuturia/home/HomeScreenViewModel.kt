@@ -21,20 +21,20 @@ class HomeScreenViewModel  @Inject constructor(
     application: Application
 ) : AndroidViewModel(application = application) {
 
-    private var _daysState = MutableStateFlow<SnapbiteState<Any>>(SnapbiteState.Loading)
+    /*private var _daysState = MutableStateFlow<SnapbiteState<Any>>(SnapbiteState.Loading)
     val daysState: StateFlow<SnapbiteState<Any>> = _daysState.asStateFlow()
 
     private var _daysList = MutableStateFlow<List<DayEntity>>(value = emptyList())
-    val daysList: StateFlow<List<DayEntity>> = _daysList.asStateFlow()
+    val daysList: StateFlow<List<DayEntity>> = _daysList.asStateFlow()*/
 
-    private var _isLoading = MutableStateFlow(value = false)
+    /*private var _isLoading = MutableStateFlow(value = false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
         getAllDays()
-    }
+    }*/
 
-    private fun getAllDays() {
+    /*private fun getAllDays() {
         viewModelScope.launch {
 
             _daysState.value = SnapbiteState.Loading
@@ -48,9 +48,9 @@ class HomeScreenViewModel  @Inject constructor(
                 _daysState.value = SnapbiteState.Error(error = e)
             }
         }
-    }
+    }*/
 
-    fun refreshDaysList() {
+    /*fun refreshDaysList() {
 
         viewModelScope.launch {
 
@@ -61,6 +61,6 @@ class HomeScreenViewModel  @Inject constructor(
 
         }
 
-    }
+    }*/
 
 }

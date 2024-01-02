@@ -59,6 +59,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun PhotoScreen(navController: NavHostController) {
 
+    //val dayId = navController.currentBackStackEntry?.arguments?.getInt("dayId")
+
     val context = LocalContext.current
 
     val controller = remember {
@@ -85,13 +87,19 @@ fun PhotoScreen(navController: NavHostController) {
 
             PhotoPreview(controller = controller, modifier = Modifier.fillMaxSize())
 
-            PhotoScreenHeader(navController = navController)
+            PhotoScreenHeader(
+                navController = navController
+            )
 
         }
 
     }
 
-    PhotoScreenFooter(scaffoldState = scaffoldState, context = context, controller = controller)
+    PhotoScreenFooter(
+        scaffoldState = scaffoldState,
+        context = context,
+        controller = controller
+    )
 
 }
 
@@ -117,7 +125,10 @@ fun PhotoPreview(
 
 
 @Composable
-fun PhotoScreenHeader(navController: NavHostController) {
+fun PhotoScreenHeader(
+    navController: NavHostController,
+    //dayId: Int?
+) {
 
     Row(
         modifier = Modifier
@@ -131,9 +142,10 @@ fun PhotoScreenHeader(navController: NavHostController) {
             imageVector = Icons.Rounded.Check,
             contentDescription = "OK",
             tint = Color.Black,
-            modifier = Modifier.clickable {
-                navController.navigate(route = "editFoodScreen")
-            }.size(size = 49.dp))
+            modifier = Modifier
+                .clickable { navController.navigate(route = "editFoodScreen") }
+                .size(size = 49.dp)
+        )
 
     }
 

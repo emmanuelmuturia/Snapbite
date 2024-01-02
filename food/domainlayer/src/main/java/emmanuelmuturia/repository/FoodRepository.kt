@@ -9,7 +9,7 @@ interface FoodRepository {
 
     suspend fun updateFood(foodEntity: FoodEntity)
 
-    fun getAllFoods(dayId: Int): Flow<List<FoodEntity>>
+    fun getAllFoods(): Flow<List<FoodEntity>>
 
     suspend fun getFoodById(foodId: Int): FoodEntity
 

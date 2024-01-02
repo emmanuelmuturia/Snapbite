@@ -12,4 +12,8 @@ class HomeRepositoryImplementation(
         return dayDAO.getAllDays()
     }
 
+    override suspend fun insertDay(dayEntity: DayEntity) {
+        dayDAO.insertDay(dayEntity = dayEntity)
+    }
+
 }

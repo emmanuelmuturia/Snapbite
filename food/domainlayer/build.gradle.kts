@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.library)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.plugin.serialization)
 }
 
 android {
@@ -56,9 +57,12 @@ dependencies {
     implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
     // Room...
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    "ksp"(libs.room.compiler)
+    implementation(dependencyNotation = libs.room.runtime)
+    implementation(dependencyNotation = libs.room.ktx)
+    "ksp"(dependencyNotation = libs.room.compiler)
+
+    // Kotlin Serialisation...
+    implementation(dependencyNotation = libs.kotlin.serialization)
 
     // Android...
     implementation(dependencyNotation = libs.androidx.core.ktx)
