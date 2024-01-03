@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 k
 ;food/uilayer/src/main/java/emmanuelmuturia/day/DayScreen.kt,2/3/23792c2ceb3b60514c8eb63f21f62f7a0637c1b6
@@ -233,3 +234,5 @@ Dfood/domainlayer/src/main/java/emmanuelmuturia/daos/FoodImagesDao.kt,1/1/11a4a
 Qfood/domainlayer/src/main/java/emmanuelmuturia/repository/FoodImagesRepository.kt,3/1/31952a8288f274d67754c785d6cdc896ed9d1213
 
 ]food/datalayer/src/main/java/emmanuelmuturia/repository/FoodImagesRepositoryImplementation.kt,7/f/7f5094327925c4cfe418138a9490b72beb02fcd8
+=======
+>>>>>>> fc63b8a0d9272fe75b0258596582968a6a9e16a2
