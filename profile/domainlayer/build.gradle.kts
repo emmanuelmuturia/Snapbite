@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "emmanuelmuturia.profile.uilayer"
+    namespace = "emmanuelmuturia.profile.domainlayer"
     compileSdk = 34
 
     defaultConfig {
@@ -33,26 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerVersion.get()
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-
-    // Commons Module...
-    implementation((project(":commons:uilayer")))
-
-    // Navigation...
-    implementation(libs.androidx.navigation.compose)
 
     // Dagger-Hilt...
     implementation(dependencyNotation = libs.hilt.android)
@@ -65,22 +48,11 @@ dependencies {
     implementation(dependencyNotation = libs.firebase.authentication)
     implementation(dependencyNotation = libs.gms.play.services)
 
-    // Glide...
-    implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
-
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }

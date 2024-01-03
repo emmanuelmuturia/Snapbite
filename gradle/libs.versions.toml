@@ -91,6 +91,9 @@ kotlinSerializationLibrary = "1.6.0"
 # Emoji Picker...
 emojiPickerVersion = "1.4.0"
 
+# GMS Play Services (Auth)...
+gmsPlayServicesVersion = "20.4.1"
+
 [libraries]
 
 # App Compat...
@@ -129,6 +132,10 @@ firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-fir
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+firebase-authentication = { group = "com.google.firebase", name = "firebase-auth" }
+
+# Play Services...
+gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
 
 # Navigation...
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
