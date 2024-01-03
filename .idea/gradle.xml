@@ -46,6 +46,9 @@
             <option value="$PROJECT_DIR$/photography" />
             <option value="$PROJECT_DIR$/photography/uilayer" />
             <option value="$PROJECT_DIR$/profile" />
+            <option value="$PROJECT_DIR$/profile/datalayer" />
+            <option value="$PROJECT_DIR$/profile/dependencyinjection" />
+            <option value="$PROJECT_DIR$/profile/domainlayer" />
             <option value="$PROJECT_DIR$/profile/uilayer" />
             <option value="$PROJECT_DIR$/search" />
             <option value="$PROJECT_DIR$/search/uilayer" />

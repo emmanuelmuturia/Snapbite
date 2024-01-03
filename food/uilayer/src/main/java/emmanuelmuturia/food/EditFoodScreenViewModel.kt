@@ -36,6 +36,9 @@ class EditFoodScreenViewModel @Inject constructor(
     var foodCaption by mutableStateOf(value = "")
         private set
 
+    var foodEmoji by mutableStateOf(value = "")
+        private set
+
     init {
         getAllFoods()
     }

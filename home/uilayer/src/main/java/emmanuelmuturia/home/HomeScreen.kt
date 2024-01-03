@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +65,7 @@ import emmanuelmuturia.state.SnapbiteState
 import emmanuelmuturia.theme.Caveat
 import emmanuelmuturia.theme.snapbiteMaroon
 import emmanuelmuturia.theme.snapbiteOrange
+import java.time.LocalDate
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -83,17 +84,9 @@ fun HomeScreen(
 
     val foodState by dayScreenViewModel.daysState.collectAsStateWithLifecycle()
 
-    //val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
-
-    //val dayList by homeScreenViewModel.daysList.collectAsStateWithLifecycle()
-
-    //val daysState by homeScreenViewModel.daysState.collectAsStateWithLifecycle()
-
     val exitDialogState = rememberSaveable { mutableStateOf(value = false) }
 
     val context = LocalContext.current
-
-    //val isLoading by homeScreenViewModel.isLoading.collectAsStateWithLifecycle()
 
     val isLoading by dayScreenViewModel.isLoading.collectAsStateWithLifecycle()
 
@@ -251,11 +244,9 @@ fun HomeScreenHeader(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
-
-    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
-
     Card(
         modifier = Modifier
             .height(height = 121.dp)
@@ -263,32 +254,37 @@ fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(7.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Red)
+        colors = CardDefaults.cardColors(containerColor = snapbiteOrange)
     ) {
-        Column(
-            modifier = Modifier.padding(7.dp),
-            verticalArrangement = Arrangement.spacedBy(3.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween // Use SpaceBetween here
         ) {
-            Text(
-                text = foodEntity.foodName, textAlign = TextAlign.Start,
-                fontFamily = Caveat,
-                fontSize = 21.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+            Column(
+                modifier = Modifier.padding(7.dp),
+                verticalArrangement = Arrangement.spacedBy(3.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(text = formatCurrentDate(), style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(height = 7.dp))
+                Text(text = foodEntity.foodName, style = MaterialTheme.typography.bodyLarge)
+            }
 
-            Text(
-                text = foodEntity.foodCaption, textAlign = TextAlign.Start,
-                fontFamily = Caveat,
-                fontSize = 21.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+            // Move the Box outside the Column and use horizontal alignment
+            Box(
+                modifier = Modifier
+                    .background(color = Color.Transparent)
+                    .padding(end = 16.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Text(text = foodEntity.foodEmoji)
+            }
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FilledHomeScreenContent(navController: NavHostController) {
 
@@ -306,7 +302,8 @@ fun FilledHomeScreenContent(navController: NavHostController) {
 
         items(foodList) { food ->
             FoodCard(
-                foodEntity = food) {
+                foodEntity = food
+            ) {
                 navController.navigate(
                     route = "editFoodScreen/${food.foodId}"
                 )
@@ -393,6 +390,23 @@ fun ExitConfirmationDialog(
             dismissOnClickOutside = true
         )
     )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatCurrentDate(): String {
+    val currentDate = LocalDate.now()
+    val dayOfMonth = currentDate.dayOfMonth
+    val month =
+        currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
+
+    val daySuffix = when (dayOfMonth) {
+        1, 21, 31 -> "st"
+        2, 22 -> "nd"
+        3, 23 -> "rd"
+        else -> "th"
+    }
+
+    return "$dayOfMonth$daySuffix $month"
 }
 
 private fun displayGreeting(): String {

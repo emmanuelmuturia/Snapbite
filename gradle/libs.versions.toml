@@ -49,10 +49,6 @@ firebaseBOMVersion = "32.7.0"
 # Glide...
 glideVersion = "1.0.0-beta01"
 
-# ExoPlayer (Media3)...
-media3ExoPlayerVersion = "1.2.0"
-media3UiVersion = "1.2.0"
-
 # Splash...
 splashVersion = "1.0.1"
 
@@ -92,6 +88,12 @@ cameraX = "1.4.0-alpha03"
 # Kotlin Serialization...
 kotlinSerializationLibrary = "1.6.0"
 
+# Emoji Picker...
+emojiPickerVersion = "1.4.0"
+
+# GMS Play Services (Auth)...
+gmsPlayServicesVersion = "20.4.1"
+
 [libraries]
 
 # App Compat...
@@ -130,6 +132,10 @@ firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-fir
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+firebase-authentication = { group = "com.google.firebase", name = "firebase-auth" }
+
+# Play Services...
+gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
 
 # Navigation...
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
@@ -190,6 +196,9 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "cameraX" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerializationLibrary" }
 
+# Emoji Picker...
+emoji-picker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "emojiPickerVersion" }
+
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradleVersion" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidVersion" }
@@ -199,7 +208,6 @@ com-android-library = { id = "com.android.library", version.ref = "gradleVersion
 com-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 com-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsVersion" }
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
-androidTest = { id = "com.android.test", version.ref = "gradleVersion" }
 com-google-firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerformanceVersion" }
 com-guardsquare-appsweep = { id = "com.guardsquare.appsweep", version.ref = "appSweepGradlePluginVersion" }
 plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerializationPluginVersion" }
