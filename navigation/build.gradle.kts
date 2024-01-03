@@ -81,8 +81,18 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
+
+    // Lifecycle Runtime (Compose)...
+    implementation(dependencyNotation = libs.lifecycle.runtime.compose)
+
+    // Firebase...
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
+    implementation(dependencyNotation = libs.firebase.authentication)
+    implementation(dependencyNotation = libs.gms.play.services)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

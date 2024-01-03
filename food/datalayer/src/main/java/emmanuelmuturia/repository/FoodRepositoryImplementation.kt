@@ -20,4 +20,5 @@ class FoodRepositoryImplementation(private val foodDAO: FoodDAO) : FoodRepositor
     override suspend fun getFoodById(foodId: Int): FoodEntity {
         return foodDAO.getFoodById(foodId = foodId)
     }
+
 }

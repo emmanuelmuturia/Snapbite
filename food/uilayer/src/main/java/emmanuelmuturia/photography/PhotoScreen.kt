@@ -37,8 +37,10 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,14 +54,13 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import emmanuelmuturia.day.DayScreenViewModel
 import emmanuelmuturia.uilayer.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhotoScreen(navController: NavHostController) {
-
-    //val dayId = navController.currentBackStackEntry?.arguments?.getInt("dayId")
+fun PhotoScreen(navController: NavHostController, dayScreenViewModel: DayScreenViewModel) {
 
     val context = LocalContext.current
 
@@ -71,9 +72,7 @@ fun PhotoScreen(navController: NavHostController) {
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 
-    val photoScreenViewModel: PhotoScreenViewModel = hiltViewModel()
-
-    val bitmaps by photoScreenViewModel.bitmaps.collectAsState()
+    val bitmaps by dayScreenViewModel.bitmaps.collectAsState()
 
     BottomSheetScaffold(sheetPeekHeight = 0.dp, scaffoldState = scaffoldState, sheetContent = {
         PhotoBottomSheetContent(bitmaps = bitmaps)
@@ -98,7 +97,8 @@ fun PhotoScreen(navController: NavHostController) {
     PhotoScreenFooter(
         scaffoldState = scaffoldState,
         context = context,
-        controller = controller
+        controller = controller,
+        dayScreenViewModel = dayScreenViewModel
     )
 
 }
@@ -126,9 +126,12 @@ fun PhotoPreview(
 
 @Composable
 fun PhotoScreenHeader(
-    navController: NavHostController,
-    //dayId: Int?
+    navController: NavHostController
 ) {
+
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
+    val bitmaps by dayScreenViewModel.bitmaps.collectAsState()
 
     Row(
         modifier = Modifier
@@ -143,7 +146,10 @@ fun PhotoScreenHeader(
             contentDescription = "OK",
             tint = Color.Black,
             modifier = Modifier
-                .clickable { navController.navigate(route = "editFoodScreen") }
+                .clickable {
+                    navController.navigate(route = "createFoodScreen")
+                    Log.d("Food Images List", "These are the food images: $bitmaps")
+                }
                 .size(size = 49.dp)
         )
 
@@ -156,10 +162,9 @@ fun PhotoScreenHeader(
 fun PhotoScreenFooter(
     scaffoldState: BottomSheetScaffoldState,
     context: Context,
-    controller: LifecycleCameraController
+    controller: LifecycleCameraController,
+    dayScreenViewModel: DayScreenViewModel
 ) {
-
-    val photoScreenViewModel: PhotoScreenViewModel = hiltViewModel()
 
     val scope = rememberCoroutineScope()
 
@@ -189,7 +194,7 @@ fun PhotoScreenFooter(
                 .clickable {
                     takePhoto(
                         controller = controller,
-                        onPhotoTaken = photoScreenViewModel::onTakePhoto,
+                        onPhotoTaken = dayScreenViewModel::onTakePhoto,
                         context = context
                     )
                 },

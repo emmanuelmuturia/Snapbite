@@ -3,7 +3,6 @@ plugins {
     alias(notation = libs.plugins.org.jetbrains.kotlin.android)
     alias(notation = libs.plugins.com.google.devtools.ksp)
     alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
-    alias(notation = libs.plugins.com.google.gms.google.services)
 }
 
 android {
@@ -43,7 +42,7 @@ dependencies {
     implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
     // Firebase...
-    implementation(dependencyNotation = libs.firebase.bom)
+    implementation(dependencyNotation = platform(libs.firebase.bom))
     implementation(dependencyNotation = libs.firebase.cloud.firestore)
     implementation(dependencyNotation = libs.firebase.authentication)
     implementation(dependencyNotation = libs.gms.play.services)

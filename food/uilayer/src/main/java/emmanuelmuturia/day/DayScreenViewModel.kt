@@ -1,18 +1,13 @@
 package emmanuelmuturia.day
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import emmanuelmuturia.entities.DayEntity
 import emmanuelmuturia.entities.FoodEntity
 import emmanuelmuturia.repository.FoodRepository
 import emmanuelmuturia.state.SnapbiteState
@@ -30,6 +25,9 @@ class DayScreenViewModel @Inject constructor(
     application: Application,
     private val foodRepository: FoodRepository
 ) : AndroidViewModel(application = application) {
+
+    private var _bitmaps = MutableStateFlow<List<Bitmap>>(value = emptyList())
+    val bitmaps: StateFlow<List<Bitmap>> = _bitmaps.asStateFlow()
 
     private var _daysState = MutableStateFlow<SnapbiteState<Any>>(SnapbiteState.Loading)
     val daysState: StateFlow<SnapbiteState<Any>> = _daysState.asStateFlow()
@@ -63,6 +61,10 @@ class DayScreenViewModel @Inject constructor(
 
         }
 
+    }
+
+    fun onTakePhoto(bitmap: Bitmap) {
+        _bitmaps.value += bitmap
     }
 
     fun addFood(foodEntity: FoodEntity) {
