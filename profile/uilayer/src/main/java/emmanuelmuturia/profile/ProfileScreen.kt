@@ -53,23 +53,23 @@ fun ProfileScreen(navigateBack: () -> Unit, userData: UserData?, onSignOut: () -
                     .weight(weight = 1f)
             ) {
 
-                item {
+                item(key = 1) {
                     ProfileScreenContent(userData = userData)
                 }
 
-                item {
+                item(key = 2) {
                     Spacer(modifier = Modifier.height(height = 7.dp))
                 }
 
-                item {
+                item(key = 3) {
                     ProfileScreenCard()
                 }
 
-                item {
+                item(key = 4) {
                     Spacer(modifier = Modifier.weight(weight = 1f))
                 }
 
-                item {
+                item(key = 5) {
                     SignOutButton(onSignOut = onSignOut)
                 }
 

@@ -1,9 +1,16 @@
 package emmanuelmuturia.home
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -50,6 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -57,7 +65,9 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import emmanuelmuturia.components.SnapbiteBackgroundImage
+import emmanuelmuturia.day.CameraPermissionTextProvider
 import emmanuelmuturia.day.DayScreenViewModel
+import emmanuelmuturia.day.PermissionDialog
 import emmanuelmuturia.entities.FoodEntity
 import emmanuelmuturia.state.ErrorScreen
 import emmanuelmuturia.state.LoadingScreen
@@ -79,6 +89,21 @@ fun HomeScreen(
 ) {
 
     val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
+    val cameraPermissionQueue = dayScreenViewModel.visiblePermissionDialogQueue
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            dayScreenViewModel.onPermissionResult(
+                permission = Manifest.permission.CAMERA,
+                isGranted = isGranted
+            )
+            if (isGranted) {
+                navController.navigate(route = "photoScreen")
+            }
+        }
+    )
 
     val foodList by dayScreenViewModel.foodList.collectAsStateWithLifecycle()
 
@@ -166,7 +191,10 @@ fun HomeScreen(
                             Icon(
                                 modifier = Modifier
                                     .size(size = 42.dp)
-                                    .clickable(onClick = { navController.navigate(route = "createFoodScreen") }),
+                                    .clickable(onClick = {
+                                        //navController.navigate(route = "photoScreen")
+                                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                                    }),
                                 imageVector = Icons.Rounded.AddCircle,
                                 tint = Color.Black,
                                 contentDescription = "Add Food Entry Button"
@@ -183,6 +211,22 @@ fun HomeScreen(
                                 contentDescription = "User Profile Button"
                             )
                         }
+                    }
+
+                    cameraPermissionQueue.reversed().forEach { permission ->
+                        PermissionDialog(
+                            permissionTextProvider = when (permission) {
+                                Manifest.permission.CAMERA -> CameraPermissionTextProvider()
+                                else -> return@forEach
+                            },
+                            isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
+                                LocalContext.current as Activity, permission
+                            ),
+                            onDismiss = dayScreenViewModel::dismissDialog,
+                            onOkClick = { dayScreenViewModel.dismissDialog() },
+                            onGoToAppSettingsClick = { (context as Activity).openAppSettings() }
+
+                        )
                     }
 
                 }
@@ -415,4 +459,11 @@ private fun displayGreeting(): String {
         in 12..16 -> "Good Afternoon!" // 12 to 16 is considered afternoon
         else -> "Good Evening!" // After 16 is considered evening
     }
+}
+
+fun Activity.openAppSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
 }

@@ -5,12 +5,10 @@ import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +22,7 @@ import androidx.navigation.navArgument
 import com.google.android.gms.auth.api.identity.Identity
 import emmanuelmuturia.about.AboutScreen
 import emmanuelmuturia.day.DayScreen
+import emmanuelmuturia.day.DayScreenViewModel
 import emmanuelmuturia.faq.FAQScreen
 import emmanuelmuturia.food.CreateFoodScreen
 import emmanuelmuturia.food.EditFoodScreen
@@ -40,7 +39,6 @@ import emmanuelmuturia.routes.Routes
 import emmanuelmuturia.search.SearchScreen
 import emmanuelmuturia.settings.SettingsScreen
 import emmanuelmuturia.sharedpreferences.SnapbiteSharedPreferences
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -61,8 +59,11 @@ fun NavGraph(navController: NavHostController) {
 
     val scope = rememberCoroutineScope()
 
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
+
     NavHost(
-        navController = navController, startDestination = if (isFirstTimeUser) {
+        navController = navController,
+        startDestination = if (isFirstTimeUser) {
             Routes.WelcomeScreen.route
         } else {
             Routes.HomeScreen.route
@@ -134,7 +135,7 @@ fun NavGraph(navController: NavHostController) {
             //, arguments = listOf(navArgument(name = "dayId") {
             //type = NavType.IntType })
         ) {
-            PhotoScreen(navController = navController)
+            PhotoScreen(navController = navController, dayScreenViewModel = dayScreenViewModel)
         }
 
         composable(route = Routes.FAQScreen.route) {
@@ -160,7 +161,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(route = Routes.CreateFoodScreen.route) {
-            CreateFoodScreen(navController = navController)
+            CreateFoodScreen(navController = navController, dayScreenViewModel = dayScreenViewModel)
         }
 
         composable(route = Routes.SignInScreen.route) {
