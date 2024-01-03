@@ -1,7 +1,6 @@
 package emmanuelmuturia.food
 
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
@@ -52,9 +51,7 @@ fun EditFoodScreen(navController: NavHostController) {
 
         SnapbiteBackgroundImage()
 
-        EditFoodScreenHeader(
-            navController = navController
-        )
+        EditFoodScreenHeader(navController = navController)
 
     }
 
@@ -79,10 +76,13 @@ fun EditFoodScreenHeader(
 
     var foodCaption by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodCaption) }
 
+    var foodEmoji by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodEmoji) }
+
     food?.let {
         LaunchedEffect(Unit) {
             foodName = it.foodName
             foodCaption = it.foodCaption
+            foodEmoji = it.foodEmoji
         }
     }
 
@@ -109,7 +109,11 @@ fun EditFoodScreenHeader(
                     .size(size = 30.dp))
 
             Button(onClick = {
-                val updatedFood = food?.copy(foodName = foodName, foodCaption = foodCaption)
+                val updatedFood = food?.copy(
+                    foodName = foodName,
+                    foodCaption = foodCaption,
+                    foodEmoji = foodEmoji
+                )
                 editFoodScreenViewModel.updateFood(foodEntity = updatedFood)
                 //editFoodScreenViewModel.updateFood(foodEntity = food)
                 navController.navigate(route = "homeScreen")
@@ -142,10 +146,15 @@ fun EditFoodScreenHeader(
                 fontWeight = FontWeight.Bold
             )
 
-            Text(
+            /*Text(
                 //modifier = Modifier.size(size = 10.dp),
                 text = "\uD83D\uDE0B",
                 fontSize = 28.sp
+            )*/
+
+            EmojiPicker(
+                selectedEmoji = foodEmoji,
+                onEmojiSelected = { selectedEmoji -> foodEmoji = selectedEmoji }
             )
 
         }

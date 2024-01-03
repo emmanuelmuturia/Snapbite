@@ -19,6 +19,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -36,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.emoji2.emojipicker.EmojiPickerView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.components.SnapbiteBackgroundImage
@@ -133,10 +137,15 @@ fun CreateFoodScreenHeader(
                 fontWeight = FontWeight.Bold
             )
 
-            Text(
+            /*Text(
                 //modifier = Modifier.size(size = 10.dp),
                 text = foodEmoji,
                 fontSize = 28.sp
+            )*/
+
+            EmojiPicker(
+                selectedEmoji = foodEmoji,
+                onEmojiSelected = { selectedEmoji -> foodEmoji = selectedEmoji }
             )
 
         }
@@ -178,4 +187,39 @@ fun CreateFoodScreenHeader(
 
     }
 
+}
+
+@Composable
+fun EmojiPicker(
+    selectedEmoji: String,
+    onEmojiSelected: (String) -> Unit
+) {
+    var expanded by rememberSaveable { mutableStateOf(value = false) }
+
+    // Sample list of emojis
+    val emojis = listOf("\uD83D\uDE0B", "\uD83D\uDE03", "\uD83D\uDE04", "\uD83D\uDE09", "\uD83D\uDE0D")
+
+    Box {
+        Text(
+            text = selectedEmoji,
+            fontSize = 28.sp,
+            modifier = Modifier
+                .clickable { expanded = true }
+                .padding(all = 8.dp)
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            emojis.forEach { emoji ->
+                DropdownMenuItem(
+                    onClick = {
+                        onEmojiSelected(emoji)
+                        expanded = false
+                    }, text = { Text(text = emoji) }
+                )
+            }
+        }
+    }
 }

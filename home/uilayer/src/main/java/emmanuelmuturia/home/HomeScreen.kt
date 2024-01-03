@@ -65,6 +65,7 @@ import emmanuelmuturia.state.SnapbiteState
 import emmanuelmuturia.theme.Caveat
 import emmanuelmuturia.theme.snapbiteMaroon
 import emmanuelmuturia.theme.snapbiteOrange
+import java.time.LocalDate
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -251,10 +252,9 @@ fun HomeScreenHeader(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
-
-    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
     Card(
         modifier = Modifier
@@ -265,27 +265,35 @@ fun FoodCard(foodEntity: FoodEntity, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Red)
     ) {
-        Column(
-            modifier = Modifier.padding(7.dp),
-            verticalArrangement = Arrangement.spacedBy(3.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = foodEntity.foodName, textAlign = TextAlign.Start,
-                fontFamily = Caveat,
-                fontSize = 21.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
 
-            Text(
-                text = foodEntity.foodCaption, textAlign = TextAlign.Start,
-                fontFamily = Caveat,
-                fontSize = 21.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+
+            Column(
+                modifier = Modifier.padding(7.dp),
+                verticalArrangement = Arrangement.spacedBy(3.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+
+                Text(text = formatCurrentDate(), style = MaterialTheme.typography.titleLarge)
+
+                Spacer(modifier = Modifier.height(height = 7.dp))
+
+                Text(text = foodEntity.foodName, style = MaterialTheme.typography.bodyLarge)
+
+            }
+
+            Box(modifier = Modifier.fillMaxSize()) {
+
+                Text(text = foodEntity.foodEmoji)
+
+            }
+
         }
+
     }
 }
 
@@ -393,6 +401,25 @@ fun ExitConfirmationDialog(
             dismissOnClickOutside = true
         )
     )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatCurrentDate(): String {
+    val currentDate = LocalDate.now()
+    val dayOfMonth = currentDate.dayOfMonth
+    val month =
+        currentDate.month.getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
+    val year = currentDate.year
+
+    val daySuffix = when (dayOfMonth) {
+        1, 21, 31 -> "st"
+        2, 22 -> "nd"
+        3, 23 -> "rd"
+        else -> "th"
+    }
+
+    //return "$dayOfMonth$daySuffix $month $year"
+    return "$dayOfMonth$daySuffix $month"
 }
 
 private fun displayGreeting(): String {
