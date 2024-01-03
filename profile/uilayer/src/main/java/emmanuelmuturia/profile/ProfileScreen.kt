@@ -1,8 +1,5 @@
 package emmanuelmuturia.profile
 
-import android.widget.Space
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,8 +23,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,15 +47,33 @@ fun ProfileScreen(navigateBack: () -> Unit, userData: UserData?, onSignOut: () -
 
             Spacer(modifier = Modifier.height(height = 14.dp))
 
-            ProfileScreenContent(userData = userData)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(weight = 1f)
+            ) {
 
-            Spacer(modifier = Modifier.height(height = 14.dp))
+                item {
+                    ProfileScreenContent(userData = userData)
+                }
 
-            ProfileScreenCard()
+                item {
+                    Spacer(modifier = Modifier.height(height = 7.dp))
+                }
 
-            Spacer(modifier = Modifier.weight(weight = 1f))
+                item {
+                    ProfileScreenCard()
+                }
 
-            SignOutButton(onSignOut = onSignOut)
+                item {
+                    Spacer(modifier = Modifier.weight(weight = 1f))
+                }
+
+                item {
+                    SignOutButton(onSignOut = onSignOut)
+                }
+
+            }
 
         }
 
@@ -75,22 +89,12 @@ fun ProfileScreenContent(
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(shape = RoundedCornerShape(size = 42.dp))
-        ) {
-
-            if (userData?.profilePictureUrl != null) {
-                GlideImage(
-                    modifier = Modifier.size(size = 140.dp),
-                    model = userData.profilePictureUrl,
-                    contentDescription = "Profile Image",
-                    contentScale = ContentScale.Crop
-                )
-            }
-
-        }
+        GlideImage(
+            modifier = Modifier.size(size = 140.dp),
+            model = userData?.profilePictureUrl,
+            contentDescription = "Profile Image",
+            contentScale = ContentScale.Crop
+        )
 
         Column(modifier = Modifier.fillMaxSize()) {
 
@@ -135,12 +139,16 @@ fun ProfileScreenCard() {
 @Composable
 fun SignOutButton(onSignOut: () -> Unit) {
 
-    Button(
-        onClick = onSignOut,
-        shape = RoundedCornerShape(size = 21.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
-    ) {
-        Text(text = "Sign Out", style = MaterialTheme.typography.bodyLarge)
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(
+            onClick = onSignOut,
+            shape = RoundedCornerShape(size = 21.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
+        ) {
+            Text(text = "Sign Out", style = MaterialTheme.typography.bodyLarge)
+        }
+
     }
 
 }

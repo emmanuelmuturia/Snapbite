@@ -1,6 +1,7 @@
 package emmanuelmuturia.google
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,12 +57,20 @@ fun SignInScreen(navigateBack: () -> Unit, onSignInClick: () -> Unit, signInStat
 @Composable
 fun SignInWithGoogleButton(onSignInClick: () -> Unit) {
 
-    Button(
-        onClick = onSignInClick,
-        shape = RoundedCornerShape(size = 21.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
-    ) {
-        Text(text = "Sign In With Google", style = MaterialTheme.typography.bodyLarge)
-    }
+   Column(
+       modifier = Modifier.fillMaxSize(),
+       horizontalAlignment = Alignment.CenterHorizontally,
+       verticalArrangement = Arrangement.Center
+   ) {
+
+       Button(
+           onClick = onSignInClick,
+           shape = RoundedCornerShape(size = 21.dp),
+           colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
+       ) {
+           Text(text = "Sign In With Google", style = MaterialTheme.typography.bodyLarge)
+       }
+
+   }
 
 }
