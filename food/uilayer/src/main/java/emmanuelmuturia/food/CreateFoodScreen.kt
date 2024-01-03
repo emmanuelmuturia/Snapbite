@@ -1,6 +1,5 @@
 package emmanuelmuturia.food
 
-import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -43,17 +42,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import emmanuelmuturia.components.SnapbiteBackgroundImage
 import emmanuelmuturia.day.DayScreenViewModel
 import emmanuelmuturia.entities.FoodEntity
-import emmanuelmuturia.photography.PhotoScreenViewModel
 import emmanuelmuturia.theme.Caveat
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -78,7 +76,7 @@ fun CreateFoodScreen(navController: NavHostController, dayScreenViewModel: DaySc
             }
 
             item(key = 3) {
-                FoodImages(navController = navController, dayScreenViewModel = dayScreenViewModel)
+                FoodImages(dayScreenViewModel = dayScreenViewModel)
             }
 
         }
@@ -252,7 +250,7 @@ fun EmojiPicker(
 
 
 @Composable
-fun FoodImages(navController: NavHostController, dayScreenViewModel: DayScreenViewModel) {
+fun FoodImages(dayScreenViewModel: DayScreenViewModel) {
 
     val foodImagesList by dayScreenViewModel.bitmaps.collectAsState()
 
@@ -265,7 +263,9 @@ fun FoodImages(navController: NavHostController, dayScreenViewModel: DayScreenVi
             it.generationId
         }) { foodImage ->
             Image(
+                modifier = Modifier.clip(shape = CircleShape).size(size = 140.dp),
                 bitmap = foodImage.asImageBitmap(),
+                contentScale = ContentScale.Crop,
                 contentDescription = "Food Images"
             )
         }
