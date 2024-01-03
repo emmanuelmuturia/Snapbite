@@ -92,7 +92,7 @@ kotlinSerializationLibrary = "1.6.0"
 emojiPickerVersion = "1.4.0"
 
 # GMS Play Services (Auth)...
-gmsPlayServicesVersion = "20.4.1"
+gmsPlayServicesVersion = "20.7.0"
 
 [libraries]
 

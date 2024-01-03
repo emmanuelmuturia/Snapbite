@@ -3,7 +3,7 @@ plugins {
     alias(notation = libs.plugins.org.jetbrains.kotlin.android)
     alias(notation = libs.plugins.com.google.devtools.ksp)
     alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
-    alias(notation = libs.plugins.com.google.gms.google.services)
+    alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -34,6 +34,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -51,6 +52,9 @@ dependencies {
     // Commons Module...
     implementation((project(":commons:uilayer")))
 
+    // Food Module...
+    implementation((project(":food:domainlayer")))
+
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 
@@ -60,13 +64,16 @@ dependencies {
     implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
     // Firebase...
-    implementation(dependencyNotation = libs.firebase.bom)
+    implementation(dependencyNotation = platform(libs.firebase.bom))
     implementation(dependencyNotation = libs.firebase.cloud.firestore)
     implementation(dependencyNotation = libs.firebase.authentication)
     implementation(dependencyNotation = libs.gms.play.services)
 
     // Glide...
     implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
+
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
