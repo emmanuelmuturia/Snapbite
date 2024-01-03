@@ -14,11 +14,6 @@ class PhotoScreenViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application = application) {
 
-    private var _bitmaps = MutableStateFlow<List<Bitmap>>(value = emptyList())
-    val bitmaps: StateFlow<List<Bitmap>> = _bitmaps.asStateFlow()
 
-    fun onTakePhoto(bitmap: Bitmap) {
-        _bitmaps.value += bitmap
-    }
 
 }

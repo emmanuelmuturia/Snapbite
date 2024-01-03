@@ -116,20 +116,7 @@ fun DayScreen(navigateBack: () -> Unit, navController: NavHostController) {
 fun DayScreenFooter(navController: NavHostController, context: Context) {
 
     val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
-    val cameraPermissionQueue = dayScreenViewModel.visiblePermissionDialogQueue
 
-    val cameraPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted ->
-            dayScreenViewModel.onPermissionResult(
-                permission = Manifest.permission.CAMERA,
-                isGranted = isGranted
-            )
-            if (isGranted) {
-                navController.navigate(route = "photoScreen")
-            }
-        }
-    )
 
     Row(
         modifier = Modifier
@@ -143,28 +130,14 @@ fun DayScreenFooter(navController: NavHostController, context: Context) {
             modifier = Modifier
                 .size(size = 49.dp)
                 .clickable {
-                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+
                 },
             painter = painterResource(id = R.drawable.camera),
             contentDescription = "Camera Button"
         )
 
     }
-    cameraPermissionQueue.reversed().forEach { permission ->
-        PermissionDialog(
-            permissionTextProvider = when (permission) {
-                Manifest.permission.CAMERA -> CameraPermissionTextProvider()
-                else -> return@forEach
-            },
-            isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
-                LocalContext.current as Activity, permission
-            ),
-            onDismiss = dayScreenViewModel::dismissDialog,
-            onOkClick = { dayScreenViewModel.dismissDialog() },
-            onGoToAppSettingsClick = { (context as Activity).openAppSettings() }
 
-        )
-    }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -210,12 +183,4 @@ fun FoodCard(foodEntity: FoodEntity, navController: NavHostController) {
 
     }
 
-}
-
-
-fun Activity.openAppSettings() {
-    Intent(
-        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-        Uri.fromParts("package", packageName, null)
-    ).also(::startActivity)
 }

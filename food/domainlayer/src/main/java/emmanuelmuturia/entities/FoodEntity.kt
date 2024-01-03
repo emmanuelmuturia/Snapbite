@@ -1,9 +1,8 @@
 package emmanuelmuturia.entities
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "snapbiteFoods")
@@ -13,7 +12,7 @@ data class FoodEntity(
     @ColumnInfo(name = "foodName")
     var foodName: String,
     @ColumnInfo(name = "foodImage")
-    val foodImage: String,
+    val foodImagesList: List<Bitmap?>,
     @ColumnInfo(name = "foodEmoji")
     val foodEmoji: String,
     @ColumnInfo(name = "foodCaption")

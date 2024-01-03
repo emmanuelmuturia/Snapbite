@@ -1,12 +1,13 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.android.library)
+    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.com.google.devtools.ksp)
+    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
+    alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
-    namespace = "emmanuelmuturia.profile"
+    namespace = "emmanuelmuturia.profile.uilayer"
     compileSdk = 34
 
     defaultConfig {
@@ -33,6 +34,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -50,12 +52,28 @@ dependencies {
     // Commons Module...
     implementation((project(":commons:uilayer")))
 
+    // Food Module...
+    implementation((project(":food:domainlayer")))
+
     // Navigation...
     implementation(libs.androidx.navigation.compose)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    "ksp"(libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
+
+    // Firebase...
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
+    implementation(dependencyNotation = libs.firebase.authentication)
+    implementation(dependencyNotation = libs.gms.play.services)
+
+    // Glide...
+    implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
+
+    // Timber...
+    implementation(dependencyNotation = libs.timber)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

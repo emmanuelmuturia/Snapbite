@@ -1,10 +1,7 @@
+<<<<<<< HEAD
 
-Bkotlin:S125V"Remove this commented out code.(Ç¨ó‘üÿÿÿÿ8µ¡âàÌ1
-Bkotlin:S125X"Remove this commented out code.(†¸‹ üÿÿÿÿ8µ¡âàÌ1
-Bkotlin:S125Z"Remove this commented out code.(çú«¤ÿÿÿÿÿ8¶¡âàÌ1
-Bkotlin:S125`"Remove this commented out code.(žžÉâþÿÿÿÿ8¶¡âàÌ1
-\kotlin:S1481"7Remove this unused "dayScreenViewModel" local variable.(ØÕè¥þÿÿÿÿ8È¡âàÌ1
->kotlin:S1128"Remove this unused import.(£žØØùÿÿÿÿ8Í¡âàÌ1
-9kotlin:S1128"Remove this unused import.(™òæÜ8Í¡âàÌ1
-9kotlin:S1128'"Remove this unused import.(ŠëÙ 8Í¡âàÌ1
-8kotlin:S1128*"Remove this unused import.(†™¹$8Í¡âàÌ1
+9kotlin:S1128"Remove this unused import.(™òæÜ8’£üÌ1
+9kotlin:S1128/"Remove this unused import.(ŠëÙ 8ž’£üÌ1
+vkotlin:S3776S"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(›¼¾“üÿÿÿÿ8òÀ™üÌ1
+=======
+>>>>>>> fc63b8a0d9272fe75b0258596582968a6a9e16a2

@@ -66,13 +66,22 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Dagger-Hilt...
-    implementation(libs.hilt.android)
-    implementation(project(mapOf("path" to ":photography:uilayer")))
-    "ksp"(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(dependencyNotation = libs.hilt.android)
+    "ksp"(dependencyNotation = libs.hilt.android.compiler)
+    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
 
     // Glide...
     implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
+
+    // Emoji Picker...
+    implementation(dependencyNotation = libs.emoji.picker)
+
+    // CameraX...
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
