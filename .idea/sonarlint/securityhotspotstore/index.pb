@@ -13,3 +13,7 @@ t
 Dfood/uilayer/src/main/java/emmanuelmuturia/day/DayScreenViewModel.kt,e/4/e4193de32100884086887ca4820b3260b7e08df0
 ‡
 Wfood/datalayer/src/main/java/emmanuelmuturia/repository/FoodRepositoryImplementation.kt,e/b/ebd350ce6df42ff810a2bcbd96548028cde4f3ee
+v
+Fprofile/uilayer/src/main/java/emmanuelmuturia/profile/ProfileScreen.kt,1/a/1a664684e1d02e836bd02e59742530730d678604
+H
+app/google-services.json,f/d/fd8d34b142d02ec743a8efefefd2c097961666e9
