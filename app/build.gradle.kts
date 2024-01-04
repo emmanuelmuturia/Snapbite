@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+
 plugins {
     alias(notation = libs.plugins.com.android.application)
     alias(notation = libs.plugins.org.jetbrains.kotlin.android)

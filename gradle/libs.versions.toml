@@ -1,8 +1,8 @@
 [versions]
 
 # Plugins
-gradleVersion = "8.2.0"
-kotlinAndroidVersion = "1.9.21"
+gradleVersion = "8.2.1"
+kotlinAndroidVersion = "1.9.22"
 kspVersion = "1.9.21-1.0.15"
 daggerHiltPluginVersion = "2.48.1"
 googleServicesVersion = "4.4.0"
@@ -201,10 +201,10 @@ emoji-picker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "e
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradleVersion" }
+com-android-library = { id = "com.android.library", version.ref = "gradleVersion" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidVersion" }
 com-google-dagger-hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltPluginVersion" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
-com-android-library = { id = "com.android.library", version.ref = "gradleVersion" }
 com-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 com-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsVersion" }
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
