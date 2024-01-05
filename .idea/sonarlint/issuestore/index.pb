@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 D
 app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
@@ -145,3 +146,5 @@ p
 @app/src/main/java/emmanuelmuturia/commons/state/SnapbiteState.kt,0/6/06a88e0a700fe9900cf83dc4106803dc5fc075ef
 o
 ?app/src/main/java/emmanuelmuturia/food/ui/DayScreenViewModel.kt,1/d/1d5c0b26df814b9e86a972a2a12d43855fd1983e
+=======
+>>>>>>> db14daef3222effe435c5a358235f612550e313f
