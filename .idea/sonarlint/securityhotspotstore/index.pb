@@ -27,3 +27,53 @@ C
 Tabout/datalayer/src/main/java/emmanuelmuturia/about/AboutRepositoryImplementation.kt,e/f/ef23e09d516a4586e9cae6866f47b9eed7e696eb
 ƒ
 Sabout/domainlayer/src/main/java/emmanuelmuturia/about/repository/AboutRepository.kt,8/c/8c609b07cda72bfb703200f843e7918e61ca5a55
+P
+ about/datalayer/build.gradle.kts,b/6/b620480ec5bbffd838055aa8fefad078fc8b1544
+Z
+*about/dependencyinjection/build.gradle.kts,5/5/5564af9f6dc2cd0f5b1728509a1c5a8381c07944
+R
+"about/domainlayer/build.gradle.kts,9/3/938ca58f0efa9e49f8de4570d06c190101386187
+…
+Uphotography/uilayer/src/main/java/emmanuelmuturia/photography/PhotoScreenViewModel.kt,5/3/53f18710164f56e7926c08136cc5872a70aba995
+N
+about/uilayer/build.gradle.kts,f/9/f924c13ef28170bdb41ffe021fda5b418bed9e7e
+R
+"commons/datalayer/build.gradle.kts,1/0/10b99cbc7862dd794d926c1251ce67834b71ea2c
+\
+,commons/dependencyinjection/build.gradle.kts,f/a/fa3b8009161a4975a8cbc7a49a27ed3b5d1ccf21
+x
+Hcommons/domainlayer/src/main/java/emmanuelmuturia/state/SnapbiteState.kt,e/9/e92d0e1daecf78c14ab76b0c90e63c8239e4171e
+j
+:app/src/main/java/emmanuelmuturia/commons/SnapbiteState.kt,a/6/a642977534ccbea5c5ef3bbc9467c5afcab3be05
+T
+$commons/domainlayer/build.gradle.kts,6/2/628fc2e1715161569260585447e7cd2166f97a2c
+P
+ commons/uilayer/build.gradle.kts,8/5/851efa9af21ac9a63bbdfba89e4147a2461c287f
+N
+faq/datalayer/build.gradle.kts,a/6/a6c6f16230abeede4f681683e32159ce8cc822c0
+P
+ faq/domainlayer/build.gradle.kts,9/c/9cdcdf3c477c0c633e6fed741f2fe0e359c10d04
+L
+faq/uilayer/build.gradle.kts,6/1/61039977cad785b09b96d012d07a44f01813f58e
+O
+food/datalayer/build.gradle.kts,f/0/f0545ae9d715fb6509b1fb0e5b0fe436d8168ab1
+Q
+!food/domainlayer/build.gradle.kts,f/5/f5c5627dc6e2be8601b5c3efa24d93ac3828011a
+M
+food/uilayer/build.gradle.kts,d/8/d83b121a319645fca75d3de52c46759fa6ddd4db
+O
+home/datalayer/build.gradle.kts,6/3/637c8d19da1fcd3c92c5287a4f53bd99daf0a79f
+Y
+)home/dependencyinjection/build.gradle.kts,8/4/84fa9a5a32b0abdb8e6f66e642cca055505b8446
+M
+home/uilayer/build.gradle.kts,5/e/5e93cc0047854e3b6b51034ac708e404311ab897
+K
+navigation/build.gradle.kts,7/2/72a63bd429fe806a7ac06bbbb579bf88f04b3e2b
+X
+(notifications/datalayer/build.gradle.kts,b/1/b1ada584ac3bc0e222a6fbe1b2b387a0833ff8d8
+R
+"profile/datalayer/build.gradle.kts,d/2/d2d56deabf191a85ec6602cd8d65bc6e01b492b3
+O
+search/uilayer/build.gradle.kts,2/3/23cd7c803ab33d282d01e53836d7e5a12ecdc474
+S
+#settings/datalayer/build.gradle.kts,5/9/590d3ac71f0bc2fdd324c2919d55ba8e6a0c5bfd

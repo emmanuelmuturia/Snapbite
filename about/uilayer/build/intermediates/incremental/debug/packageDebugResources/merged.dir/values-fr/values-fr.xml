@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="about">À propos</string>
-    <string name="app_version">Version de l\'application</string>
-    <string name="privacy_policy">Politique de confidentialité</string>
-    <string name="terms_conditions">Conditions générales</string>
-</resources>

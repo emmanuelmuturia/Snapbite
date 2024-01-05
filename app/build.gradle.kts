@@ -1,14 +1,15 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-
 plugins {
     alias(notation = libs.plugins.com.android.application)
-    alias(notation = libs.plugins.org.jetbrains.kotlin.android)
+    kotlin(module = "android")
+    alias(notation = libs.plugins.compose.multiplatform)
     alias(notation = libs.plugins.com.google.devtools.ksp)
     alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
     alias(notation = libs.plugins.com.google.gms.google.services)
     alias(notation = libs.plugins.com.google.firebase.crashlytics)
     alias(notation = libs.plugins.com.google.firebase.performance)
     alias(notation = libs.plugins.com.guardsquare.appsweep)
+    alias(notation = libs.plugins.plugin.serialization)
+    alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -68,24 +69,17 @@ android {
 
 dependencies {
 
-    // Module(s)...
-    val moduleList = listOf(
-        "navigation",
-        "commons:uilayer",
-        "notifications:datalayer",
-        "notifications:domainlayer",
-        "notifications:dependencyinjection"
-    )
-
-    moduleList.forEach { module ->
-        implementation(project(path = ":$module"))
-    }
+    // Android...
+    implementation(dependencyNotation = libs.androidx.activity.compose)
 
     // Firebase...
     implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
+    implementation(dependencyNotation = libs.firebase.authentication)
     implementation(dependencyNotation = libs.firebase.analytics)
     implementation(dependencyNotation = libs.firebase.cloud.messaging)
     implementation(dependencyNotation = libs.firebase.performance)
+    implementation(dependencyNotation = libs.gms.play.services)
 
     // Splash Screen API...
     implementation(dependencyNotation = libs.androidx.core.splashscreen)
@@ -98,30 +92,34 @@ dependencies {
     // Navigation...
     implementation(dependencyNotation = libs.androidx.navigation.compose)
 
-    // App Compat...
-    implementation(dependencyNotation = libs.appcompat)
+    // Glide...
+    implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)
 
     // Timber...
     implementation(dependencyNotation = libs.timber)
 
-    // Android...
-    implementation(dependencyNotation = libs.androidx.core.ktx)
-    implementation(dependencyNotation = libs.androidx.lifecycle.runtime.ktx)
-    implementation(dependencyNotation = libs.androidx.activity.compose)
-    implementation(dependencyNotation = platform(libs.androidx.compose.bom))
-    implementation(dependencyNotation = libs.compose.ui)
-    implementation(dependencyNotation = libs.compose.ui.graphics)
-    implementation(dependencyNotation = libs.compose.ui.tooling.preview)
-    implementation(dependencyNotation = libs.material3)
+    // Room...
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    "ksp"(libs.room.compiler)
 
-    // Testing...
-    testImplementation(dependencyNotation = libs.junit)
-    androidTestImplementation(dependencyNotation = libs.androidx.junit)
-    androidTestImplementation(dependencyNotation = libs.androidx.espresso.core)
-    androidTestImplementation(dependencyNotation = platform(libs.androidx.compose.bom))
-    androidTestImplementation(dependencyNotation = libs.compose.ui.test.junit4)
-    debugImplementation(dependencyNotation = libs.compose.ui.tooling)
-    debugImplementation(dependencyNotation = libs.compose.ui.test.manifest)
+    // Kotlin Serialisation...
+    implementation(dependencyNotation = libs.kotlin.serialization)
+
+    // Emoji Picker...
+    implementation(dependencyNotation = libs.emoji.picker)
+
+    // CameraX...
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+
+    // Swipe To Refresh (Accompanist)...
+    implementation(dependencyNotation = libs.accompanist.swiperefresh)
+
+    // LeakCanary...
     debugImplementation(dependencyNotation = libs.leakCanary)
 
 }

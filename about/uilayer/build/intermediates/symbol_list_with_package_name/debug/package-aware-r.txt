@@ -1,8 +1,0 @@
-emmanuelmuturia.about.uilayer
-drawable privacy
-drawable terms
-drawable version
-string about
-string app_version
-string privacy_policy
-string terms_conditions

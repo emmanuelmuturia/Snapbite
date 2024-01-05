@@ -14,10 +14,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import emmanuelmuturia.handler.NotificationsHandler
-import emmanuelmuturia.navgraph.NavGraph
+import emmanuelmuturia.notifications.handler.NotificationsHandler
+import emmanuelmuturia.navigation.navgraph.NavGraph
 import emmanuelmuturia.notifications.NotificationsHiltModule
-import emmanuelmuturia.theme.SnapbiteTheme
+import emmanuelmuturia.commons.theme.SnapbiteTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

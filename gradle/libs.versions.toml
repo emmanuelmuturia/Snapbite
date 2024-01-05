@@ -2,7 +2,7 @@
 
 # Plugins
 gradleVersion = "8.2.1"
-kotlinAndroidVersion = "1.9.22"
+kotlinAndroidVersion = "1.9.21"
 kspVersion = "1.9.21-1.0.15"
 daggerHiltPluginVersion = "2.48.1"
 googleServicesVersion = "4.4.0"
@@ -10,35 +10,18 @@ firebaseCrashlyticsVersion = "2.9.9"
 secretsGradlePlugin = "2.0.1"
 firebasePerformanceVersion = "1.4.2"
 appSweepGradlePluginVersion = "latest.release"
-kotlinSerializationPluginVersion = "1.9.22"
-
-# Compose BOM...
-composeBOMVersion = "2023.10.01"
-
-# Activity Compose...
-activityComposeVersion = "1.8.2"
-
-# Espresso...
-espressoCoreVersion = "3.5.1"
-
-# JUnit...
-androidXJunitVersion = "1.1.5"
-junitVersion = "4.13.2"
+kotlinSerializationPluginVersion = "1.9.21"
+composeMultiplatformVersion = "1.5.11"
 
 # Kotlin Compiler...
 kotlinCompilerVersion = "1.5.6"
 
-# AndroidX Core...
-androidXCoreVersion = "1.12.0"
-lifecycleRuntimeKtxVersion = "2.6.2"
+# Activity Compose...
+activityComposeVersion = "1.8.2"
 
 # Dagger-Hilt...
 daggerHiltVersion = "2.48.1"
 hiltNavigationVersion = "1.1.0"
-
-# Android & Material...
-appcompatVersion = "1.6.1"
-materialVersion = "1.11.0"
 
 #Navigation...
 navigationComposeVersion = "2.7.6"
@@ -58,29 +41,11 @@ roomVersion = "2.6.1"
 # Swipe To Refresh (Accompanist)...
 swipeToRefreshVersion = "0.27.0"
 
-# Lifecycle Runtime (Compose)...
-lifecycleRuntimeComposeVersion = "2.6.2"
-
 # LeakCanary...
 leakCanaryVersion = "2.12"
 
 # Timber...
 timberVersion = "5.0.1"
-
-# Material3...
-material3Version = "1.1.2"
-
-# Robolectric...
-robolectricVersion = "4.11.1"
-
-# MockK...
-mockKVersion = "1.13.8"
-
-# Hilt Testing...
-hiltTestingVersion = "2.44"
-
-# Kotlin Coroutines Testing...
-kotlinCoroutinesTestingVersion = "1.7.3"
 
 # CameraX...
 cameraX = "1.4.0-alpha03"
@@ -96,30 +61,8 @@ gmsPlayServicesVersion = "20.7.0"
 
 [libraries]
 
-# App Compat...
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
-
-# Material
-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
-
-# Compose BOM...
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBOMVersion" }
-
-# AndroidX Core...
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidXCoreVersion" }
-
-# AndroidX Lifecycle Runtime...
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
-
 # Activity Compose...
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
-
-# Espresso...
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
-
-# JUnit...
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidXJunitVersion" }
-junit = { module = "junit:junit", version.ref = "junitVersion" }
 
 # Dagger-Hilt...
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHiltVersion" }
@@ -154,39 +97,11 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVer
 # Swipe To Refresh (Accompanist)...
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "swipeToRefreshVersion" }
 
-# Lifecycle Runtime (Compose)...
-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeComposeVersion" }
-
-# Compose UI...
-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-
-# Material 3...
-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
-
-# Compose UI (Test)...
-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-
 # LeakCanary...
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanaryVersion" }
 
 # Timber...
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
-
-# Robolectric...
-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }
-
-# MockK...
-mockK = { module = "io.mockk:mockk", version.ref = "mockKVersion" }
-
-# Hilt Testing...
-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltTestingVersion" }
-
-# Kotlin Coroutines Testing...
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutinesTestingVersion" }
 
 # CameraX...
 androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraX" }
@@ -203,6 +118,7 @@ emoji-picker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "e
 com-android-application = { id = "com.android.application", version.ref = "gradleVersion" }
 com-android-library = { id = "com.android.library", version.ref = "gradleVersion" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidVersion" }
+org-jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinAndroidVersion" }
 com-google-dagger-hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltPluginVersion" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 com-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
@@ -211,3 +127,4 @@ com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.go
 com-google-firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerformanceVersion" }
 com-guardsquare-appsweep = { id = "com.guardsquare.appsweep", version.ref = "appSweepGradlePluginVersion" }
 plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerializationPluginVersion" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatformVersion" }
