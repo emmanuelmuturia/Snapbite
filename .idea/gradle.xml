@@ -9,54 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/about" />
-            <option value="$PROJECT_DIR$/about/datalayer" />
-            <option value="$PROJECT_DIR$/about/dependencyinjection" />
-            <option value="$PROJECT_DIR$/about/domainlayer" />
-            <option value="$PROJECT_DIR$/about/uilayer" />
-            <option value="$PROJECT_DIR$/achievements" />
-            <option value="$PROJECT_DIR$/achievements/uilayer" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commons" />
-            <option value="$PROJECT_DIR$/commons/datalayer" />
-            <option value="$PROJECT_DIR$/commons/dependencyinjection" />
-            <option value="$PROJECT_DIR$/commons/domainlayer" />
-            <option value="$PROJECT_DIR$/commons/uilayer" />
-            <option value="$PROJECT_DIR$/faq" />
-            <option value="$PROJECT_DIR$/faq/datalayer" />
-            <option value="$PROJECT_DIR$/faq/dependencyinjection" />
-            <option value="$PROJECT_DIR$/faq/domainlayer" />
-            <option value="$PROJECT_DIR$/faq/uilayer" />
-            <option value="$PROJECT_DIR$/food" />
-            <option value="$PROJECT_DIR$/food/datalayer" />
-            <option value="$PROJECT_DIR$/food/dependencyinjection" />
-            <option value="$PROJECT_DIR$/food/domainlayer" />
-            <option value="$PROJECT_DIR$/food/uilayer" />
-            <option value="$PROJECT_DIR$/home" />
-            <option value="$PROJECT_DIR$/home/datalayer" />
-            <option value="$PROJECT_DIR$/home/dependencyinjection" />
-            <option value="$PROJECT_DIR$/home/domainlayer" />
-            <option value="$PROJECT_DIR$/home/uilayer" />
-            <option value="$PROJECT_DIR$/navigation" />
-            <option value="$PROJECT_DIR$/notifications" />
-            <option value="$PROJECT_DIR$/notifications/datalayer" />
-            <option value="$PROJECT_DIR$/notifications/dependencyinjection" />
-            <option value="$PROJECT_DIR$/notifications/domainlayer" />
-            <option value="$PROJECT_DIR$/notifications/uilayer" />
-            <option value="$PROJECT_DIR$/photography" />
-            <option value="$PROJECT_DIR$/photography/uilayer" />
-            <option value="$PROJECT_DIR$/profile" />
-            <option value="$PROJECT_DIR$/profile/datalayer" />
-            <option value="$PROJECT_DIR$/profile/dependencyinjection" />
-            <option value="$PROJECT_DIR$/profile/domainlayer" />
-            <option value="$PROJECT_DIR$/profile/uilayer" />
-            <option value="$PROJECT_DIR$/search" />
-            <option value="$PROJECT_DIR$/search/uilayer" />
-            <option value="$PROJECT_DIR$/settings" />
-            <option value="$PROJECT_DIR$/settings/datalayer" />
-            <option value="$PROJECT_DIR$/settings/dependencyinjection" />
-            <option value="$PROJECT_DIR$/settings/domainlayer" />
-            <option value="$PROJECT_DIR$/settings/uilayer" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -9,44 +9,44 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.android.gms.auth.api.identity.Identity
-import emmanuelmuturia.about.AboutScreen
-import emmanuelmuturia.food.day.DayScreen
-import emmanuelmuturia.food.day.DayScreenViewModel
-import emmanuelmuturia.faq.FAQScreen
-import emmanuelmuturia.food.CreateFoodScreen
-import emmanuelmuturia.food.EditFoodScreen
-import emmanuelmuturia.food.ViewFoodScreen
-import emmanuelmuturia.google.GoogleAuthUiClient
-import emmanuelmuturia.google.SignInScreen
-import emmanuelmuturia.google.SignInViewModel
-import emmanuelmuturia.home.HomeScreen
-import emmanuelmuturia.home.WelcomeScreen
-import emmanuelmuturia.notifications.NotificationsScreen
-import emmanuelmuturia.food.photography.PhotoScreen
-import emmanuelmuturia.profile.ProfileScreen
 import emmanuelmuturia.navigation.routes.Routes
-import emmanuelmuturia.search.SearchScreen
-import emmanuelmuturia.settings.SettingsScreen
-import emmanuelmuturia.commons.SnapbiteSharedPreferences
 import kotlinx.coroutines.launch
+import snapbite.commons.about.ui.AboutScreen
+import snapbite.commons.commons.sharedpreferences.SnapbiteSharedPreferences
+import snapbite.commons.faq.ui.FAQScreen
+import snapbite.commons.food.day.DayScreen
+import snapbite.commons.food.day.DayScreenViewModel
+import snapbite.commons.food.photography.PhotoScreen
+import snapbite.commons.food.ui.CreateFoodScreen
+import snapbite.commons.food.ui.EditFoodScreen
+import snapbite.commons.food.ui.ViewFoodScreen
+import snapbite.commons.home.ui.HomeScreen
+import snapbite.commons.home.ui.WelcomeScreen
+import snapbite.commons.notifications.ui.NotificationsScreen
+import snapbite.commons.profile.google.GoogleAuthUiClient
+import snapbite.commons.profile.google.SignInScreen
+import snapbite.commons.profile.google.SignInViewModel
+import snapbite.commons.profile.ui.ProfileScreen
+import snapbite.commons.search.ui.SearchScreen
+import snapbite.commons.settings.ui.SettingsScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(navController: NavHostController) {
 
     val isFirstTimeUser =
-        emmanuelmuturia.commons.SnapbiteSharedPreferences(context = LocalContext.current).isFirstTimeUser
+        SnapbiteSharedPreferences(context = LocalContext.current).isFirstTimeUser
 
     val context = LocalContext.current
 
@@ -59,7 +59,7 @@ fun NavGraph(navController: NavHostController) {
 
     val scope = rememberCoroutineScope()
 
-    val dayScreenViewModel: emmanuelmuturia.food.day.DayScreenViewModel = hiltViewModel()
+    val dayScreenViewModel: DayScreenViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -71,7 +71,7 @@ fun NavGraph(navController: NavHostController) {
     ) {
 
         composable(route = Routes.HomeScreen.route) {
-            emmanuelmuturia.home.HomeScreen(
+            HomeScreen(
                 navigateToProfileScreen = { navController.navigate(route = Routes.SignInScreen.route) },
                 navigateToSettingsScreen = { navController.navigate(route = Routes.SettingsScreen.route) },
                 navigateToNotificationsScreen = { navController.navigate(route = Routes.NotificationsScreen.route) },
@@ -112,7 +112,7 @@ fun NavGraph(navController: NavHostController) {
             //, arguments = listOf(navArgument(name = "dayId") {
             //type = NavType.IntType })
         ) {
-            emmanuelmuturia.food.day.DayScreen(
+            DayScreen(
                 navigateBack = { navController.popBackStack() },
                 navController = navController
             )
@@ -123,11 +123,11 @@ fun NavGraph(navController: NavHostController) {
                 type = NavType.IntType
             })
         ) {
-            emmanuelmuturia.food.EditFoodScreen(navController = navController)
+            EditFoodScreen(navController = navController)
         }
 
         composable(route = Routes.ViewFoodScreen.route) {
-            emmanuelmuturia.food.ViewFoodScreen(navController = navController)
+            ViewFoodScreen(navController = navController)
         }
 
         composable(
@@ -135,28 +135,28 @@ fun NavGraph(navController: NavHostController) {
             //, arguments = listOf(navArgument(name = "dayId") {
             //type = NavType.IntType })
         ) {
-            emmanuelmuturia.food.photography.PhotoScreen(
+            PhotoScreen(
                 navController = navController,
                 dayScreenViewModel = dayScreenViewModel
             )
         }
 
         composable(route = Routes.FAQScreen.route) {
-            emmanuelmuturia.faq.FAQScreen { navController.popBackStack() }
+            FAQScreen { navController.popBackStack() }
         }
 
         composable(route = Routes.AboutScreen.route) {
-            emmanuelmuturia.about.AboutScreen { navController.popBackStack() }
+            AboutScreen { navController.popBackStack() }
         }
 
         composable(route = Routes.WelcomeScreen.route) {
 
             val sharedPreferences =
-                emmanuelmuturia.commons.SnapbiteSharedPreferences(
+                SnapbiteSharedPreferences(
                     context = context
                 ).sharedPreferences
 
-            emmanuelmuturia.home.WelcomeScreen {
+            WelcomeScreen {
                 sharedPreferences.edit().putBoolean("isFirstTimeUser", false).apply()
                 navController.navigate(route = Routes.HomeScreen.route)
             }
@@ -164,7 +164,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(route = Routes.CreateFoodScreen.route) {
-            emmanuelmuturia.food.CreateFoodScreen(
+            CreateFoodScreen(
                 navController = navController,
                 dayScreenViewModel = dayScreenViewModel
             )
@@ -173,7 +173,7 @@ fun NavGraph(navController: NavHostController) {
         composable(route = Routes.SignInScreen.route) {
 
             val signInViewModel: SignInViewModel = hiltViewModel()
-            val state by signInViewModel.state.collectAsStateWithLifecycle()
+            val state by signInViewModel.state.collectAsState()
 
             LaunchedEffect(key1 = Unit) {
                 if (googleAuthUiClient.getSignedInUser() != null) {

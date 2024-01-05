@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Snapbite</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
+    <string name="app_version">App Version</string>
+    <string name="about">About</string>
 </resources>

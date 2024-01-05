@@ -59,6 +59,15 @@ emojiPickerVersion = "1.4.0"
 # GMS Play Services (Auth)...
 gmsPlayServicesVersion = "20.7.0"
 
+# Voyager...
+voyagerVersion = "1.0.0"
+
+# Koin Version...
+koinVersion = "3.5.3"
+
+# Kamel...
+kamelVersion = "0.9.1"
+
 [libraries]
 
 # Activity Compose...
@@ -113,6 +122,16 @@ kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 
 # Emoji Picker...
 emoji-picker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "emojiPickerVersion" }
+
+# Voyager...
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyagerVersion" }
+
+# Koin...
+koin-multiplatform = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
+
+# Kamel...
+kamel = { module = "media.kamel:kamel-image", version.ref = "kamelVersion" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "gradleVersion" }

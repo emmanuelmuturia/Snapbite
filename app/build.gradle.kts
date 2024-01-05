@@ -69,6 +69,9 @@ android {
 
 dependencies {
 
+    // Commons Module...
+    implementation(dependencyNotation = project(path = ":commons"))
+
     // Android...
     implementation(dependencyNotation = libs.androidx.activity.compose)
 

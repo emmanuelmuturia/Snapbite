@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="commons-desktop">
+    <output-path>$PROJECT_DIR$/commons/build/libs</output-path>
+    <root id="archive" name="commons-desktop.jar">
+      <element id="module-output" name="Snapbite.commons.desktopMain" />
+    </root>
+  </artifact>
+</component>
