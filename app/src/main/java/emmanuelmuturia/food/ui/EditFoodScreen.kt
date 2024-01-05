@@ -70,17 +70,15 @@ fun EditFoodScreenHeader(foodId: Int?) {
 
     val navigator = LocalNavigator.currentOrThrow
 
-    val dayScreenViewModel: emmanuelmuturia.food.day.DayScreenViewModel = koinViewModel()
+    val foodScreenViewModel: FoodScreenViewModel = koinViewModel()
 
-    val editFoodScreenViewModel: EditFoodScreenViewModel = koinViewModel()
+    val food = foodId?.let { foodScreenViewModel.getFoodById(foodId = it) }
 
-    val food = foodId?.let { editFoodScreenViewModel.getFoodById(foodId = it) }
+    var foodName by rememberSaveable { mutableStateOf(value = foodScreenViewModel.foodName) }
 
-    var foodName by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodName) }
+    var foodCaption by rememberSaveable { mutableStateOf(value = foodScreenViewModel.foodCaption) }
 
-    var foodCaption by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodCaption) }
-
-    var foodEmoji by rememberSaveable { mutableStateOf(value = editFoodScreenViewModel.foodEmoji) }
+    var foodEmoji by rememberSaveable { mutableStateOf(value = foodScreenViewModel.foodEmoji) }
 
     food?.let {
         LaunchedEffect(Unit) {
@@ -118,8 +116,7 @@ fun EditFoodScreenHeader(foodId: Int?) {
                     foodCaption = foodCaption,
                     foodEmoji = foodEmoji
                 )
-                editFoodScreenViewModel.updateFood(foodEntity = updatedFood)
-                //editFoodScreenViewModel.updateFood(foodEntity = food)
+                foodScreenViewModel.updateFood(foodEntity = updatedFood)
                 navigator.push(item = HomeScreen())
                 Toast.makeText(context, "Food item has been updated!", Toast.LENGTH_LONG).show()
             }, shape = RoundedCornerShape(size = 10.dp)) {
@@ -143,7 +140,7 @@ fun EditFoodScreenHeader(foodId: Int?) {
         ) {
 
             Text(
-                text = dayScreenViewModel.formatCurrentDate(),
+                text = foodScreenViewModel.formatCurrentDate(),
                 fontFamily = emmanuelmuturia.commons.theme.Caveat,
                 color = Color.Black,
                 fontSize = 21.sp,

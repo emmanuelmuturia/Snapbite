@@ -50,7 +50,6 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import emmanuelmuturia.food.day.DayScreenViewModel
 import emmanuelmuturia.home.ui.HomeScreen
 import org.koin.androidx.compose.koinViewModel
 import emmanuelmuturia.commons.components.SnapbiteBackgroundImage
@@ -63,7 +62,7 @@ class CreateFoodScreen : Screen {
     @Composable
     override fun Content() {
 
-        val dayScreenViewModel: DayScreenViewModel = koinViewModel()
+        val foodScreenViewModel: FoodScreenViewModel = koinViewModel()
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -72,7 +71,7 @@ class CreateFoodScreen : Screen {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
 
                 item(key = 1) {
-                    CreateFoodScreenHeader(dayScreenViewModel = dayScreenViewModel)
+                    CreateFoodScreenHeader(foodScreenViewModel = foodScreenViewModel)
                 }
 
                 item(key = 2) {
@@ -80,7 +79,7 @@ class CreateFoodScreen : Screen {
                 }
 
                 item(key = 3) {
-                    FoodImages(dayScreenViewModel = dayScreenViewModel)
+                    FoodImages(foodScreenViewModel = foodScreenViewModel)
                 }
 
             }
@@ -94,11 +93,11 @@ class CreateFoodScreen : Screen {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreateFoodScreenHeader(dayScreenViewModel: DayScreenViewModel) {
+fun CreateFoodScreenHeader(foodScreenViewModel: FoodScreenViewModel) {
 
     val navigator = LocalNavigator.currentOrThrow
 
-    val foodImagesList by dayScreenViewModel.bitmaps.collectAsState()
+    val foodImagesList by foodScreenViewModel.bitmaps.collectAsState()
     var foodCaption by rememberSaveable { mutableStateOf(value = "") }
     var foodEmoji by rememberSaveable { mutableStateOf(value = "\uD83D\uDE0B") }
     var foodName by rememberSaveable { mutableStateOf(value = "") }
@@ -126,7 +125,7 @@ fun CreateFoodScreenHeader(dayScreenViewModel: DayScreenViewModel) {
                     .size(size = 30.dp))
 
             Button(onClick = {
-                dayScreenViewModel.addFood(
+                foodScreenViewModel.addFood(
                     foodEntity = emmanuelmuturia.food.entities.FoodEntity(
                         foodName = foodName,
                         foodImagesList = foodImagesList,
@@ -158,7 +157,7 @@ fun CreateFoodScreenHeader(dayScreenViewModel: DayScreenViewModel) {
         ) {
 
             Text(
-                text = dayScreenViewModel.formatCurrentDate(),
+                text = foodScreenViewModel.formatCurrentDate(),
                 fontFamily = emmanuelmuturia.commons.theme.Caveat,
                 color = Color.Black,
                 fontSize = 21.sp,
@@ -255,9 +254,9 @@ fun EmojiPicker(
 
 
 @Composable
-fun FoodImages(dayScreenViewModel: DayScreenViewModel) {
+fun FoodImages(foodScreenViewModel: FoodScreenViewModel) {
 
-    val foodImagesList by dayScreenViewModel.bitmaps.collectAsState()
+    val foodImagesList by foodScreenViewModel.bitmaps.collectAsState()
 
     LazyRow(
         modifier = Modifier.fillMaxWidth(),

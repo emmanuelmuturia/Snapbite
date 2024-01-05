@@ -52,7 +52,7 @@ import androidx.core.content.ContextCompat
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import emmanuelmuturia.food.day.DayScreenViewModel
+import emmanuelmuturia.food.ui.FoodScreenViewModel
 import emmanuelmuturia.food.ui.CreateFoodScreen
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -60,7 +60,7 @@ import snapbite.app.R
 import timber.log.Timber
 
 
-data class PhotoScreen(val dayScreenViewModel: DayScreenViewModel) : Screen {
+data class PhotoScreen(val foodScreenViewModel: FoodScreenViewModel) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -76,7 +76,7 @@ data class PhotoScreen(val dayScreenViewModel: DayScreenViewModel) : Screen {
 
         val scaffoldState = rememberBottomSheetScaffoldState()
 
-        val bitmaps by dayScreenViewModel.bitmaps.collectAsState()
+        val bitmaps by foodScreenViewModel.bitmaps.collectAsState()
 
         BottomSheetScaffold(sheetPeekHeight = 0.dp, scaffoldState = scaffoldState, sheetContent = {
             PhotoBottomSheetContent(bitmaps = bitmaps)
@@ -100,7 +100,7 @@ data class PhotoScreen(val dayScreenViewModel: DayScreenViewModel) : Screen {
             scaffoldState = scaffoldState,
             context = context,
             controller = controller,
-            dayScreenViewModel = dayScreenViewModel
+            foodScreenViewModel = foodScreenViewModel
         )
 
     }
@@ -133,9 +133,9 @@ fun PhotoScreenHeader() {
 
     val navigator = LocalNavigator.currentOrThrow
 
-    val dayScreenViewModel: DayScreenViewModel = koinViewModel()
+    val foodScreenViewModel: FoodScreenViewModel = koinViewModel()
 
-    val bitmaps by dayScreenViewModel.bitmaps.collectAsState()
+    val bitmaps by foodScreenViewModel.bitmaps.collectAsState()
 
     Row(
         modifier = Modifier
@@ -169,7 +169,7 @@ fun PhotoScreenFooter(
     scaffoldState: BottomSheetScaffoldState,
     context: Context,
     controller: LifecycleCameraController,
-    dayScreenViewModel: DayScreenViewModel
+    foodScreenViewModel: FoodScreenViewModel
 ) {
 
     val scope = rememberCoroutineScope()
@@ -200,7 +200,7 @@ fun PhotoScreenFooter(
                 .clickable {
                     takePhoto(
                         controller = controller,
-                        onPhotoTaken = dayScreenViewModel::onTakePhoto,
+                        onPhotoTaken = foodScreenViewModel::onTakePhoto,
                         context = context
                     )
                 },

@@ -5,7 +5,7 @@ import emmanuelmuturia.notifications.entity.NotificationEntity
 import timber.log.Timber
 import javax.inject.Inject
 
-class NotificationRepositoryImplementation @Inject constructor(private val notificationDAO: NotificationDAO) :
+class NotificationRepositoryImplementation(private val notificationDAO: NotificationDAO) :
     NotificationRepository {
 
     override suspend fun addNotification(notificationEntity: NotificationEntity) {

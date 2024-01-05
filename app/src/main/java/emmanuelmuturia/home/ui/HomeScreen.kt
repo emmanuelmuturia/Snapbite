@@ -66,7 +66,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.android.gms.auth.api.identity.Identity
-import emmanuelmuturia.food.day.DayScreenViewModel
+import emmanuelmuturia.food.ui.FoodScreenViewModel
 import emmanuelmuturia.food.photography.PhotoScreen
 import emmanuelmuturia.food.ui.EditFoodScreen
 import emmanuelmuturia.notifications.ui.NotificationsScreen
@@ -100,30 +100,30 @@ class HomeScreen : Screen {
             )
         }
 
-        val dayScreenViewModel: DayScreenViewModel = koinViewModel()
+        val foodScreenViewModel: FoodScreenViewModel = koinViewModel()
 
-        val cameraPermissionQueue = dayScreenViewModel.visiblePermissionDialogQueue
+        val cameraPermissionQueue = foodScreenViewModel.visiblePermissionDialogQueue
 
         val cameraPermissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission(),
             onResult = { isGranted ->
-                dayScreenViewModel.onPermissionResult(
+                foodScreenViewModel.onPermissionResult(
                     permission = Manifest.permission.CAMERA,
                     isGranted = isGranted
                 )
                 if (isGranted) {
-                    navigator.push(item = PhotoScreen(dayScreenViewModel = dayScreenViewModel))
+                    navigator.push(item = PhotoScreen(foodScreenViewModel = foodScreenViewModel))
                 }
             }
         )
 
-        val foodList by dayScreenViewModel.foodList.collectAsState()
+        val foodList by foodScreenViewModel.foodList.collectAsState()
 
-        val foodState by dayScreenViewModel.daysState.collectAsState()
+        val foodState by foodScreenViewModel.daysState.collectAsState()
 
         val exitDialogState = rememberSaveable { mutableStateOf(value = false) }
 
-        val isLoading by dayScreenViewModel.isLoading.collectAsState()
+        val isLoading by foodScreenViewModel.isLoading.collectAsState()
 
         val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
 
@@ -146,7 +146,7 @@ class HomeScreen : Screen {
             is SnapbiteState.Loading -> LoadingScreen()
             else -> SwipeRefresh(
                 state = swipeRefreshState,
-                onRefresh = dayScreenViewModel::refreshFoodList,
+                onRefresh = foodScreenViewModel::refreshFoodList,
                 indicator = { state, refreshTrigger ->
                     SwipeRefreshIndicator(
                         state = state,
@@ -227,16 +227,16 @@ class HomeScreen : Screen {
                         }
 
                         cameraPermissionQueue.reversed().forEach { permission ->
-                            emmanuelmuturia.food.day.PermissionDialog(
+                            emmanuelmuturia.food.permission.PermissionDialog(
                                 permissionTextProvider = when (permission) {
-                                    Manifest.permission.CAMERA -> emmanuelmuturia.food.day.CameraPermissionTextProvider()
+                                    Manifest.permission.CAMERA -> emmanuelmuturia.food.permission.CameraPermissionTextProvider()
                                     else -> return@forEach
                                 },
                                 isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
                                     LocalContext.current as Activity, permission
                                 ),
-                                onDismiss = dayScreenViewModel::dismissDialog,
-                                onOkClick = { dayScreenViewModel.dismissDialog() },
+                                onDismiss = foodScreenViewModel::dismissDialog,
+                                onOkClick = { foodScreenViewModel.dismissDialog() },
                                 onGoToAppSettingsClick = { (context as Activity).openAppSettings() }
 
                             )
@@ -347,9 +347,9 @@ fun FilledHomeScreenContent() {
 
     val navigator = LocalNavigator.currentOrThrow
 
-    val dayScreenViewModel: DayScreenViewModel = koinViewModel()
+    val foodScreenViewModel: FoodScreenViewModel = koinViewModel()
 
-    val foodList by dayScreenViewModel.foodList.collectAsState()
+    val foodList by foodScreenViewModel.foodList.collectAsState()
 
     LazyColumn(
         modifier = Modifier
