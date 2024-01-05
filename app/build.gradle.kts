@@ -72,6 +72,9 @@ dependencies {
     // Android...
     implementation(dependencyNotation = libs.androidx.activity.compose)
 
+    // Compose Multiplatform...
+    implementation(dependencyNotation = compose.material3)
+
     // Firebase...
     implementation(dependencyNotation = platform(libs.firebase.bom))
     implementation(dependencyNotation = libs.firebase.cloud.firestore)
