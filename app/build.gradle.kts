@@ -3,7 +3,6 @@ plugins {
     kotlin(module = "android")
     alias(notation = libs.plugins.compose.multiplatform)
     alias(notation = libs.plugins.com.google.devtools.ksp)
-    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin)
     alias(notation = libs.plugins.com.google.gms.google.services)
     alias(notation = libs.plugins.com.google.firebase.crashlytics)
     alias(notation = libs.plugins.com.google.firebase.performance)
@@ -90,13 +89,13 @@ dependencies {
     // Splash Screen API...
     implementation(dependencyNotation = libs.androidx.core.splashscreen)
 
-    // Dagger-Hilt...
-    implementation(dependencyNotation = libs.hilt.android)
-    "ksp"(dependencyNotation = libs.hilt.android.compiler)
-    implementation(dependencyNotation = libs.androidx.hilt.navigation.compose)
+    // Voyager...
+    implementation(dependencyNotation = libs.voyager.navigator)
 
-    // Navigation...
-    implementation(dependencyNotation = libs.androidx.navigation.compose)
+    // Koin...
+    implementation(dependencyNotation = libs.koin.android)
+    implementation(dependencyNotation = libs.koin.compose)
+    implementation(dependencyNotation = libs.koin.multiplatform)
 
     // Glide...
     implementation(dependencyNotation = libs.com.github.bumptech.glide.compose)

@@ -6,25 +6,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.rememberNavController
-import dagger.hilt.android.AndroidEntryPoint
+import cafe.adriel.voyager.navigator.Navigator
+import emmanuelmuturia.home.ui.HomeScreen
+import emmanuelmuturia.home.ui.WelcomeScreen
 import emmanuelmuturia.notifications.handler.NotificationsHandler
-import emmanuelmuturia.navigation.navgraph.NavGraph
-import emmanuelmuturia.notifications.dependencyinjection.NotificationsHiltModule
-import emmanuelmuturia.commons.theme.SnapbiteTheme
+import emmanuelmuturia.notifications.repository.NotificationRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import emmanuelmuturia.commons.sharedpreferences.SnapbiteSharedPreferences
+import emmanuelmuturia.notifications.dao.NotificationDAO
 import timber.log.Timber
 import java.io.IOException
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +34,9 @@ class MainActivity : ComponentActivity() {
 
         CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsDatabase =
-                NotificationsHiltModule.providesNotificationsDatabase(context = this@MainActivity)
+            val notificationDAO: NotificationDAO by inject()
 
-            val notificationDAO =
-                NotificationsHiltModule.providesNotificationDao(notificationsDatabase = notificationsDatabase)
-
-            val notificationsRepository =
-                NotificationsHiltModule.providesNotificationsRepository(notificationDAO = notificationDAO)
+            val notificationsRepository: NotificationRepository by inject()
 
             try {
                 NotificationsHandler(notificationRepository = notificationsRepository).handleNotificationIntent(
@@ -56,16 +48,17 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        val isFirstTimeUser =
+            SnapbiteSharedPreferences(context = this).isFirstTimeUser
+
         setContent {
-            SnapbiteTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    NavGraph(navController = rememberNavController())
+            Navigator(
+                screen = if (isFirstTimeUser) {
+                    WelcomeScreen()
+                } else {
+                    HomeScreen()
                 }
-            }
+            )
         }
     }
 
@@ -73,14 +66,9 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsDatabase =
-                NotificationsHiltModule.providesNotificationsDatabase(context = this@MainActivity)
+            val notificationDAO: NotificationDAO by inject()
 
-            val notificationDAO =
-                NotificationsHiltModule.providesNotificationDao(notificationsDatabase = notificationsDatabase)
-
-            val notificationsRepository =
-                NotificationsHiltModule.providesNotificationsRepository(notificationDAO = notificationDAO)
+            val notificationsRepository: NotificationRepository by inject()
 
             try {
                 intent?.let {

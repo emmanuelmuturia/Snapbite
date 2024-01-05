@@ -4,7 +4,6 @@ plugins {
     alias(notation = libs.plugins.org.jetbrains.kotlin.android) apply false
     alias(notation = libs.plugins.org.jetbrains.kotlin.multiplatform) apply false
     alias(notation = libs.plugins.compose.multiplatform) apply false
-    alias(notation = libs.plugins.com.google.dagger.hilt.android.plugin) apply false
     alias(notation = libs.plugins.com.google.devtools.ksp) apply false
     alias(notation = libs.plugins.com.android.library) apply false
     alias(notation = libs.plugins.com.google.gms.google.services) apply false

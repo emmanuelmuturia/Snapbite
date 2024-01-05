@@ -8,16 +8,22 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import dagger.hilt.android.HiltAndroidApp
+import emmanuelmuturia.dependencyinjection.snapbiteModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import snapbite.app.BuildConfig
 import timber.log.Timber
 
-@HiltAndroidApp
 class SnapbiteApplication : Application() {
 
     override fun onCreate() {
 
         super.onCreate()
+
+        startKoin {
+            androidContext(androidContext = this@SnapbiteApplication)
+            modules(modules = snapbiteModule)
+        }
 
         getFCMToken()
 

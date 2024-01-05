@@ -19,13 +19,6 @@ kotlinCompilerVersion = "1.5.6"
 # Activity Compose...
 activityComposeVersion = "1.8.2"
 
-# Dagger-Hilt...
-daggerHiltVersion = "2.48.1"
-hiltNavigationVersion = "1.1.0"
-
-#Navigation...
-navigationComposeVersion = "2.7.6"
-
 # Firebase BOM...
 firebaseBOMVersion = "32.7.0"
 
@@ -73,11 +66,6 @@ kamelVersion = "0.9.1"
 # Activity Compose...
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 
-# Dagger-Hilt...
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHiltVersion" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHiltVersion" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationVersion" }
-
 # Firebase...
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBOMVersion" }
 firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
@@ -88,9 +76,6 @@ firebase-authentication = { group = "com.google.firebase", name = "firebase-auth
 
 # Play Services...
 gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
-
-# Navigation...
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
 
 # Glide...
 com-github-bumptech-glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glideVersion" }
@@ -128,6 +113,8 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyagerVersion" }
 
 # Koin...
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinVersion" }
 koin-multiplatform = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
 
 # Kamel...
@@ -138,7 +125,6 @@ com-android-application = { id = "com.android.application", version.ref = "gradl
 com-android-library = { id = "com.android.library", version.ref = "gradleVersion" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidVersion" }
 org-jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinAndroidVersion" }
-com-google-dagger-hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltPluginVersion" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 com-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 com-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsVersion" }
