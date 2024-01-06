@@ -1,8 +1,5 @@
-/*
 package snapbite.app.food.ui
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,19 +12,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
-import androidx.compose.material.icons.rounded.PersonAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import snapbite.app.R
+import snapbite.app.core.ui.ImagePicker
+import snapbite.app.food.components.AddFoodSheet
+import snapbite.app.food.components.FoodDetailSheet
 import snapbite.app.food.components.FoodListItem
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
@@ -43,6 +38,7 @@ fun FoodListScreen(
     imagePicker.registerPicker { imageBytes ->
         onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
     }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -96,21 +92,21 @@ fun FoodListScreen(
         }
     }
 
-    ContactDetailSheet(
-        isOpen = state.isSelectedContactSheetOpen,
-        selectedContact = state.selectedContact,
+    FoodDetailSheet(
+        isOpen = state.isSelectedFoodSheetOpen,
+        selectedFood = state.selectedFood,
         onEvent = onEvent,
     )
-    AddContactSheet(
+    AddFoodSheet(
         state = state,
-        newContact = newContact,
-        isOpen = state.isAddContactSheetOpen,
+        newFood = newFood,
+        isOpen = state.isAddFoodSheetOpen,
         onEvent = { event ->
-            if (event is ContactListEvent.OnAddPhotoClicked) {
+            if (event is FoodListEvent.OnAddNewFoodClick) {
                 imagePicker.pickImage()
             }
             onEvent(event)
         },
     )
 
-}*/
+}

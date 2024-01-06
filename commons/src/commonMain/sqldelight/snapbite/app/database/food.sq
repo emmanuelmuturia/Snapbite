@@ -1,8 +1,9 @@
 CREATE TABLE foodEntity (
 
     foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    foodName TEXT NOT NULL,
     foodCaption TEXT NOT NULL,
-    foodImage TEXT NOT NULL,
+    foodImage TEXT,
     foodEmoji TEXT NOT NULL,
     foodDate INTEGER NOT NULL
 
@@ -17,11 +18,13 @@ insertFoodItem:
 INSERT OR REPLACE
 INTO foodEntity(
     foodId,
+    foodName,
     foodCaption,
     foodImage,
     foodEmoji,
     foodDate
 ) VALUES (
+?,
     ?,
     ?,
         ?,
@@ -31,9 +34,9 @@ INTO foodEntity(
 
 deleteFood:
 DELETE FROM foodEntity
-WHERE foodId = foodId;
+WHERE foodId = :foodId;
 
 getFoodById:
 SELECT *
 FROM foodEntity
-WHERE foodId = foodId;
+WHERE foodId = :foodId;

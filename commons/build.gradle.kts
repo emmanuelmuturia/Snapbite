@@ -74,7 +74,6 @@ sqldelight {
     databases {
         create(name = "FoodDatabase") {
             packageName.set("snapbite.app.database")
-            generateAsync.set(true)
         }
     }
 }

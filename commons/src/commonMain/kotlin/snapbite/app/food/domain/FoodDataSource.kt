@@ -10,4 +10,6 @@ interface FoodDataSource {
 
     suspend fun deleteFood(foodId: Long)
 
+    suspend fun getFoodById(foodId: Long)
+
 }

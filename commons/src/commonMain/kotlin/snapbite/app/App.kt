@@ -1,4 +1,3 @@
-/*
 package snapbite.app
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.core.theme.SnapbiteTheme
+import snapbite.app.core.ui.ImagePicker
+import snapbite.app.di.AppModule
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 
@@ -18,6 +19,8 @@ import snapbite.app.food.ui.FoodListViewModel
 fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean,
+    appModule: AppModule,
+    imagePicker: ImagePicker
 ) {
 
     SnapbiteTheme(
@@ -28,7 +31,7 @@ fun App(
         val foodListViewModel: FoodListViewModel = getViewModel(
             key = "food-list-viewModel",
             factory = viewModelFactory {
-                FoodListViewModel()
+                FoodListViewModel(foodDataSource = appModule.foodDataSource)
             }
         )
 
@@ -42,11 +45,12 @@ fun App(
             FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
-                onEvent = foodListViewModel::onEvent
+                onEvent = foodListViewModel::onEvent,
+                imagePicker = imagePicker
             )
 
         }
 
     }
 
-}*/
+}

@@ -1,3 +1,4 @@
+/*
 package snapbite.app.core.ui
 
 
@@ -18,4 +19,4 @@ actual fun rememberBitmapFromBytes(bytes: ByteArray?): ImageBitmap? {
             null
         }
     }
-}
+}*/
