@@ -1,0 +1,42 @@
+CREATE TABLE foodEntity (
+
+    foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    foodName TEXT NOT NULL,
+    foodCaption TEXT NOT NULL,
+    foodImage TEXT,
+    foodEmoji TEXT NOT NULL,
+    foodDate INTEGER NOT NULL
+
+);
+
+getFoods:
+SELECT *
+FROM foodEntity
+ORDER BY foodDate DESC;
+
+insertFoodItem:
+INSERT OR REPLACE
+INTO foodEntity(
+    foodId,
+    foodName,
+    foodCaption,
+    foodImage,
+    foodEmoji,
+    foodDate
+) VALUES (
+?,
+    ?,
+    ?,
+        ?,
+        ?,
+        ?
+);
+
+deleteFood:
+DELETE FROM foodEntity
+WHERE foodId = :foodId;
+
+getFoodById:
+SELECT *
+FROM foodEntity
+WHERE foodId = :foodId;

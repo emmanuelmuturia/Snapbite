@@ -1,12 +1,19 @@
 [versions]
 agp = "8.2.1"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 compose = "1.5.4"
 compose-compiler = "1.5.4"
 compose-material3 = "1.1.2"
-androidx-activityCompose = "1.8.0"
+androidx-activityCompose = "1.8.2"
+jetBrainsComposeVersion = "1.5.11"
+androidxCoreVersion = "1.12.0"
+mokoVersion = "0.16.1"
+sqlDelightVersion = "2.0.1"
+kotlinxDateTimeVersion = "0.4.0"
+appCompatVersion = "1.6.1"
 
 [libraries]
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCoreVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
@@ -14,6 +21,16 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mokoVersion" }
+moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mokoVersion" }
+moko-mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mokoVersion" }
+moko-mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mokoVersion" }
+sql-delight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelightVersion" }
+sql-delight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelightVersion" }
+sql-delight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelightVersion" }
+sql-delight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelightVersion" }
+kotlinx-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTimeVersion" }
+app-compat = { module = "androidx.appcompat:appcompat", version.ref = "appCompatVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -21,3 +38,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+jetBrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetBrainsComposeVersion" }
+sql-delight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
+sql-delight-gradle-plugin = { id = "app.cash.sqldelight:gradle-plugin", version.ref = "sqlDelightVersion" }
