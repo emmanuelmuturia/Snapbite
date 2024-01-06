@@ -1,3 +1,4 @@
+/*
 package snapbite.app.android
 
 import android.os.Bundle
@@ -13,4 +14,4 @@ class MainActivity : ComponentActivity() {
             App(darkTheme = isSystemInDarkTheme(), dynamicColor = true)
         }
     }
-}
+}*/

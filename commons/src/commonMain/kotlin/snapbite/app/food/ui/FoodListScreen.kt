@@ -1,3 +1,4 @@
+/*
 package snapbite.app.food.ui
 
 import androidx.annotation.DrawableRes
@@ -112,4 +113,4 @@ fun FoodListScreen(
         },
     )
 
-}
+}*/

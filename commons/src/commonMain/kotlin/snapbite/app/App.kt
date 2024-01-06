@@ -1,3 +1,4 @@
+/*
 package snapbite.app
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,4 +49,4 @@ fun App(
 
     }
 
-}
+}*/
