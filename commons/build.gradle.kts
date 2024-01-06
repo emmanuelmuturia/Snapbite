@@ -33,6 +33,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(dependencyNotation = compose.runtime)
+            implementation(dependencyNotation = compose.foundation)
+            implementation(dependencyNotation = compose.material3)
+            implementation(dependencyNotation = compose.materialIconsExtended)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(dependencyNotation = compose.components.resources)
             implementation(dependencyNotation = libs.compose.ui)
             implementation(dependencyNotation = libs.sql.delight.runtime)
             implementation(dependencyNotation = libs.sql.delight.coroutines.extensions)
