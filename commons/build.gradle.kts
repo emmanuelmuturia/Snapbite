@@ -20,7 +20,7 @@ kotlin {
         }
     }
     
-    listOf(
+    /*listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -29,10 +29,11 @@ kotlin {
             baseName = "commons"
             isStatic = true
         }
-    }
+    }*/
 
     sourceSets {
         commonMain.dependencies {
+            implementation(dependencyNotation = libs.compose.ui)
             implementation(dependencyNotation = libs.sql.delight.runtime)
             implementation(dependencyNotation = libs.sql.delight.coroutines.extensions)
             implementation(dependencyNotation = libs.kotlinx.date.time)
@@ -45,9 +46,9 @@ kotlin {
             implementation(dependencyNotation = libs.app.compat)
             implementation(dependencyNotation = libs.androidx.activity.compose)
         }
-        iosMain.dependencies {
+        /*iosMain.dependencies {
             implementation(dependencyNotation = libs.sql.delight.native.driver)
-        }
+        }*/
     }
 }
 
