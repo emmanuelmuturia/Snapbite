@@ -1,14 +1,22 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(notation = libs.plugins.kotlinMultiplatform)
+    alias(notation = libs.plugins.androidLibrary)
+    alias(notation = libs.plugins.jetBrainsCompose)
+    alias(notation = libs.plugins.sql.delight)
 }
 
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
+        }
+    }
+
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java).all {
+        binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
+            export(dependency = libs.moko.mvvm.core)
         }
     }
     
@@ -25,10 +33,20 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            implementation(dependencyNotation = libs.sql.delight.runtime)
+            implementation(dependencyNotation = libs.sql.delight.coroutines.extensions)
+            implementation(dependencyNotation = libs.kotlinx.date.time)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(dependencyNotation = libs.kotlin.test)
+        }
+        androidMain.dependencies {
+            implementation(dependencyNotation = libs.sql.delight.android.driver)
+            implementation(dependencyNotation = libs.app.compat)
+            implementation(dependencyNotation = libs.androidx.activity.compose)
+        }
+        iosMain.dependencies {
+            implementation(dependencyNotation = libs.sql.delight.native.driver)
         }
     }
 }
@@ -39,4 +57,12 @@ android {
     defaultConfig {
         minSdk = 24
     }
+}
+
+dependencies {
+    implementation(dependencyNotation = libs.androidx.core)
+    commonMainApi(dependencyNotation = libs.moko.mvvm.core)
+    commonMainApi(dependencyNotation = libs.moko.mvvm.compose)
+    commonMainApi(dependencyNotation = libs.moko.mvvm.flow)
+    commonMainApi(dependencyNotation = libs.moko.mvvm.flow.compose)
 }
