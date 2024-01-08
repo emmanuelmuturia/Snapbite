@@ -114,7 +114,7 @@ fun FoodListScreen(
         newFood = newFood,
         isOpen = state.isAddFoodSheetOpen,
         onEvent = { event ->
-            if (event is FoodListEvent.OnAddNewFoodClick) {
+            if (event is FoodListEvent.OnAddFoodImage) {
                 imagePicker.pickImage()
             }
             onEvent(event)
