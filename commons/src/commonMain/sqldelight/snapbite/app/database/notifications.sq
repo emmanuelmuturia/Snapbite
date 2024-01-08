@@ -1,6 +1,6 @@
 CREATE TABLE notificationEntity (
 
-    notificationId TEXT NOT NULL PRIMARY KEY AUTOINCREMENT,
+    notificationId TEXT NOT NULL PRIMARY KEY,
     notificationTitle TEXT NOT NULL,
     notificationBody TEXT NOT NULL,
     notificationTimestamp INTEGER NOT NULL
