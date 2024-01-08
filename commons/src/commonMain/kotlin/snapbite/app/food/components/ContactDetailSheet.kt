@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +38,7 @@ import snapbite.app.core.ui.BottomSheetFromWish
 import snapbite.app.food.domain.Food
 import snapbite.app.food.ui.FoodListEvent
 import snapbite.app.food.ui.FoodPhoto
+import snapbite.app.theme.snapbiteMaroon
 
 @Composable
 fun FoodDetailSheet(
@@ -118,8 +120,8 @@ private fun EditRow(
         FilledTonalIconButton(
             onClick = onEditClick,
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                containerColor = snapbiteMaroon,
+                contentColor = Color.Black
             )
         ) {
             Icon(
@@ -130,8 +132,8 @@ private fun EditRow(
         FilledTonalIconButton(
             onClick = onDeleteClick,
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                contentColor = MaterialTheme.colorScheme.onErrorContainer
+                containerColor = snapbiteMaroon,
+                contentColor = Color.Black
             )
         ) {
             Icon(
@@ -150,19 +152,10 @@ private fun ContactInfoSection(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(start = 21.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.secondaryContainer)
-                .padding(8.dp),
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-        Spacer(Modifier.width(16.dp))
+
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -170,13 +163,13 @@ private fun ContactInfoSection(
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.secondary,
+                color = Color.Black,
                 fontSize = 12.sp
             )
             Text(
                 text = value,
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.onBackground,
+                color = Color.Black,
                 fontSize = 18.sp
             )
         }

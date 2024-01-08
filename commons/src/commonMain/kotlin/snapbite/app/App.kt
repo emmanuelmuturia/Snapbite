@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.core.theme.SnapbiteTheme
@@ -42,11 +43,23 @@ fun App(
             color = Color.Transparent
         ) {
 
+            /*Navigator(
+                screen = FoodListScreen(
+                    state = state,
+                    newFood = foodListViewModel.newFood,
+                    onEvent = foodListViewModel::onEvent,
+                    imagePicker = imagePicker,
+                    foodListViewModel = foodListViewModel,
+                    appModule = appModule
+                )
+            )*/
+
             FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,
-                imagePicker = imagePicker
+                imagePicker = imagePicker,
+                foodListViewModel = foodListViewModel
             )
 
         }

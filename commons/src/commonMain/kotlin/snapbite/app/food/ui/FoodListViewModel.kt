@@ -39,6 +39,9 @@ class FoodListViewModel(
     var newFood: Food? by mutableStateOf(value = null)
         private set
 
+    var foodEmoji: String by mutableStateOf(value = "\uD83D\uDE0B")
+        private set
+
     fun onEvent(event: FoodListEvent) {
         when(event) {
             FoodListEvent.DeleteFood -> {
@@ -85,7 +88,7 @@ class FoodListViewModel(
                 newFood = Food(
                     foodId = null,
                     foodName = "",
-                    foodEmoji = "",
+                    foodEmoji = foodEmoji,
                     foodCaption = "",
                     foodDate = Clock.System.now().toEpochMilliseconds(),
                     foodImage = null

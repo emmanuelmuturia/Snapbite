@@ -5,6 +5,6 @@ data class Food(
     val foodName: String,
     val foodCaption: String,
     val foodImage: ByteArray?,
-    val foodEmoji: String?,
+    var foodEmoji: String,
     val foodDate: Long
 )

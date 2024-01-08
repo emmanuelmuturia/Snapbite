@@ -25,11 +25,11 @@ INTO foodEntity(
     foodDate
 ) VALUES (
 ?,
-    ?,
-    ?,
-        ?,
-        ?,
-        ?
+?,
+?,
+?,
+?,
+?
 );
 
 deleteFood:

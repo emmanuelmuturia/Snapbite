@@ -1,0 +1,32 @@
+CREATE TABLE notificationEntity (
+
+    notificationId TEXT NOT NULL PRIMARY KEY,
+    notificationTitle TEXT NOT NULL,
+    notificationBody TEXT NOT NULL,
+    notificationTimestamp INTEGER NOT NULL
+
+);
+
+getAllNotifications:
+SELECT *
+FROM notificationEntity
+ORDER BY notificationTimestamp DESC;
+
+insertNotification:
+INSERT OR REPLACE
+INTO notificationEntity(
+    notificationId,
+    notificationTitle,
+    notificationBody,
+    notificationTimestamp
+)
+VALUES (
+?,
+?,
+?,
+?
+);
+
+deleteNotification:
+DELETE FROM notificationEntity
+WHERE notificationId = :notificationId;

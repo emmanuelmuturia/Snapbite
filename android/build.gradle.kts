@@ -2,6 +2,9 @@ plugins {
     alias(notation = libs.plugins.androidApplication)
     alias(notation = libs.plugins.kotlinAndroid)
     alias(notation = libs.plugins.jetBrainsCompose)
+    alias(notation = libs.plugins.com.google.gms.google.services)
+    alias(notation = libs.plugins.com.google.firebase.crashlytics)
+    alias(notation = libs.plugins.com.google.firebase.performance)
 }
 
 android {
@@ -40,10 +43,15 @@ android {
 }
 
 dependencies {
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.analytics)
+    implementation(dependencyNotation = libs.firebase.performance)
+    implementation(dependencyNotation = libs.firebase.cloud.messaging)
     implementation(dependencyNotation = projects.commons)
     implementation(dependencyNotation = libs.compose.ui)
     implementation(dependencyNotation = libs.compose.ui.tooling.preview)
     implementation(dependencyNotation = libs.compose.material3)
     implementation(dependencyNotation = libs.androidx.activity.compose)
     debugImplementation(dependencyNotation = libs.compose.ui.tooling)
+    implementation(dependencyNotation = libs.voyager.navigator)
 }

@@ -15,22 +15,31 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import snapbite.app.core.ui.BottomSheetFromWish
 import snapbite.app.food.domain.Food
 import snapbite.app.food.ui.FoodListEvent
 import snapbite.app.food.ui.FoodListState
+import snapbite.app.food.ui.FoodListViewModel
 import snapbite.app.food.ui.FoodPhoto
+import snapbite.app.theme.snapbiteMaroon
 
 @Composable
 fun AddFoodSheet(
@@ -38,8 +47,12 @@ fun AddFoodSheet(
     newFood: Food?,
     isOpen: Boolean,
     onEvent: (FoodListEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    foodListViewModel: FoodListViewModel
 ) {
+
+    var foodEmoji by rememberSaveable { mutableStateOf(value = foodListViewModel.foodEmoji) }
+
     BottomSheetFromWish(
         visible = isOpen,
         modifier = modifier.fillMaxWidth()
@@ -56,26 +69,26 @@ fun AddFoodSheet(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(60.dp))
-                if(newFood?.foodImage == null) {
+                if (newFood?.foodImage == null) {
                     Box(
                         modifier = Modifier
                             .size(150.dp)
                             .clip(RoundedCornerShape(40))
-                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .background(color = snapbiteMaroon)
                             .clickable {
                                 onEvent(FoodListEvent.OnAddFoodImage)
                             }
                             .border(
                                 width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                shape = RoundedCornerShape(40)
+                                color = snapbiteMaroon,
+                                shape = RoundedCornerShape(percent = 40)
                             ),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Add,
                             contentDescription = "Add photo",
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            tint = Color.Black,
                             modifier = Modifier.size(40.dp)
                         )
                     }
@@ -110,20 +123,26 @@ fun AddFoodSheet(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(16.dp))
-                FoodTextField(
-                    value = newFood?.foodEmoji ?: "",
-                    placeholder = "Food Emoji",
-                    error = null,
-                    onValueChanged = {
-                        onEvent(FoodListEvent.OnFoodEmojiChanged(value = it))
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
+
+                if (newFood != null) {
+                    EmojiPicker(
+                        selectedEmoji = foodEmoji,
+                        onEmojiSelected = { selectedEmoji ->
+                            foodEmoji = selectedEmoji
+                            newFood.foodEmoji = selectedEmoji
+                        }
+                    )
+                }
+
                 Spacer(Modifier.height(16.dp))
                 Button(
                     onClick = {
                         onEvent(FoodListEvent.SaveFood)
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = snapbiteMaroon,
+                        contentColor = Color.Black
+                    )
                 ) {
                     Text(text = "Save")
                 }
@@ -131,7 +150,11 @@ fun AddFoodSheet(
             IconButton(
                 onClick = {
                     onEvent(FoodListEvent.DismissFood)
-                }
+                },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = snapbiteMaroon,
+                    contentColor = Color.Black
+                )
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Close,
@@ -161,7 +184,7 @@ private fun FoodTextField(
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier.fillMaxWidth()
         )
-        if(error != null) {
+        if (error != null) {
             Text(
                 text = error,
                 color = MaterialTheme.colorScheme.error
