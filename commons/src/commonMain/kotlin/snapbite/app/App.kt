@@ -13,6 +13,7 @@ import snapbite.app.about.ui.AboutScreen
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
+import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 
@@ -51,7 +52,7 @@ fun App(
                 foodListViewModel = foodListViewModel
             )*/
 
-            AboutScreen()
+            FAQScreen()
 
         }
 

@@ -26,7 +26,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.R
-import snapbite.app.about.commons.SnapbiteHeader
+import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
 @Composable

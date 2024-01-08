@@ -1,4 +1,4 @@
-package snapbite.app.about.commons
+package snapbite.app.commons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
