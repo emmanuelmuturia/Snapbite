@@ -80,7 +80,7 @@ android {
 
 sqldelight {
     databases {
-        create(name = "FoodDatabase") {
+        create(name = "SnapbiteDatabase") {
             packageName.set("snapbite.app.database")
         }
     }

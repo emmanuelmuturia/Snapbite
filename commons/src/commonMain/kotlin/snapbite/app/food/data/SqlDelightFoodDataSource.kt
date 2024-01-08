@@ -9,17 +9,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.supervisorScope
 import kotlinx.datetime.Clock
 import snapbite.app.core.data.ImageStorage
-import snapbite.app.core.ui.ImagePicker
-import snapbite.app.database.FoodDatabase
+import snapbite.app.database.SnapbiteDatabase
 import snapbite.app.food.domain.Food
 import snapbite.app.food.domain.FoodDataSource
 
 class SqlDelightFoodDataSource(
-    foodDatabase: FoodDatabase,
+    snapbiteDatabase: SnapbiteDatabase,
     private val imageStorage: ImageStorage
 ) : FoodDataSource {
 
-    private val queries = foodDatabase.foodQueries
+    private val queries = snapbiteDatabase.foodQueries
 
     override fun getFoods(): Flow<List<Food>> {
         return queries

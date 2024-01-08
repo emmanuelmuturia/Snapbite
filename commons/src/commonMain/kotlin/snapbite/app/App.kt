@@ -9,15 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
-import snapbite.app.about.ui.AboutScreen
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
-import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
-import snapbite.app.search.SearchScreen
-import snapbite.app.settings.ui.SettingsScreen
+import snapbite.app.notifications.ui.NotificationsScreen
+import snapbite.app.notifications.ui.NotificationsScreenViewModel
 
 @Composable
 fun App(
@@ -39,6 +37,13 @@ fun App(
             }
         )
 
+        val notificationsScreenViewModel: NotificationsScreenViewModel  = getViewModel(
+            key = "notificationsScreenViewModel",
+            factory = viewModelFactory<NotificationsScreenViewModel> {
+                NotificationsScreenViewModel(notificationRepository = appModule.notificationRepository)
+            }
+        )
+
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -46,15 +51,18 @@ fun App(
             color = Color.Transparent
         ) {
 
-            /*FoodListScreen(
+        FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,
                 imagePicker = imagePicker,
                 foodListViewModel = foodListViewModel
-            )*/
+            )
 
-            SearchScreen()
+
+            NotificationsScreen(
+                notificationsScreenViewModel = notificationsScreenViewModel
+            )
 
         }
 
