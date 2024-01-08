@@ -16,6 +16,7 @@ import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.notifications.ui.NotificationsScreenViewModel
+import snapbite.app.profile.ui.SignInScreen
 
 @Composable
 fun App(
@@ -60,9 +61,7 @@ fun App(
             )*/
 
 
-            NotificationsScreen(
-                notificationsScreenViewModel = notificationsScreenViewModel
-            )
+            SignInScreen()
 
         }
 
