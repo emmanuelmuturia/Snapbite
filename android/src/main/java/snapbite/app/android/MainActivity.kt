@@ -5,12 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
 import snapbite.app.App
 import snapbite.app.core.ui.ImagePickerFactory
 import snapbite.app.di.AppModule
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         super.onCreate(savedInstanceState)
         setContent {
             App(

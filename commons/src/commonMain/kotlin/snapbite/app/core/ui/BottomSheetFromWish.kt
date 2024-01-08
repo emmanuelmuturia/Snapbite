@@ -7,6 +7,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,7 +48,11 @@ fun BottomSheetFromWish(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+
+            Spacer(modifier = Modifier.height(height = 21.dp))
+
             content()
+
         }
     }
 }

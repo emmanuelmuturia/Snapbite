@@ -46,7 +46,8 @@ fun App(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,
-                imagePicker = imagePicker
+                imagePicker = imagePicker,
+                foodListViewModel = foodListViewModel
             )
 
         }
