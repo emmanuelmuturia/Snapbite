@@ -3,6 +3,8 @@ plugins {
     alias(notation = libs.plugins.androidLibrary)
     alias(notation = libs.plugins.jetBrainsCompose)
     alias(notation = libs.plugins.sql.delight)
+    alias(notation = libs.plugins.moko.resources)
+    alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 kotlin {
@@ -47,10 +49,13 @@ kotlin {
         commonTest.dependencies {
             implementation(dependencyNotation = libs.kotlin.test)
         }
-        androidMain.dependencies {
-            implementation(dependencyNotation = libs.sql.delight.android.driver)
-            implementation(dependencyNotation = libs.app.compat)
-            implementation(dependencyNotation = libs.androidx.activity.compose)
+        androidMain {
+            dependsOn(other = commonMain.get())
+            dependencies {
+                implementation(dependencyNotation = libs.sql.delight.android.driver)
+                implementation(dependencyNotation = libs.app.compat)
+                implementation(dependencyNotation = libs.androidx.activity.compose)
+            }
         }
         /*iosMain.dependencies {
             implementation(dependencyNotation = libs.sql.delight.native.driver)
@@ -68,6 +73,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 sqldelight {
@@ -78,10 +86,22 @@ sqldelight {
     }
 }
 
+multiplatformResources {
+    multiplatformResourcesPackage = "snapbite.app"
+    multiplatformResourcesClassName = "MR"
+}
+
 dependencies {
+    implementation(dependencyNotation = platform(libs.firebase.bom))
+    implementation(dependencyNotation = libs.firebase.cloud.firestore)
+    implementation(dependencyNotation = libs.firebase.authentication)
+    implementation(dependencyNotation = libs.firebase.cloud.messaging)
+    implementation(dependencyNotation = libs.gms.play.services)
     implementation(dependencyNotation = libs.androidx.core)
     commonMainApi(dependencyNotation = libs.moko.mvvm.core)
     commonMainApi(dependencyNotation = libs.moko.mvvm.compose)
     commonMainApi(dependencyNotation = libs.moko.mvvm.flow)
     commonMainApi(dependencyNotation = libs.moko.mvvm.flow.compose)
+    api(dependencyNotation = libs.moko.resources)
+    implementation(dependencyNotation = libs.voyager.navigator)
 }

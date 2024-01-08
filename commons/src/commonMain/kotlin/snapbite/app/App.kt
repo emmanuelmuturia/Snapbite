@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import snapbite.app.about.ui.AboutScreen
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
@@ -42,13 +43,15 @@ fun App(
             color = Color.Transparent
         ) {
 
-            FoodListScreen(
+            /*FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,
                 imagePicker = imagePicker,
                 foodListViewModel = foodListViewModel
-            )
+            )*/
+
+            AboutScreen()
 
         }
 

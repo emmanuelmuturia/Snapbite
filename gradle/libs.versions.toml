@@ -7,10 +7,18 @@ compose-material3 = "1.1.2"
 androidx-activityCompose = "1.8.2"
 jetBrainsComposeVersion = "1.5.11"
 androidxCoreVersion = "1.12.0"
-mokoVersion = "0.16.1"
+mokoMvvmVersion = "0.16.1"
 sqlDelightVersion = "2.0.1"
 kotlinxDateTimeVersion = "0.4.0"
 appCompatVersion = "1.6.1"
+voyagerVersion = "1.0.0"
+googleServicesVersion = "4.4.0"
+firebaseCrashlyticsVersion = "2.9.9"
+firebasePerformanceVersion = "1.4.2"
+firebaseBOMVersion = "32.7.0"
+gmsPlayServicesVersion = "20.7.0"
+mokoResourcesVersion = "0.22.3"
+secretsGradlePlugin = "2.0.1"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "androidxCoreVersion" }
@@ -21,23 +29,35 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
-moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mokoVersion" }
-moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mokoVersion" }
-moko-mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mokoVersion" }
-moko-mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mokoVersion" }
+moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mokoMvvmVersion" }
+moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mokoMvvmVersion" }
+moko-mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mokoMvvmVersion" }
+moko-mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mokoMvvmVersion" }
 sql-delight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelightVersion" }
 sql-delight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelightVersion" }
 sql-delight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelightVersion" }
 sql-delight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelightVersion" }
 kotlinx-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTimeVersion" }
 app-compat = { module = "androidx.appcompat:appcompat", version.ref = "appCompatVersion" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBOMVersion" }
+firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+firebase-authentication = { group = "com.google.firebase", name = "firebase-auth" }
+gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
+moko-resources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 jetBrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetBrainsComposeVersion" }
 sql-delight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
-sql-delight-gradle-plugin = { id = "app.cash.sqldelight:gradle-plugin", version.ref = "sqlDelightVersion" }
+com-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
+com-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsVersion" }
+com-google-firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerformanceVersion" }
+moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "mokoResourcesVersion" }
+com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
