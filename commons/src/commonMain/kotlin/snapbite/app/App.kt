@@ -16,6 +16,7 @@ import snapbite.app.di.AppModule
 import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
+import snapbite.app.settings.ui.SettingsScreen
 
 @Composable
 fun App(
@@ -52,7 +53,7 @@ fun App(
                 foodListViewModel = foodListViewModel
             )*/
 
-            FAQScreen()
+            SettingsScreen()
 
         }
 
