@@ -26,35 +26,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import snapbite.app.about.ui.AboutScreen
 import snapbite.app.commons.SnapbiteHeader
+import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-@Composable
-fun SettingsScreen(settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
-    key = "settingsScreenViewModel",
-    factory = viewModelFactory<SettingsScreenViewModel> {
-        SettingsScreenViewModel()
-    }
-)) {
+class SettingsScreen : Screen {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    @Composable
+    override fun Content() {
 
-        SnapbiteBackgroundImage()
+        val settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
+            key = "settingsScreenViewModel",
+            factory = viewModelFactory<SettingsScreenViewModel> {
+                SettingsScreenViewModel()
+            }
+        )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            SnapbiteHeader(
-                headerTitle = "Settings"
-            )
+            SnapbiteBackgroundImage()
 
-            SettingsContent(settingsScreenViewModel = settingsScreenViewModel)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
 
-            Spacer(modifier = Modifier.weight(weight = 1f))
+                SnapbiteHeader(
+                    headerTitle = "Settings"
+                )
+
+                SettingsContent(settingsScreenViewModel = settingsScreenViewModel)
+
+                Spacer(modifier = Modifier.weight(weight = 1f))
+
+            }
 
         }
 
@@ -66,7 +77,7 @@ fun SettingsScreen(settingsScreenViewModel: SettingsScreenViewModel = getViewMod
 @Composable
 private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
 
-    //val navigator = LocalNavigator.currentOrThrow
+    val navigator = LocalNavigator.currentOrThrow
 
     val context = LocalContext.current
 
@@ -131,9 +142,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = {
-                        //navigator.push(item = AboutScreen())
-                    }),
+                    .clickable(onClick = { navigator.push(item = AboutScreen()) }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -172,9 +181,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = {
-                        //navigator.push(item = FAQScreen())
-                    }),
+                    .clickable(onClick = { navigator.push(item = FAQScreen()) }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {

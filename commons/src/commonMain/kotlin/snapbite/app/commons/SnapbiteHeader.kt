@@ -17,9 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
 fun SnapbiteHeader(headerTitle: String) {
+
+    val navigator = LocalNavigator.currentOrThrow
 
     Row(
         modifier = Modifier
@@ -34,7 +38,9 @@ fun SnapbiteHeader(headerTitle: String) {
                 .weight(weight = 1f)
         ) {
 
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigator.pop()
+            }) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = null,

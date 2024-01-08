@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.commons.LoadingScreen
@@ -47,39 +48,45 @@ import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.domain.FAQ
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-@Composable
-fun FAQScreen(faqScreenViewModel: FAQScreenViewModel = getViewModel(
-    key = "faqScreenViewModel",
-    factory = viewModelFactory<FAQScreenViewModel> {
-        FAQScreenViewModel()
-    }
-)) {
+class FAQScreen : Screen {
 
-    val faqList by faqScreenViewModel.faqList.collectAsState()
+    @Composable
+    override fun Content() {
 
-    val faqState by faqScreenViewModel.faqState.collectAsState()
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        SnapbiteBackgroundImage()
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            SnapbiteHeader(
-                headerTitle = "FAQ"
-            )
-
-            when (faqState) {
-                is SnapbiteState.Success -> FAQContent(faqList = faqList)
-                is SnapbiteState.Error -> ErrorScreen()
-                else -> LoadingScreen()
+        val faqScreenViewModel: FAQScreenViewModel = getViewModel(
+            key = "faqScreenViewModel",
+            factory = viewModelFactory<FAQScreenViewModel> {
+                FAQScreenViewModel()
             }
+        )
 
-            Spacer(modifier = Modifier.weight(weight = 1f))
+        val faqList by faqScreenViewModel.faqList.collectAsState()
+
+        val faqState by faqScreenViewModel.faqState.collectAsState()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            SnapbiteBackgroundImage()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                SnapbiteHeader(
+                    headerTitle = "FAQ"
+                )
+
+                when (faqState) {
+                    is SnapbiteState.Success -> FAQContent(faqList = faqList)
+                    is SnapbiteState.Error -> ErrorScreen()
+                    else -> LoadingScreen()
+                }
+
+                Spacer(modifier = Modifier.weight(weight = 1f))
+
+            }
 
         }
 

@@ -1,6 +1,7 @@
 package snapbite.app.profile.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import com.google.android.gms.auth.api.identity.Identity
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -37,25 +39,29 @@ import snapbite.app.profile.google.UserData
 import snapbite.app.theme.snapbiteMaroon
 import snapbite.app.theme.snapbiteOrange
 
-@Composable
-fun ProfileScreen(userData: UserData?, profileScreenViewModel: ProfileScreenViewModel = getViewModel(
-    key = "profileScreenViewModel",
-    factory = viewModelFactory<ProfileScreenViewModel> {
-        ProfileScreenViewModel()
-    }
-)) {
+data class ProfileScreen(val userData: UserData?) : Screen {
 
-        val context = LocalContext.current
-
-        val scope = rememberCoroutineScope()
-
-        val googleAuthUiClient by lazy {
-            GoogleAuthUiClient(
-                oneTapClient = Identity.getSignInClient(context)
-            )
-        }
+    @Composable
+    override fun Content() {
 
         Box(modifier = Modifier.fillMaxSize()) {
+
+            val profileScreenViewModel: ProfileScreenViewModel = getViewModel(
+                key = "profileScreenViewModel",
+                factory = viewModelFactory<ProfileScreenViewModel> {
+                    ProfileScreenViewModel()
+                }
+            )
+
+            val context = LocalContext.current
+
+            val scope = rememberCoroutineScope()
+
+            val googleAuthUiClient by lazy {
+                GoogleAuthUiClient(
+                    oneTapClient = Identity.getSignInClient(context)
+                )
+            }
 
             SnapbiteBackgroundImage()
 
@@ -102,6 +108,8 @@ fun ProfileScreen(userData: UserData?, profileScreenViewModel: ProfileScreenView
 
         }
 
+    }
+
 }
 
 @Composable
@@ -139,8 +147,8 @@ fun ProfileScreenCard(profileScreenViewModel: ProfileScreenViewModel) {
             .height(height = 121.dp)
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-        //.clickable(onClick = onClick),
-        , elevation = CardDefaults.cardElevation(7.dp),
+            //.clickable(onClick = onClick),
+        ,elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = snapbiteOrange)
     ) {
 

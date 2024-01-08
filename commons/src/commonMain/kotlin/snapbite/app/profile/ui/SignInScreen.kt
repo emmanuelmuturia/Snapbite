@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
@@ -35,17 +36,21 @@ import snapbite.app.profile.google.GoogleAuthUiClient
 import snapbite.app.profile.google.SignInState
 import snapbite.app.theme.snapbiteMaroon
 
-@Composable
-fun SignInScreen(signInViewModel: SignInViewModel = getViewModel(
-    key = "signInScreenViewModel",
-    factory = viewModelFactory<SignInViewModel> {
-        SignInViewModel()
-    }
-)) {
+class SignInScreen : Screen {
 
-    val signInState: SignInState by signInViewModel.state.collectAsState()
+    @Composable
+    override fun Content() {
 
-    //val navigator = LocalNavigator.currentOrThrow
+        val signInViewModel: SignInViewModel = getViewModel(
+            key = "signInScreenViewModel",
+            factory = viewModelFactory<SignInViewModel> {
+                SignInViewModel()
+            }
+        )
+
+        val signInState: SignInState by signInViewModel.state.collectAsState()
+
+        val navigator = LocalNavigator.currentOrThrow
 
         val context = LocalContext.current
 
@@ -71,7 +76,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = getViewModel(
 
         LaunchedEffect(key1 = Unit) {
             if (googleAuthUiClient.getSignedInUser() != null) {
-                //navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
+                navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
             }
         }
 
@@ -91,7 +96,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = getViewModel(
         LaunchedEffect(key1 = state.isSignInSuccessful) {
             if (state.isSignInSuccessful) {
                 Toast.makeText(context, "You have signed in successfully!", Toast.LENGTH_LONG).show()
-                //navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
+                navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
                 signInViewModel.resetState()
             }
         }
@@ -123,6 +128,8 @@ fun SignInScreen(signInViewModel: SignInViewModel = getViewModel(
             }
 
         }
+
+    }
 
 }
 

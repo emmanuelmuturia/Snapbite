@@ -24,55 +24,63 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.R
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.theme.Caveat
 
-@Composable
-fun SearchScreen(searchScreenViewModel: SearchScreenViewModel = getViewModel(
-    key = "searchScreenViewModel",
-    factory = viewModelFactory<SearchScreenViewModel> {
-        SearchScreenViewModel()
-    }
-)) {
 
-    var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
+class SearchScreen : Screen {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    @Composable
+    override fun Content() {
 
-        Image(
-            painter = painterResource(id = R.drawable.snapbite),
-            contentDescription = "Background Image",
-            contentScale = ContentScale.FillBounds
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SnapbiteHeader(headerTitle = "Search")
-            Spacer(modifier = Modifier.height(height = 21.dp))
-            OutlinedTextField(
-                value = searchItem,
-                onValueChange = { searchItem = it },
-                shape = RoundedCornerShape(size = 21.dp),
-                placeholder = {
-                    Text(
-                        text = "Enter Date e.g 21st October 2023...", textAlign = TextAlign.Start,
-                        fontFamily = Caveat,
-                        color = Color.DarkGray,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                textStyle = TextStyle(fontFamily = Caveat, fontSize = 21.sp, color = Color.Black),
-                singleLine = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Black,
-                    cursorColor = Color.Black
-                )
+            val searchScreenViewModel: SearchScreenViewModel = getViewModel(
+                key = "searchScreenViewModel",
+                factory = viewModelFactory<SearchScreenViewModel> {
+                    SearchScreenViewModel()
+                }
             )
+
+            var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
+
+            Image(
+                painter = painterResource(id = R.drawable.snapbite),
+                contentDescription = "Background Image",
+                contentScale = ContentScale.FillBounds
+            )
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SnapbiteHeader(headerTitle = "Search")
+                Spacer(modifier = Modifier.height(height = 21.dp))
+                OutlinedTextField(
+                    value = searchItem,
+                    onValueChange = { searchItem = it },
+                    shape = RoundedCornerShape(size = 21.dp),
+                    placeholder = {
+                        Text(
+                            text = "Enter Date e.g 21st October 2023...", textAlign = TextAlign.Start,
+                            fontFamily = Caveat,
+                            color = Color.DarkGray,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    textStyle = TextStyle(fontFamily = Caveat, fontSize = 21.sp, color = Color.Black),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Black,
+                        cursorColor = Color.Black
+                    )
+                )
+            }
+
         }
 
     }

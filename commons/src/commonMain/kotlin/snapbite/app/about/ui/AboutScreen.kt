@@ -23,29 +23,37 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.viewModelFactory
+import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.R
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-@Composable
-fun AboutScreen(aboutScreenViewModel: AboutScreenViewModel = getViewModel(
-    key = "aboutScreenViewModel",
-    factory = viewModelFactory<AboutScreenViewModel> {
-        AboutScreenViewModel()
-    }
-)) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+class AboutScreen : Screen {
 
-        SnapbiteBackgroundImage()
+    @Composable
+    override fun Content() {
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        val aboutScreenViewModel: AboutScreenViewModel = getViewModel(
+            key = "aboutScreenViewModel",
+            factory = viewModelFactory<AboutScreenViewModel> {
+                AboutScreenViewModel()
+            }
+        )
 
-            SnapbiteHeader(headerTitle = "About")
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            AboutScreenContent(aboutScreenViewModel = aboutScreenViewModel)
+            SnapbiteBackgroundImage()
+
+            Column(modifier = Modifier.fillMaxSize()) {
+
+                SnapbiteHeader(headerTitle = "About")
+
+                AboutScreenContent(aboutScreenViewModel = aboutScreenViewModel)
+
+            }
 
         }
 

@@ -22,9 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import cafe.adriel.voyager.core.screen.Screen
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.components.AddFoodSheet
 import snapbite.app.food.components.FoodDetailSheet
@@ -33,93 +31,98 @@ import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
 import snapbite.app.theme.snapbiteMaroon
 
-@Composable
-fun FoodListScreen(
-    state: FoodListState,
-    newFood: Food?,
-    onEvent: (FoodListEvent) -> Unit,
-    imagePicker: ImagePicker,
-    foodListViewModel: FoodListViewModel
-) {
 
-    imagePicker.registerPicker { imageBytes ->
-        onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
-    }
+data class FoodListScreen(
+    val state: FoodListState,
+    val newFood: Food?,
+    val onEvent: (FoodListEvent) -> Unit,
+    val imagePicker: ImagePicker,
+    val foodListViewModel: FoodListViewModel
+) : Screen {
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    onEvent(FoodListEvent.OnAddNewFoodClick)
-                },
-                shape = RoundedCornerShape(20.dp),
-                containerColor = snapbiteMaroon
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Fastfood,
-                    contentDescription = "Add Food",
-                )
-            }
+    @Composable
+    override fun Content() {
+
+        imagePicker.registerPicker { imageBytes ->
+            onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
         }
-    ) {
-        it
 
-        Box(modifier = Modifier.fillMaxSize()) {
-
-            SnapbiteBackgroundImage()
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-
-                item {
-                    Spacer(modifier = Modifier.height(height = 21.dp))
-                }
-
-                item {
-                    Text(
-                        text = "My Foods (${state.foodList.size})",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                items(state.foodList) { food ->
-                    FoodListItem(
-                        food = food,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onEvent(FoodListEvent.SelectFood(food = food))
-                            }
-                            .padding(horizontal = 16.dp)
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        onEvent(FoodListEvent.OnAddNewFoodClick)
+                    },
+                    shape = RoundedCornerShape(20.dp),
+                    containerColor = snapbiteMaroon
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Fastfood,
+                        contentDescription = "Add Food",
                     )
                 }
             }
+        ) {
+            it
 
-        }
-    }
+            Box(modifier = Modifier.fillMaxSize()) {
 
-    FoodDetailSheet(
-        isOpen = state.isSelectedFoodSheetOpen,
-        selectedFood = state.selectedFood,
-        onEvent = onEvent,
-    )
-    AddFoodSheet(
-        state = state,
-        newFood = newFood,
-        isOpen = state.isAddFoodSheetOpen,
-        onEvent = { event ->
-            if (event is FoodListEvent.OnAddFoodImage) {
-                imagePicker.pickImage()
+                SnapbiteBackgroundImage()
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+
+                    item {
+                        Spacer(modifier = Modifier.height(height = 21.dp))
+                    }
+
+                    item {
+                        Text(
+                            text = "My Foods (${state.foodList.size})",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    items(state.foodList) { food ->
+                        FoodListItem(
+                            food = food,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onEvent(FoodListEvent.SelectFood(food = food))
+                                }
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
+                }
+
             }
-            onEvent(event)
-        },
-        foodListViewModel = foodListViewModel
-    )
+        }
+
+        FoodDetailSheet(
+            isOpen = state.isSelectedFoodSheetOpen,
+            selectedFood = state.selectedFood,
+            onEvent = onEvent,
+        )
+        AddFoodSheet(
+            state = state,
+            newFood = newFood,
+            isOpen = state.isAddFoodSheetOpen,
+            onEvent = { event ->
+                if (event is FoodListEvent.OnAddFoodImage) {
+                    imagePicker.pickImage()
+                }
+                onEvent(event)
+            },
+            foodListViewModel = foodListViewModel
+        )
+
+    }
 
 }

@@ -52,16 +52,13 @@ fun App(
             color = Color.Transparent
         ) {
 
-        /*FoodListScreen(
+        FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,
                 imagePicker = imagePicker,
                 foodListViewModel = foodListViewModel
-            )*/
-
-
-            SignInScreen()
+            )
 
         }
 

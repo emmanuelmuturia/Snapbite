@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import emmanuelmuturia.commons.state.SnapbiteState
 import snapbite.app.commons.ErrorScreen
 import snapbite.app.commons.LoadingScreen
@@ -47,37 +48,42 @@ import snapbite.app.notifications.domain.Notification
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-@Composable
-fun NotificationsScreen(notificationsScreenViewModel: NotificationsScreenViewModel) {
+data class NotificationsScreen(val notificationsScreenViewModel: NotificationsScreenViewModel) : Screen {
 
-    val notificationsList by notificationsScreenViewModel.notificationsList.collectAsState()
 
-    val notificationsState by notificationsScreenViewModel.notificationsState.collectAsState()
+    @Composable
+    override fun Content() {
 
-    when (notificationsState) {
+        val notificationsList by notificationsScreenViewModel.notificationsList.collectAsState()
 
-        is SnapbiteState.Error -> ErrorScreen()
-        is SnapbiteState.Loading -> LoadingScreen()
-        else -> Box(modifier = Modifier.fillMaxSize()) {
+        val notificationsState by notificationsScreenViewModel.notificationsState.collectAsState()
 
-            SnapbiteBackgroundImage()
+        when (notificationsState) {
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            is SnapbiteState.Error -> ErrorScreen()
+            is SnapbiteState.Loading -> LoadingScreen()
+            else -> Box(modifier = Modifier.fillMaxSize()) {
 
-                SnapbiteHeader(
-                    headerTitle = "Notifications"
-                )
+                SnapbiteBackgroundImage()
 
-                if (notificationsList.isNotEmpty()) {
-                    NotificationScreenContent(notificationsScreenViewModel = notificationsScreenViewModel)
-                } else {
-                    EmptyNotificationsScreen()
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+
+                    SnapbiteHeader(
+                        headerTitle = "Notifications"
+                    )
+
+                    if (notificationsList.isNotEmpty()) {
+                        NotificationScreenContent(notificationsScreenViewModel = notificationsScreenViewModel)
+                    } else {
+                        EmptyNotificationsScreen()
+                    }
+
+
                 }
-
-
             }
+
         }
 
     }
