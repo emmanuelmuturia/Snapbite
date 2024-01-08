@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.core.theme.SnapbiteTheme
@@ -14,9 +15,6 @@ import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
-import snapbite.app.notifications.ui.NotificationsScreen
-import snapbite.app.notifications.ui.NotificationsScreenViewModel
-import snapbite.app.profile.ui.SignInScreen
 
 @Composable
 fun App(
@@ -38,13 +36,6 @@ fun App(
             }
         )
 
-        val notificationsScreenViewModel: NotificationsScreenViewModel  = getViewModel(
-            key = "notificationsScreenViewModel",
-            factory = viewModelFactory<NotificationsScreenViewModel> {
-                NotificationsScreenViewModel(notificationRepository = appModule.notificationRepository)
-            }
-        )
-
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -52,7 +43,18 @@ fun App(
             color = Color.Transparent
         ) {
 
-        FoodListScreen(
+            /*Navigator(
+                screen = FoodListScreen(
+                    state = state,
+                    newFood = foodListViewModel.newFood,
+                    onEvent = foodListViewModel::onEvent,
+                    imagePicker = imagePicker,
+                    foodListViewModel = foodListViewModel,
+                    appModule = appModule
+                )
+            )*/
+
+            FoodListScreen(
                 state = state,
                 newFood = foodListViewModel.newFood,
                 onEvent = foodListViewModel::onEvent,

@@ -39,20 +39,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import emmanuelmuturia.commons.state.SnapbiteState
 import snapbite.app.commons.ErrorScreen
 import snapbite.app.commons.LoadingScreen
 import snapbite.app.commons.SnapbiteHeader
+import snapbite.app.di.AppModule
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.notifications.domain.Notification
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-data class NotificationsScreen(val notificationsScreenViewModel: NotificationsScreenViewModel) : Screen {
+data class NotificationsScreen(val appModule: AppModule) : Screen {
 
 
     @Composable
     override fun Content() {
+
+        val notificationsScreenViewModel: NotificationsScreenViewModel  = getViewModel(
+            key = "notificationsScreenViewModel",
+            factory = viewModelFactory<NotificationsScreenViewModel> {
+                NotificationsScreenViewModel(notificationRepository = appModule.notificationRepository)
+            }
+        )
 
         val notificationsList by notificationsScreenViewModel.notificationsList.collectAsState()
 
