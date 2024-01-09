@@ -19,6 +19,7 @@ firebaseBOMVersion = "32.7.0"
 gmsPlayServicesVersion = "20.7.0"
 mokoResourcesVersion = "0.22.3"
 secretsGradlePlugin = "2.0.1"
+timberVersion = "5.0.1"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "androidxCoreVersion" }
@@ -40,6 +41,7 @@ sql-delight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-e
 kotlinx-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTimeVersion" }
 app-compat = { module = "androidx.appcompat:appcompat", version.ref = "appCompatVersion" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyagerVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBOMVersion" }
 firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
@@ -48,6 +50,7 @@ firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
 firebase-authentication = { group = "com.google.firebase", name = "firebase-auth" }
 gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

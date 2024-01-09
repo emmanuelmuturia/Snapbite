@@ -8,6 +8,7 @@ import android.provider.Settings
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 import snapbite.app.BuildConfig
+import timber.log.Timber
 
 class SettingsScreenViewModel(
 
@@ -36,7 +37,8 @@ class SettingsScreenViewModel(
 
                 context.startActivity(notificationsSettingsIntent)
             } catch (e: Exception) {
-
+                Timber.tag(tag = "Settings Intent Error")
+                    .e(message = "Could not launch the Settings Intent due to: %s", e.printStackTrace())
             }
         }
     }
@@ -49,7 +51,8 @@ class SettingsScreenViewModel(
                 rateUsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(rateUsIntent)
             } catch (e: Exception) {
-
+                Timber.tag(tag = "Rate Us Exception")
+                    .e(message = "Failed to rate us due to: %s", e.printStackTrace())
             }
         }
     }

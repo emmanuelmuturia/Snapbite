@@ -104,4 +104,6 @@ dependencies {
     commonMainApi(dependencyNotation = libs.moko.mvvm.flow.compose)
     api(dependencyNotation = libs.moko.resources)
     implementation(dependencyNotation = libs.voyager.navigator)
+    implementation(dependencyNotation = libs.voyager.bottomSheetNavigator)
+    implementation(dependencyNotation = libs.timber)
 }

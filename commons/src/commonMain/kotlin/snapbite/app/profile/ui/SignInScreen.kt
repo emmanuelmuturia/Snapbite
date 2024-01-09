@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.profile.google.GoogleAuthUiClient
-import snapbite.app.profile.google.SignInState
 import snapbite.app.theme.snapbiteMaroon
 
 class SignInScreen : Screen {
@@ -48,7 +47,7 @@ class SignInScreen : Screen {
             }
         )
 
-        val signInState: SignInState by signInViewModel.state.collectAsState()
+        val signInState by signInViewModel.state.collectAsState()
 
         val navigator = LocalNavigator.currentOrThrow
 
@@ -72,14 +71,6 @@ class SignInScreen : Screen {
             }
         }
 
-        val state by signInViewModel.state.collectAsState()
-
-        LaunchedEffect(key1 = Unit) {
-            if (googleAuthUiClient.getSignedInUser() != null) {
-                navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
-            }
-        }
-
         val launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartIntentSenderForResult(),
             onResult = { result ->
@@ -93,10 +84,11 @@ class SignInScreen : Screen {
                 }
             })
 
-        LaunchedEffect(key1 = state.isSignInSuccessful) {
-            if (state.isSignInSuccessful) {
-                Toast.makeText(context, "You have signed in successfully!", Toast.LENGTH_LONG).show()
-                navigator.push(item = ProfileScreen(userData = googleAuthUiClient.getSignedInUser()))
+        LaunchedEffect(key1 = signInState.isSignInSuccessful) {
+            if (signInState.isSignInSuccessful) {
+                Toast.makeText(context, "You have signed in successfully!", Toast.LENGTH_LONG)
+                    .show()
+                navigator.push(item = ProfileScreen())
                 signInViewModel.resetState()
             }
         }
@@ -136,20 +128,20 @@ class SignInScreen : Screen {
 @Composable
 fun SignInWithGoogleButton(onSignInClick: () -> Unit) {
 
-   Column(
-       modifier = Modifier.fillMaxSize(),
-       horizontalAlignment = Alignment.CenterHorizontally,
-       verticalArrangement = Arrangement.Center
-   ) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
 
-       Button(
-           onClick = onSignInClick,
-           shape = RoundedCornerShape(size = 21.dp),
-           colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
-       ) {
-           Text(text = "Sign In With Google", style = MaterialTheme.typography.bodyLarge)
-       }
+        Button(
+            onClick = onSignInClick,
+            shape = RoundedCornerShape(size = 21.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
+        ) {
+            Text(text = "Sign In With Google", style = MaterialTheme.typography.bodyLarge)
+        }
 
-   }
+    }
 
 }

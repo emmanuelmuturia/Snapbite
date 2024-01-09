@@ -1,7 +1,6 @@
 package snapbite.app.profile.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -39,29 +40,33 @@ import snapbite.app.profile.google.UserData
 import snapbite.app.theme.snapbiteMaroon
 import snapbite.app.theme.snapbiteOrange
 
-data class ProfileScreen(val userData: UserData?) : Screen {
+class ProfileScreen : Screen {
 
     @Composable
     override fun Content() {
 
-        Box(modifier = Modifier.fillMaxSize()) {
-
-            val profileScreenViewModel: ProfileScreenViewModel = getViewModel(
-                key = "profileScreenViewModel",
-                factory = viewModelFactory<ProfileScreenViewModel> {
-                    ProfileScreenViewModel()
-                }
-            )
-
-            val context = LocalContext.current
-
-            val scope = rememberCoroutineScope()
-
-            val googleAuthUiClient by lazy {
-                GoogleAuthUiClient(
-                    oneTapClient = Identity.getSignInClient(context)
-                )
+        val profileScreenViewModel: ProfileScreenViewModel = getViewModel(
+            key = "profileScreenViewModel",
+            factory = viewModelFactory<ProfileScreenViewModel> {
+                ProfileScreenViewModel()
             }
+        )
+
+        val context = LocalContext.current
+
+        val scope = rememberCoroutineScope()
+
+        val googleAuthUiClient by lazy {
+            GoogleAuthUiClient(
+                oneTapClient = Identity.getSignInClient(context)
+            )
+        }
+
+        val userData = googleAuthUiClient.getSignedInUser()
+
+        val navigator = LocalNavigator.currentOrThrow
+
+        Box(modifier = Modifier.fillMaxSize()) {
 
             SnapbiteBackgroundImage()
 
@@ -98,6 +103,7 @@ data class ProfileScreen(val userData: UserData?) : Screen {
                     item(key = 5) {
                         SignOutButton(onSignOut = {
                             scope.launch { googleAuthUiClient.signOut() }
+                            navigator.pop()
                             Toast.makeText(context, "You have signed out successfully!", Toast.LENGTH_LONG).show()
                         })
                     }

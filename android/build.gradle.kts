@@ -54,4 +54,5 @@ dependencies {
     implementation(dependencyNotation = libs.androidx.activity.compose)
     debugImplementation(dependencyNotation = libs.compose.ui.tooling)
     implementation(dependencyNotation = libs.voyager.navigator)
+    implementation(dependencyNotation = libs.timber)
 }

@@ -8,7 +8,9 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import snapbite.app.BuildConfig
 import snapbite.app.di.AppModule
+import timber.log.Timber
 
 class SnapbiteApplication : Application() {
 
@@ -20,6 +22,8 @@ class SnapbiteApplication : Application() {
 
         createNotificationChannels(context = this)
 
+        if (BuildConfig.DEBUG) Timber.plant(tree = Timber.DebugTree())
+
     }
 
 }
@@ -29,8 +33,13 @@ private fun getFCMToken() {
 
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
         if (!task.isSuccessful) {
+            // Handle the error
+            Timber.tag(tag = "FCM Token Error")
+                .e(message = "Could not retrieve your FCM Token due to ${task.exception}")
             return@OnCompleteListener
         }
+
+        Timber.tag(tag = "FCM Token").d(message = "Here is your token: ${task.result}")
     })
 
 }
@@ -48,37 +57,18 @@ private fun createNotificationChannels(context: Context) {
                 generalNotificationsImportance
             )
 
-            val upcomingEventsChannelId = "upcomingEvents"
-            val upcomingEventsChannelName = "Upcoming Events"
-            val upcomingEventsImportance = NotificationManager.IMPORTANCE_HIGH
-            val upcomingEventsChannel = NotificationChannel(
-                upcomingEventsChannelId,
-                upcomingEventsChannelName,
-                upcomingEventsImportance
-            )
-
-            val merchNotificationsChannelId = "merch"
-            val merchNotificationsChannelName = "Merch"
-            val merchNotificationsImportance = NotificationManager.IMPORTANCE_HIGH
-            val merchNotificationsChannel = NotificationChannel(
-                merchNotificationsChannelId,
-                merchNotificationsChannelName,
-                merchNotificationsImportance
-            )
-
             val notificationManager: NotificationManager? =
                 ContextCompat.getSystemService(context, NotificationManager::class.java)
 
             notificationManager?.createNotificationChannels(
                 listOf(
-                    generalNotificationsChannel,
-                    upcomingEventsChannel,
-                    merchNotificationsChannel
+                    generalNotificationsChannel
                 )
             )
         }
     } catch (e: SecurityException) {
-
+        Timber.tag(tag = "Security Exception (Notification Channels)")
+            .e(message = "Could not create Notification Channel(s) due to ${e.printStackTrace()}")
     }
 
 }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import snapbite.app.notifications.domain.Notification
 import snapbite.app.notifications.domain.NotificationRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 class FCMService : FirebaseMessagingService() {
@@ -26,11 +27,11 @@ class FCMService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
-        //Timber.tag(tag = "This is the Remote Message:").d(message = remoteMessage.data.toString())
+        Timber.tag(tag = "This is the Remote Message:").d(message = remoteMessage.data.toString())
 
         val notificationEntity = remoteMessage.data.toNotificationEntity()
 
-        //Timber.tag(tag = "This is the Notification Entity").d(message = notificationEntity.toString())
+        Timber.tag(tag = "This is the Notification Entity").d(message = notificationEntity.toString())
 
         CoroutineScope(Dispatchers.IO).launch {
             sendNotification(

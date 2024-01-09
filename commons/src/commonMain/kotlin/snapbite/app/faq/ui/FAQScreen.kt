@@ -42,7 +42,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.commons.LoadingScreen
-import emmanuelmuturia.commons.state.SnapbiteState
+import snapbite.app.commons.SnapbiteState
 import snapbite.app.commons.ErrorScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.domain.FAQ
@@ -133,7 +133,7 @@ private fun FAQCard(faq: FAQ) {
             .fillMaxHeight(),
         shape = RoundedCornerShape(size = 21.dp),
         color = surfaceColor,
-        border = BorderStroke(width = 3.dp, color = Color.White)
+        border = BorderStroke(width = 3.dp, color = Color.Black)
     ) {
 
         Column(
@@ -214,7 +214,7 @@ private fun FAQProblemAndSolution(faq: FAQ, onClick: () -> Unit) {
                 .size(size = 42.dp),
             imageVector = Icons.Rounded.KeyboardArrowUp,
             contentDescription = "Dropdown Button",
-            tint = Color.White
+            tint = Color.Black
         )
 
     }
