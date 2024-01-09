@@ -12,8 +12,6 @@ import kotlinx.coroutines.tasks.await
 import snapbite.app.BuildConfig
 import java.util.concurrent.CancellationException
 
-private const val SIGNIN_UNSUCCESSFUL = "Sign In Unsuccessful"
-
 class GoogleAuthUiClient(
     private val oneTapClient: SignInClient
 ) {

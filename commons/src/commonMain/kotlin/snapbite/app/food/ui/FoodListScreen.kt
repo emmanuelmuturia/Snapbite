@@ -33,6 +33,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -49,6 +51,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
 import snapbite.app.food.components.AddFoodSheet
@@ -59,6 +63,8 @@ import snapbite.app.food.domain.Food
 import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.profile.google.GoogleAuthUiClient
 import snapbite.app.profile.ui.ProfileScreen
+import snapbite.app.profile.ui.SignInScreen
+import snapbite.app.profile.ui.SignInViewModel
 import snapbite.app.search.SearchScreen
 import snapbite.app.settings.ui.SettingsScreen
 import snapbite.app.theme.Caveat
@@ -82,12 +88,6 @@ class FoodListScreen(
         val navigator = LocalNavigator.currentOrThrow
 
         val context = LocalContext.current
-
-        val googleAuthUiClient by lazy {
-            GoogleAuthUiClient(
-                oneTapClient = Identity.getSignInClient(context)
-            )
-        }
 
         imagePicker.registerPicker { imageBytes ->
             onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
@@ -165,9 +165,7 @@ class FoodListScreen(
                                 .size(size = 40.dp)
                                 .clickable(onClick = {
                                     navigator.push(
-                                        item = ProfileScreen(
-                                            userData = googleAuthUiClient.getSignedInUser()
-                                        )
+                                        item = SignInScreen()
                                     )
                                 }),
                             imageVector = Icons.Rounded.AccountCircle,
