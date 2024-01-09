@@ -46,12 +46,14 @@ fun App(
             color = Color.Transparent
         ) {
 
-            FoodListScreen(
-                state = state,
-                newFood = foodListViewModel.newFood,
-                imagePicker = imagePicker,
-                foodListViewModel = foodListViewModel,
-                onEvent = foodListViewModel::onEvent
+            Navigator(
+                screen = FoodListScreen(
+                    state = state,
+                    newFood = foodListViewModel.newFood,
+                    imagePicker = imagePicker,
+                    foodListViewModel = foodListViewModel,
+                    appModule = appModule
+                )
             )
 
         }

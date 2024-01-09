@@ -41,6 +41,7 @@ sql-delight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-e
 kotlinx-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDateTimeVersion" }
 app-compat = { module = "androidx.appcompat:appcompat", version.ref = "appCompatVersion" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyagerVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBOMVersion" }
 firebase-cloud-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
