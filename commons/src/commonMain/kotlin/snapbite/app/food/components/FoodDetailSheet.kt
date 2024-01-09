@@ -94,16 +94,6 @@ fun FoodDetailSheet(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            IconButton(
-                onClick = {
-                    onEvent(FoodListEvent.DismissFood)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = "Close"
-                )
-            }
         }
 
     }

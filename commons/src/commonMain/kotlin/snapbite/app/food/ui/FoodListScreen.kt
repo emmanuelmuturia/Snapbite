@@ -2,10 +2,7 @@ package snapbite.app.food.ui
 
 import android.icu.util.Calendar
 import android.os.Build
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,32 +16,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.components.AddFoodSheet
 import snapbite.app.food.components.FoodDetailSheet
@@ -52,8 +40,6 @@ import snapbite.app.food.components.FoodListItem
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
 import snapbite.app.theme.Caveat
-import snapbite.app.theme.snapbiteMaroon
-import snapbite.app.theme.snapbiteOrange
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -67,23 +53,6 @@ fun FoodListScreen(
 
     imagePicker.registerPicker { imageBytes ->
         onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
-    }
-
-    val exitDialogState = rememberSaveable { mutableStateOf(value = false) }
-
-    val context = LocalContext.current
-
-    BackHandler(enabled = true) { exitDialogState.value = !exitDialogState.value }
-
-    if (exitDialogState.value) {
-        ExitConfirmationDialog(
-            onConfirmExit = {
-                (context as? ComponentActivity)?.finish()
-            },
-            onDismiss = {
-                exitDialogState.value = false
-            }
-        )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -273,63 +242,6 @@ fun EmptyHomeScreenContent() {
 
     }
 
-}
-
-
-@Composable
-fun ExitConfirmationDialog(
-    onConfirmExit: () -> Unit,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(size = 21.dp)),
-        onDismissRequest = { onDismiss() },
-        tonalElevation = 21.dp,
-        text = {
-            Text(
-                text = "Are you sure you want to exit the app?",
-                style = MaterialTheme.typography.titleLarge,
-                lineHeight = 30.sp
-            )
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    onConfirmExit()
-                    onDismiss()
-                },
-                shape = RoundedCornerShape(size = 21.dp),
-                border = BorderStroke(width = 1.dp, color = Color.Black),
-                colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
-            ) {
-                Text(
-                    text = "Yes",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        },
-        dismissButton = {
-            Button(
-                onClick = { onDismiss() },
-                shape = RoundedCornerShape(size = 21.dp),
-                border = BorderStroke(width = 1.dp, color = Color.Black),
-                colors = ButtonDefaults.buttonColors(containerColor = snapbiteMaroon)
-            ) {
-                Text(
-                    text = "No",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        },
-        containerColor = snapbiteOrange,
-        textContentColor = Color.Black,
-        titleContentColor = Color.Black,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
-        )
-    )
 }
 
 

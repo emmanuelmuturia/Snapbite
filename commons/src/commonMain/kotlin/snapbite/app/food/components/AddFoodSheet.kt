@@ -147,20 +147,6 @@ fun AddFoodSheet(
                     Text(text = "Save")
                 }
             }
-            IconButton(
-                onClick = {
-                    onEvent(FoodListEvent.DismissFood)
-                },
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = snapbiteMaroon,
-                    contentColor = Color.Black
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = "Close"
-                )
-            }
         }
     }
 }
