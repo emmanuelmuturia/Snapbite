@@ -17,6 +17,7 @@ import snapbite.app.core.ui.ImagePickerFactory
 import snapbite.app.di.AppModule
 import snapbite.app.notifications.domain.NotificationRepository
 import snapbite.app.notifications.handler.NotificationsHandler
+import timber.log.Timber
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
@@ -37,7 +38,8 @@ class MainActivity : ComponentActivity() {
                     intent = intent
                 )
             } catch (e: IOException) {
-
+                Timber.tag(tag = "Notifications Handling Exception")
+                    .e(message = "Could not handle notifications due to ${e.printStackTrace()}")
             }
         }
 
@@ -65,7 +67,8 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             } catch (e: IOException) {
-
+                Timber.tag(tag = "Notifications Handling Exception")
+                    .e(message = "Could not handle notifications due to ${e.printStackTrace()}")
             }
         }
     }
