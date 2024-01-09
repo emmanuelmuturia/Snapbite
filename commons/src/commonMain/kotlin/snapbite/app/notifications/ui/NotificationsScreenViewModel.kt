@@ -34,8 +34,8 @@ class NotificationsScreenViewModel(
             try {
                 notificationRepository.getAllNotifications().collectLatest {
                     _notificationsList.value = it
+                    _notificationsState.value = SnapbiteState.Success(data = _notificationsList.value)
                 }
-                _notificationsState.update { SnapbiteState.Success(data = _notificationsList.value) }
             } catch (e: Exception) {
                 _notificationsState.update { SnapbiteState.Error(error = e) }
             }

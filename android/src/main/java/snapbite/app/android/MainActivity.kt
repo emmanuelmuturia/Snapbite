@@ -1,9 +1,11 @@
 package snapbite.app.android
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
@@ -18,6 +20,7 @@ import snapbite.app.notifications.handler.NotificationsHandler
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)

@@ -1,5 +1,7 @@
 package snapbite.app
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import snapbite.app.di.AppModule
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun App(
     darkTheme: Boolean,
@@ -43,7 +46,7 @@ fun App(
             color = Color.Transparent
         ) {
 
-            /*Navigator(
+            Navigator(
                 screen = FoodListScreen(
                     state = state,
                     newFood = foodListViewModel.newFood,
@@ -52,14 +55,6 @@ fun App(
                     foodListViewModel = foodListViewModel,
                     appModule = appModule
                 )
-            )*/
-
-            FoodListScreen(
-                state = state,
-                newFood = foodListViewModel.newFood,
-                onEvent = foodListViewModel::onEvent,
-                imagePicker = imagePicker,
-                foodListViewModel = foodListViewModel
             )
 
         }

@@ -29,130 +29,157 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.google.android.gms.auth.api.identity.Identity
 import snapbite.app.core.ui.ImagePicker
+import snapbite.app.di.AppModule
 import snapbite.app.food.components.AddFoodSheet
 import snapbite.app.food.components.FoodDetailSheet
 import snapbite.app.food.components.FoodListItem
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
+import snapbite.app.notifications.ui.NotificationsScreen
+import snapbite.app.profile.google.GoogleAuthUiClient
+import snapbite.app.profile.ui.ProfileScreen
+import snapbite.app.search.SearchScreen
+import snapbite.app.settings.ui.SettingsScreen
 import snapbite.app.theme.Caveat
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun FoodListScreen(
-    state: FoodListState,
-    newFood: Food?,
-    onEvent: (FoodListEvent) -> Unit,
-    imagePicker: ImagePicker,
-    foodListViewModel: FoodListViewModel
-) {
 
-    imagePicker.registerPicker { imageBytes ->
-        onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
-    }
+class FoodListScreen(
+    private val state: FoodListState,
+    private val newFood: Food?,
+    private val onEvent: (FoodListEvent) -> Unit,
+    private val imagePicker: ImagePicker,
+    private val foodListViewModel: FoodListViewModel,
+    private val appModule: AppModule
+) : Screen {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    @Composable
+    override fun Content() {
 
-        SnapbiteBackgroundImage()
+        val navigator = LocalNavigator.currentOrThrow
 
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
+        val context = LocalContext.current
 
-            HomeScreenHeader()
+        val googleAuthUiClient by lazy {
+            GoogleAuthUiClient(
+                oneTapClient = Identity.getSignInClient(context)
+            )
+        }
 
-            Box(modifier = Modifier.weight(weight = 1f)) {
-                if (state.foodList.isEmpty()) {
-                    EmptyHomeScreenContent()
-                } else {
-                    FilledHomeScreenContent(state = state, onEvent = onEvent)
-                }
-            }
+        imagePicker.registerPicker { imageBytes ->
+            onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
+        }
 
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 21.dp),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.SpaceBetween
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            SnapbiteBackgroundImage()
+
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
 
-                item(key = 1) {
-                    Icon(
-                        modifier = Modifier
-                            .size(size = 40.dp)
-                        //.clickable(onClick = { navigator.push(item = SettingsScreen()) }),
-                        , imageVector = Icons.Rounded.Settings,
-                        tint = Color.Black,
-                        contentDescription = "Settings Button"
-                    )
+                HomeScreenHeader(appModule = appModule)
+
+                Box(modifier = Modifier.weight(weight = 1f)) {
+                    if (state.foodList.isEmpty()) {
+                        EmptyHomeScreenContent()
+                    } else {
+                        FilledHomeScreenContent(state = state, onEvent = onEvent)
+                    }
                 }
 
-                item(key = 2) {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 21.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
 
-                    Icon(
-                        modifier = Modifier
-                            .size(size = 42.dp)
-                            .clickable(onClick = {
-                                onEvent(FoodListEvent.OnAddNewFoodClick)
-                            }),
-                        imageVector = Icons.Rounded.AddCircle,
-                        tint = Color.Black,
-                        contentDescription = "Add Food Entry Button"
-                    )
-                }
+                    item(key = 1) {
+                        Icon(
+                            modifier = Modifier
+                                .size(size = 40.dp)
+                                .clickable(onClick = { navigator.push(item = SettingsScreen()) }),
+                            imageVector = Icons.Rounded.Settings,
+                            tint = Color.Black,
+                            contentDescription = "Settings Button"
+                        )
+                    }
 
-                item(key = 3) {
-                    Icon(
-                        modifier = Modifier
-                            .size(size = 40.dp)
-                            .clickable(onClick = {
-                                /*navigator.push(
-                                    item = ProfileScreen(
-                                        userData = googleAuthUiClient.getSignedInUser()
+                    item(key = 2) {
+
+                        Icon(
+                            modifier = Modifier
+                                .size(size = 42.dp)
+                                .clickable(onClick = {
+                                    onEvent(FoodListEvent.OnAddNewFoodClick)
+                                }),
+                            imageVector = Icons.Rounded.AddCircle,
+                            tint = Color.Black,
+                            contentDescription = "Add Food Entry Button"
+                        )
+                    }
+
+                    item(key = 3) {
+                        Icon(
+                            modifier = Modifier
+                                .size(size = 40.dp)
+                                .clickable(onClick = {
+                                    navigator.push(
+                                        item = ProfileScreen(
+                                            userData = googleAuthUiClient.getSignedInUser()
+                                        )
                                     )
-                                )*/
-                            }),
-                        imageVector = Icons.Rounded.AccountCircle,
-                        tint = Color.Black,
-                        contentDescription = "User Profile Button"
-                    )
+                                }),
+                            imageVector = Icons.Rounded.AccountCircle,
+                            tint = Color.Black,
+                            contentDescription = "User Profile Button"
+                        )
+                    }
                 }
+
             }
 
         }
 
-    }
+        FoodDetailSheet(
+            isOpen = state.isSelectedFoodSheetOpen,
+            selectedFood = state.selectedFood,
+            onEvent = onEvent,
+        )
+        AddFoodSheet(
+            state = state,
+            newFood = newFood,
+            isOpen = state.isAddFoodSheetOpen,
+            onEvent = { event ->
+                if (event is FoodListEvent.OnAddFoodImage) {
+                    imagePicker.pickImage()
+                }
+                onEvent(event)
+            },
+            foodListViewModel = foodListViewModel
+        )
 
-    FoodDetailSheet(
-        isOpen = state.isSelectedFoodSheetOpen,
-        selectedFood = state.selectedFood,
-        onEvent = onEvent,
-    )
-    AddFoodSheet(
-        state = state,
-        newFood = newFood,
-        isOpen = state.isAddFoodSheetOpen,
-        onEvent = { event ->
-            if (event is FoodListEvent.OnAddFoodImage) {
-                imagePicker.pickImage()
-            }
-            onEvent(event)
-        },
-        foodListViewModel = foodListViewModel
-    )
+    }
 
 }
 
 
 @Composable
-fun HomeScreenHeader() {
+fun HomeScreenHeader(appModule: AppModule) {
 
-    //val navigator = LocalNavigator.currentOrThrow
+    val navigator = LocalNavigator.currentOrThrow
 
     Row(
         modifier = Modifier
@@ -177,8 +204,8 @@ fun HomeScreenHeader() {
                 modifier = Modifier
                     .padding(end = 21.dp)
                     .size(size = 30.dp)
-                //.clickable(onClick = { navigator.push(item = SearchScreen()) }),
-                , imageVector = Icons.Rounded.Search,
+                .clickable(onClick = { navigator.push(item = SearchScreen()) }),
+                imageVector = Icons.Rounded.Search,
                 contentDescription = "Search Button",
                 tint = Color.Black
             )
@@ -186,8 +213,10 @@ fun HomeScreenHeader() {
             Icon(
                 modifier = Modifier
                     .size(size = 30.dp)
-                //.clickable(onClick = { navigator.push(item = NotificationsScreen()) }),
-                , imageVector = Icons.Rounded.Notifications,
+                    .clickable(onClick = { navigator.push(item = NotificationsScreen(
+                        appModule = appModule
+                    )) }),
+                imageVector = Icons.Rounded.Notifications,
                 contentDescription = "Notifications Button",
                 tint = Color.Black
             )
