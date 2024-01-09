@@ -7,6 +7,7 @@ import emmanuelmuturia.commons.state.SnapbiteState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import snapbite.app.faq.domain.FAQ
@@ -30,12 +31,15 @@ class FAQScreenViewModel(
         }
     }
 
-    private suspend fun getFAQs(): List<FAQ> {
+    private suspend fun getFAQs() {
+
+        _faqState.update { SnapbiteState.Loading }
 
         return try {
-            firestore.collection("FAQ").get().await().toObjects<FAQ>()
+            _faqList.value = firestore.collection("FAQ").get().await().toObjects<FAQ>()
+            _faqState.update { SnapbiteState.Success(data = _faqList.value) }
         } catch (e: Exception) {
-            return emptyList()
+            _faqState.update { SnapbiteState.Error(error = e) }
         }
 
     }

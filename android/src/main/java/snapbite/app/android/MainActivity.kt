@@ -27,9 +27,10 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        /*CoroutineScope(context = Dispatchers.Main).launch {
+        CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsRepository: NotificationRepository
+            val notificationsRepository: NotificationRepository =
+                AppModule(context = this@MainActivity).notificationRepository
 
             try {
                 NotificationsHandler(notificationRepository = notificationsRepository).handleNotificationIntent(
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
             } catch (e: IOException) {
 
             }
-        }*/
+        }
 
         setContent {
             App(
@@ -50,11 +51,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /*override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsRepository: NotificationRepository
+            val notificationsRepository: NotificationRepository =
+                AppModule(context = this@MainActivity).notificationRepository
 
             try {
                 intent?.let {
@@ -66,6 +68,6 @@ class MainActivity : ComponentActivity() {
 
             }
         }
-    }*/
+    }
 
 }
