@@ -3,7 +3,7 @@ package snapbite.app.faq.ui
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObjects
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import emmanuelmuturia.commons.state.SnapbiteState
+import snapbite.app.commons.SnapbiteState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import snapbite.app.faq.domain.FAQ
+import timber.log.Timber
 
 class FAQScreenViewModel(
 
@@ -39,6 +40,8 @@ class FAQScreenViewModel(
             _faqList.value = firestore.collection("FAQ").get().await().toObjects<FAQ>()
             _faqState.update { SnapbiteState.Success(data = _faqList.value) }
         } catch (e: Exception) {
+            Timber.tag(tag = "Firebase Cloud Firestore Error")
+                .e(message = "Could not fetch data due to: %s", e.printStackTrace())
             _faqState.update { SnapbiteState.Error(error = e) }
         }
 

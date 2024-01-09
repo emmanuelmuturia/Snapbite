@@ -1,4 +1,4 @@
-package emmanuelmuturia.commons.state
+package snapbite.app.commons
 
 sealed class SnapbiteState<out T> {
 

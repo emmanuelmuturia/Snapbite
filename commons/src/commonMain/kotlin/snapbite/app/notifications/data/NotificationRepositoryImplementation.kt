@@ -10,6 +10,7 @@ import kotlinx.coroutines.supervisorScope
 import snapbite.app.database.SnapbiteDatabase
 import snapbite.app.notifications.domain.Notification
 import snapbite.app.notifications.domain.NotificationRepository
+import timber.log.Timber
 
 class NotificationRepositoryImplementation(
     snapbiteDatabase: SnapbiteDatabase
@@ -18,34 +19,59 @@ class NotificationRepositoryImplementation(
     private val queries = snapbiteDatabase.notificationsQueries
 
     override suspend fun addNotification(notification: Notification) {
-        queries.insertNotification(
-            notificationId = notification.notificationId,
-            notificationTitle = notification.notificationTitle!!,
-            notificationBody = notification.notificationBody!!,
-            notificationTimestamp = notification.notificationTimestamp
-        )
+        try {
+            queries.insertNotification(
+                notificationId = notification.notificationId,
+                notificationTitle = notification.notificationTitle!!,
+                notificationBody = notification.notificationBody!!,
+                notificationTimestamp = notification.notificationTimestamp
+            )
+        } catch (e: Exception) {
+            Timber.tag(tag = "Notification Insertion Exception")
+                .e(
+                    message = "Could not insert the notification due to: %s",
+                    e.printStackTrace()
+                )
+        }
     }
 
     override fun getAllNotifications(): Flow<List<Notification>> {
-        return queries
-            .getAllNotifications()
-            .asFlow()
-            .mapToList(context = Dispatchers.IO)
-            .map { notificationsEntities ->
-                supervisorScope {
-                    notificationsEntities.map {
-                        async {
-                            it.toNotification()
-                        }
-                    }.map { it.await() }
+        return try {
+            queries
+                .getAllNotifications()
+                .asFlow()
+                .mapToList(context = Dispatchers.IO)
+                .map { notificationsEntities ->
+                    supervisorScope {
+                        notificationsEntities.map {
+                            async {
+                                it.toNotification()
+                            }
+                        }.map { it.await() }
+                    }
                 }
-            }
+        } catch (e: Exception) {
+            Timber.tag(tag = "Notification Deletion Exception")
+                .e(
+                    message = "Could not delete the notification due to: %s",
+                    e.printStackTrace()
+                )
+            throw e
+        }
     }
 
     override suspend fun deleteNotification(notification: Notification) {
-        queries.deleteNotification(
-            notificationId = notification.notificationId
-        )
+        try {
+            queries.deleteNotification(
+                notificationId = notification.notificationId
+            )
+        } catch (e: Exception) {
+            Timber.tag(tag = "Notification Deletion Exception")
+                .e(
+                    message = "Could not delete the notification due to: %s",
+                    e.printStackTrace()
+                )
+        }
     }
 
 }

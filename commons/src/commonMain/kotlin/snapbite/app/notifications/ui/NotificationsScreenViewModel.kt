@@ -1,7 +1,7 @@
 package snapbite.app.notifications.ui
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import emmanuelmuturia.commons.state.SnapbiteState
+import snapbite.app.commons.SnapbiteState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import snapbite.app.notifications.domain.Notification
 import snapbite.app.notifications.domain.NotificationRepository
+import timber.log.Timber
 
 class NotificationsScreenViewModel(
     private val notificationRepository: NotificationRepository
@@ -37,6 +38,11 @@ class NotificationsScreenViewModel(
                     _notificationsState.value = SnapbiteState.Success(data = _notificationsList.value)
                 }
             } catch (e: Exception) {
+                Timber.tag(tag = "Notification Deletion Exception")
+                    .e(
+                        message = "Could not delete the notification due to: %s",
+                        e.printStackTrace()
+                    )
                 _notificationsState.update { SnapbiteState.Error(error = e) }
             }
 
@@ -49,7 +55,11 @@ class NotificationsScreenViewModel(
                 notificationRepository.deleteNotification(notification = notification)
                 getAllNotifications()
             } catch (e: Exception) {
-
+                Timber.tag(tag = "Notification Deletion Exception")
+                    .e(
+                        message = "Could not delete the notification due to: %s",
+                        e.printStackTrace()
+                    )
             }
         }
     }
