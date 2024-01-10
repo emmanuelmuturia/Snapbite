@@ -20,6 +20,7 @@ gmsPlayServicesVersion = "20.7.0"
 mokoResourcesVersion = "0.22.3"
 secretsGradlePlugin = "2.0.1"
 timberVersion = "5.0.1"
+googleGeminiVersion = "0.1.2"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "androidxCoreVersion" }
@@ -51,6 +52,7 @@ firebase-authentication = { group = "com.google.firebase", name = "firebase-auth
 gms-play-services = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesVersion" }
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
+google-gemini = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "googleGeminiVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
