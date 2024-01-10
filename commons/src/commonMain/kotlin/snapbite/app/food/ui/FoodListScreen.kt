@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -79,6 +80,8 @@ data class FoodListScreen(
             onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
         }*/
 
+        LaunchedEffect(key1 = foodList) {}
+
         Box(modifier = Modifier.fillMaxSize()) {
 
             SnapbiteBackgroundImage()
@@ -95,7 +98,10 @@ data class FoodListScreen(
                     } else {
                         FilledHomeScreenContent(
                             foodListViewModel = foodListViewModel,
-                            onEvent = onEvent
+                            onEvent = onEvent,
+                            appModule = appModule,
+                            imagePicker = imagePicker,
+                            state = state
                         )
                     }
                 }
@@ -248,10 +254,15 @@ fun HomeScreenHeader(appModule: AppModule) {
 @Composable
 fun FilledHomeScreenContent(
     foodListViewModel: FoodListViewModel,
-    onEvent: (FoodListEvent) -> Unit
+    onEvent: (FoodListEvent) -> Unit,
+    appModule: AppModule,
+    imagePicker: ImagePicker,
+    state: FoodListState
 ) {
 
     val foodList by foodListViewModel.foods.collectAsState()
+
+    val navigator = LocalNavigator.currentOrThrow
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -267,6 +278,15 @@ fun FilledHomeScreenContent(
                         .fillMaxWidth()
                         .clickable {
                             onEvent(FoodListEvent.SelectFood(food = food))
+                            navigator.push(item = EditFood(
+                                selectedFood = food,
+                                onEvent = onEvent,
+                                appModule = appModule,
+                                modifier = Modifier,
+                                state = state,
+                                foodListViewModel = foodListViewModel,
+                                imagePicker = imagePicker
+                            ))
                         }
                         .padding(horizontal = 16.dp)
                 )
