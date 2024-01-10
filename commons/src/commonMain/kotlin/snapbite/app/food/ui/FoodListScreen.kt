@@ -16,18 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.material.icons.rounded.PersonAdd
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,17 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
-import snapbite.app.food.components.AddFoodSheet
-import snapbite.app.food.components.FoodDetailSheet
 import snapbite.app.food.components.FoodListItem
 import snapbite.app.food.components.SnapbiteBackgroundImage
-import snapbite.app.food.domain.Food
 import snapbite.app.notifications.ui.NotificationsScreen
-import snapbite.app.profile.ui.ProfileScreen
 import snapbite.app.profile.ui.SignInScreen
 import snapbite.app.search.SearchScreen
 import snapbite.app.settings.ui.SettingsScreen
@@ -61,7 +52,6 @@ import snapbite.app.theme.Caveat
 
 data class FoodListScreen(
     val state: FoodListState,
-    //val newFood: Food?,
     val imagePicker: ImagePicker,
     val foodListViewModel: FoodListViewModel,
     val appModule: AppModule,
@@ -75,10 +65,6 @@ data class FoodListScreen(
         val navigator = LocalNavigator.currentOrThrow
 
         val foodList by foodListViewModel.foods.collectAsState()
-
-        /*imagePicker.registerPicker { imageBytes ->
-            onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
-        }*/
 
         LaunchedEffect(key1 = foodList) {}
 
@@ -136,7 +122,6 @@ data class FoodListScreen(
                                         item = AddNewFood(
                                             imagePicker = imagePicker,
                                             foodListViewModel = foodListViewModel,
-                                            //newFood = newFood,
                                             state = state,
                                             onEvent = { event ->
                                                 if (event is FoodListEvent.OnAddFoodImage) {
@@ -173,24 +158,6 @@ data class FoodListScreen(
             }
 
         }
-
-        /*FoodDetailSheet(
-            isOpen = state.isSelectedFoodSheetOpen,
-            selectedFood = state.selectedFood,
-            onEvent = onEvent,
-        )
-        AddFoodSheet(
-            state = state,
-            newFood = newFood,
-            isOpen = state.isAddFoodSheetOpen,
-            onEvent = { event ->
-                if (event is FoodListEvent.OnAddFoodImage) {
-                    imagePicker.pickImage()
-                }
-                onEvent(event)
-            },
-            foodListViewModel = foodListViewModel
-        )*/
 
     }
 
@@ -271,7 +238,7 @@ fun FilledHomeScreenContent(
     ) {
 
         items(foodList) { food ->
-            if (food != null) {
+
                 FoodListItem(
                     food = food,
                     modifier = Modifier
@@ -290,7 +257,6 @@ fun FilledHomeScreenContent(
                         }
                         .padding(horizontal = 16.dp)
                 )
-            }
         }
     }
 

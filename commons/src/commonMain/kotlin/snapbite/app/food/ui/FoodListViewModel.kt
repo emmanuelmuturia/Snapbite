@@ -1,10 +1,8 @@
 package snapbite.app.food.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +15,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.domain.Food
 import snapbite.app.food.domain.FoodDataSource
 import snapbite.app.food.domain.FoodValidator
@@ -49,8 +46,8 @@ class FoodListViewModel(
     var foodEmoji: String by mutableStateOf(value = "\uD83D\uDE0B")
         private set
 
-    private var _foods = MutableStateFlow<List<Food?>>(value = listOf())
-    val foods: StateFlow<List<Food?>> = _foods.asStateFlow()
+    private var _foods = MutableStateFlow<List<Food>>(value = listOf())
+    val foods: StateFlow<List<Food>> = _foods.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -61,48 +58,63 @@ class FoodListViewModel(
     }
 
     fun onEvent(event: FoodListEvent) {
-        when(event) {
+        when (event) {
             FoodListEvent.DeleteFood -> {
                 viewModelScope.launch {
                     _state.value.selectedFood?.foodId?.let { foodId ->
-                        _state.update { it.copy(
-                            isSelectedFoodSheetOpen = false
-                        ) }
+                        _state.update {
+                            it.copy(
+                                isSelectedFoodSheetOpen = false
+                            )
+                        }
                         foodDataSource.deleteFood(foodId = foodId)
                         delay(timeMillis = 300L) // Animation delay
-                        _state.update { it.copy(
-                            selectedFood = null
-                        ) }
+                        _state.update {
+                            it.copy(
+                                selectedFood = null
+                            )
+                        }
                     }
                 }
             }
+
             FoodListEvent.DismissFood -> {
                 viewModelScope.launch {
-                    _state.update { it.copy(
-                        isSelectedFoodSheetOpen = false,
-                        isAddFoodSheetOpen = false,
-                        foodNameError = null,
-                        foodCaptionError = null
-                    ) }
+                    _state.update {
+                        it.copy(
+                            isSelectedFoodSheetOpen = false,
+                            isAddFoodSheetOpen = false,
+                            foodNameError = null,
+                            foodCaptionError = null
+                        )
+                    }
                     delay(timeMillis = 300L) // Animation delay
                     newFood = null
-                    _state.update { it.copy(
-                        selectedFood = null
-                    ) }
+                    _state.update {
+                        it.copy(
+                            selectedFood = null
+                        )
+                    }
                 }
             }
+
             is FoodListEvent.EditFood -> {
-                _state.update { it.copy(
-                    selectedFood = null,
-                    isAddFoodSheetOpen = true,
-                    isSelectedFoodSheetOpen = false
-                ) }
+                _state.update {
+                    it.copy(
+                        selectedFood = null,
+                        isAddFoodSheetOpen = true,
+                        isSelectedFoodSheetOpen = false
+                    )
+                }
                 newFood = event.food
             }
+
             FoodListEvent.OnAddNewFoodClick -> {
-                _state.update { it.copy(
-                    isAddFoodSheetOpen = true
-                ) }
+                _state.update {
+                    it.copy(
+                        isAddFoodSheetOpen = true
+                    )
+                }
                 newFood = Food(
                     foodId = null,
                     foodName = "",
@@ -113,26 +125,31 @@ class FoodListViewModel(
                 )
 
             }
+
             is FoodListEvent.OnFoodCaptionChanged -> {
                 newFood = newFood?.copy(
                     foodCaption = event.value
                 )
             }
+
             is FoodListEvent.OnFoodEmojiChanged -> {
                 newFood = newFood?.copy(
                     foodEmoji = event.value
                 )
             }
+
             is FoodListEvent.OnFoodImagePicked -> {
                 newFood = newFood?.copy(
                     foodImage = event.bytes
                 )
             }
+
             is FoodListEvent.OnFoodNameChanged -> {
                 newFood = newFood?.copy(
                     foodName = event.value
                 )
             }
+
             FoodListEvent.SaveFood -> {
                 newFood?.let { food ->
                     val result = FoodValidator.validateFood(food = food)
@@ -141,33 +158,41 @@ class FoodListViewModel(
                         result.foodCaptionError
                     )
 
-                    if(errors.isEmpty()) {
-                        _state.update { it.copy(
-                            isAddFoodSheetOpen = false,
-                            foodNameError = null,
-                            foodCaptionError = null
-                        ) }
+                    if (errors.isEmpty()) {
+                        _state.update {
+                            it.copy(
+                                isAddFoodSheetOpen = false,
+                                foodNameError = null,
+                                foodCaptionError = null
+                            )
+                        }
                         viewModelScope.launch {
                             try {
                                 foodDataSource.insertFood(food = food)
                             } catch (e: Exception) {
-
+                                Timber.tag(tag = "Food Saving Error")
+                                    .e(message = "Could not save food due to: ${e.printStackTrace()}")
                             }
                             newFood = null
                         }
                     } else {
-                        _state.update { it.copy(
-                            foodNameError = result.foodNameError,
-                            foodCaptionError = result.foodCaptionError
-                        ) }
+                        _state.update {
+                            it.copy(
+                                foodNameError = result.foodNameError,
+                                foodCaptionError = result.foodCaptionError
+                            )
+                        }
                     }
                 }
             }
+
             is FoodListEvent.SelectFood -> {
-                _state.update { it.copy(
-                    selectedFood = event.food,
-                    isSelectedFoodSheetOpen = true
-                ) }
+                _state.update {
+                    it.copy(
+                        selectedFood = event.food,
+                        isSelectedFoodSheetOpen = true
+                    )
+                }
             }
 
             else -> Unit

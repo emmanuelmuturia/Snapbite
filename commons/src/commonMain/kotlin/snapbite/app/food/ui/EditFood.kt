@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -22,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -79,17 +77,11 @@ data class EditFood(
                 )
                 Spacer(Modifier.height(16.dp))
                 EditRow(
-                    onEditClick = {
-                        selectedFood?.let {
-                            onEvent(FoodListEvent.EditFood(food = it))
-                        }
-                    },
                     onDeleteClick = {
                         onEvent(FoodListEvent.DeleteFood)
                         navigator.popUntilRoot()
                     },
                     appModule = appModule,
-                    modifier = Modifier,
                     imagePicker = imagePicker,
                     foodListViewModel = foodListViewModel,
                     state = state,
@@ -100,7 +92,6 @@ data class EditFood(
                 FoodInfoSection(
                     title = "Food Caption",
                     value = selectedFood?.foodCaption ?: "-",
-                    icon = Icons.Rounded.Phone,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -113,9 +104,7 @@ data class EditFood(
 
 @Composable
 private fun EditRow(
-    onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    modifier: Modifier = Modifier,
     appModule: AppModule,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
@@ -126,7 +115,7 @@ private fun EditRow(
 
     val navigator = LocalNavigator.currentOrThrow
 
-    Row(modifier) {
+    Row(modifier = Modifier) {
         FilledTonalIconButton(
             onClick = {
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
@@ -172,7 +161,6 @@ private fun EditRow(
 private fun FoodInfoSection(
     title: String,
     value: String,
-    icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
     Row(
