@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+
             App(
                 darkTheme = isSystemInDarkTheme(),
                 dynamicColor = true,

@@ -1,10 +1,12 @@
-package snapbite.app.food.components
+package snapbite.app.food.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -30,30 +33,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import snapbite.app.core.ui.BottomSheetFromWish
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import snapbite.app.core.ui.ImagePicker
+import snapbite.app.di.AppModule
+import snapbite.app.food.components.EmojiPicker
+import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
-import snapbite.app.food.ui.FoodListEvent
-import snapbite.app.food.ui.FoodListState
-import snapbite.app.food.ui.FoodListViewModel
-import snapbite.app.food.ui.FoodPhoto
 import snapbite.app.theme.snapbiteMaroon
 
-@Composable
-fun AddFoodSheet(
-    state: FoodListState,
-    newFood: Food?,
-    isOpen: Boolean,
-    onEvent: (FoodListEvent) -> Unit,
-    modifier: Modifier = Modifier,
-    foodListViewModel: FoodListViewModel
-) {
+data class AddNewFood(
+    val imagePicker: ImagePicker,
+    val foodListViewModel: FoodListViewModel,
+    val state: FoodListState,
+    val onEvent: (FoodListEvent) -> Unit,
+    val appModule: AppModule
+) : Screen {
 
-    var foodEmoji by rememberSaveable { mutableStateOf(value = foodListViewModel.foodEmoji) }
+    @Composable
+    override fun Content() {
 
-    BottomSheetFromWish(
-        visible = isOpen,
-        modifier = modifier.fillMaxWidth()
-    ) {
+        imagePicker.registerPicker { imageBytes ->
+            onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
+        }
+
+        var foodEmoji by rememberSaveable { mutableStateOf(value = foodListViewModel.foodEmoji) }
+
+        val newFood: Food? = foodListViewModel.newFood
+
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopStart
@@ -62,15 +70,26 @@ fun AddFoodSheet(
             SnapbiteBackgroundImage()
 
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 Spacer(Modifier.height(60.dp))
+
+                AddNewFoodHeader(
+                    onEvent = onEvent,
+                    state = state,
+                    appModule = appModule,
+                    foodListViewModel = foodListViewModel,
+                    imagePicker = imagePicker
+                )
+
                 if (newFood?.foodImage == null) {
+
                     Box(
                         modifier = Modifier
                             .size(150.dp)
-                            .clip(RoundedCornerShape(40))
+                            .clip(RoundedCornerShape(percent = 40))
                             .background(color = snapbiteMaroon)
                             .clickable {
                                 onEvent(FoodListEvent.OnAddFoodImage)
@@ -89,7 +108,9 @@ fun AddFoodSheet(
                             modifier = Modifier.size(40.dp)
                         )
                     }
+
                 } else {
+
                     FoodPhoto(
                         food = newFood,
                         modifier = Modifier
@@ -98,7 +119,9 @@ fun AddFoodSheet(
                                 onEvent(FoodListEvent.OnAddFoodImage)
                             }
                     )
+
                 }
+
                 Spacer(Modifier.height(16.dp))
                 FoodTextField(
                     value = newFood?.foodName ?: "",
@@ -131,22 +154,69 @@ fun AddFoodSheet(
                     )
                 }
 
-                Spacer(Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        onEvent(FoodListEvent.SaveFood)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = snapbiteMaroon,
-                        contentColor = Color.Black
-                    )
-                ) {
-                    Text(text = "Save")
-                }
             }
+
         }
+
     }
+
 }
+
+
+@Composable
+fun AddNewFoodHeader(
+    onEvent: (FoodListEvent) -> Unit,
+    state: FoodListState,
+    imagePicker: ImagePicker,
+    foodListViewModel: FoodListViewModel,
+    appModule: AppModule
+) {
+
+    val navigator = LocalNavigator.currentOrThrow
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+        IconButton(
+            onClick = {
+                onEvent(FoodListEvent.DismissFood)
+                navigator.pop()
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.ArrowBack,
+                contentDescription = "Back"
+            )
+        }
+
+        Button(
+            onClick = {
+                onEvent(FoodListEvent.SaveFood)
+                navigator.push(
+                    item = FoodListScreen(
+                        state = state,
+                        imagePicker = imagePicker,
+                        foodListViewModel = foodListViewModel,
+                        appModule = appModule,
+                        onEvent = onEvent
+                    )
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = snapbiteMaroon,
+                contentColor = Color.Black
+            )
+        ) {
+            Text(text = "Save")
+        }
+
+    }
+
+}
+
 
 @Composable
 private fun FoodTextField(

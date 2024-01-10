@@ -1,20 +1,27 @@
 package snapbite.app.food.ui
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.domain.Food
 import snapbite.app.food.domain.FoodDataSource
 import snapbite.app.food.domain.FoodValidator
+import timber.log.Timber
 
 class FoodListViewModel(
     private val foodDataSource: FoodDataSource
@@ -41,6 +48,17 @@ class FoodListViewModel(
 
     var foodEmoji: String by mutableStateOf(value = "\uD83D\uDE0B")
         private set
+
+    private var _foods = MutableStateFlow<List<Food?>>(value = listOf())
+    val foods: StateFlow<List<Food?>> = _foods.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            foodDataSource.getFoods().collectLatest {
+                _foods.value = it
+            }
+        }
+    }
 
     fun onEvent(event: FoodListEvent) {
         when(event) {
@@ -93,6 +111,7 @@ class FoodListViewModel(
                     foodDate = Clock.System.now().toEpochMilliseconds(),
                     foodImage = null
                 )
+
             }
             is FoodListEvent.OnFoodCaptionChanged -> {
                 newFood = newFood?.copy(
@@ -129,8 +148,11 @@ class FoodListViewModel(
                             foodCaptionError = null
                         ) }
                         viewModelScope.launch {
-                            foodDataSource.insertFood(food = food)
-                            delay(timeMillis = 300L) // Animation delay
+                            try {
+                                foodDataSource.insertFood(food = food)
+                            } catch (e: Exception) {
+
+                            }
                             newFood = null
                         }
                     } else {
