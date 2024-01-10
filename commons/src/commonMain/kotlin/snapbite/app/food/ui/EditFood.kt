@@ -18,21 +18,22 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -251,9 +252,17 @@ private fun FoodInfoSection(
 
 
 @Composable
-fun FoodSuggestions(foodListViewModel: FoodListViewModel, generativeModel: GenerativeModel, image: Bitmap) {
+fun FoodSuggestions(
+    foodListViewModel: FoodListViewModel,
+    generativeModel: GenerativeModel,
+    image: Bitmap
+) {
 
-    var foodSuggestions by remember { mutableStateOf<String?>(null) }
+    var foodSuggestions by remember { mutableStateOf<String?>(value = null) }
+
+    val isResponseLoading by foodListViewModel.isResponseLoading.collectAsState()
+
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -280,7 +289,30 @@ fun FoodSuggestions(foodListViewModel: FoodListViewModel, generativeModel: Gener
             foodSuggestions = it
         }
 
-        foodSuggestions?.let { Text(text = it, style = MaterialTheme.typography.bodyLarge) }
+        if (isResponseLoading) {
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                CircularProgressIndicator(
+                    color = Color.Black,
+                    strokeWidth = 3.5.dp
+                )
+
+            }
+
+        } else {
+            foodSuggestions?.let {
+                Text(
+                    modifier = Modifier.padding(all = 7.dp),
+                    text = it,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
 
     }
 }

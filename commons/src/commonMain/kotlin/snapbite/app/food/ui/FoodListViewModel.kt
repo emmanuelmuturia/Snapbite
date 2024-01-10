@@ -57,6 +57,9 @@ class FoodListViewModel(
     private var _foods = MutableStateFlow<List<Food>>(value = listOf())
     val foods: StateFlow<List<Food>> = _foods.asStateFlow()
 
+    private var _isResponseLoading = MutableStateFlow(value = false)
+    val isResponseLoading: StateFlow<Boolean> = _isResponseLoading.asStateFlow()
+
     init {
         viewModelScope.launch {
             foodDataSource.getFoods().collectLatest {
@@ -214,12 +217,14 @@ class FoodListViewModel(
         viewModelScope.launch {
 
             try {
+                _isResponseLoading.value = true
                 val response = generativeModel.generateContent(
                     content {
                         image(image = image)
                         text(text = "What are some of the ways in which I can make this food healthier to eat?")
                     }
                 )
+                _isResponseLoading.value = false
                 foodSuggestions = response.text
             } catch (e: Exception) {
                 Timber.tag(tag = "Gemini Error").e(message = "Could not get response due to: ${e.printStackTrace()}")
