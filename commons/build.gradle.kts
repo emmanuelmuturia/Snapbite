@@ -106,4 +106,5 @@ dependencies {
     implementation(dependencyNotation = libs.voyager.navigator)
     implementation(dependencyNotation = libs.voyager.bottomSheetNavigator)
     implementation(dependencyNotation = libs.timber)
+    implementation(dependencyNotation = libs.google.gemini)
 }

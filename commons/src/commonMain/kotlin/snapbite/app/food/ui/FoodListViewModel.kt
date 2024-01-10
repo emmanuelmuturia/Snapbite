@@ -1,9 +1,14 @@
 package snapbite.app.food.ui
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -39,6 +44,9 @@ class FoodListViewModel(
         SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000L),
         FoodListState()
     )
+
+    var foodSuggestions: String? by mutableStateOf(value = "")
+        private set
 
     var newFood: Food? by mutableStateOf(value = null)
         private set
@@ -198,6 +206,27 @@ class FoodListViewModel(
             else -> Unit
 
         }
+    }
+
+
+    fun getSuggestion(generativeModel: GenerativeModel, image: Bitmap) {
+
+        viewModelScope.launch {
+
+            try {
+                val response = generativeModel.generateContent(
+                    content {
+                        image(image = image)
+                        text(text = "What are some of the ways in which I can make this food healthier to eat?")
+                    }
+                )
+                foodSuggestions = response.text
+            } catch (e: Exception) {
+                Timber.tag(tag = "Gemini Error").e(message = "Could not get response due to: ${e.printStackTrace()}")
+            }
+
+        }
+
     }
 
 }
