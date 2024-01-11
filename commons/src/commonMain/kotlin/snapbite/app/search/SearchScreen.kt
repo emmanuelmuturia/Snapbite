@@ -29,6 +29,7 @@ import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.R
 import snapbite.app.commons.SnapbiteHeader
+import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.theme.Caveat
 
 
@@ -48,11 +49,7 @@ class SearchScreen : Screen {
 
             var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
 
-            Image(
-                painter = painterResource(id = R.drawable.snapbite),
-                contentDescription = "Background Image",
-                contentScale = ContentScale.FillBounds
-            )
+            SnapbiteBackgroundImage()
 
             Column(
                 modifier = Modifier.fillMaxSize(),
