@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.QuestionAnswer
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -187,7 +188,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
             ) {
                 Icon(
                     modifier = Modifier.size(size = 28.dp),
-                    imageVector = Icons.Rounded.Star,
+                    imageVector = Icons.Rounded.QuestionAnswer,
                     contentDescription = "FAQ",
                     tint = Color.Black
                 )

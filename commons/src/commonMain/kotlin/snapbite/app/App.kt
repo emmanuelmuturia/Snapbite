@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -25,7 +26,6 @@ import snapbite.app.food.ui.FoodListViewModel
 fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean,
-    appModule: AppModule,
     imagePicker: ImagePicker
 ) {
 
@@ -33,6 +33,10 @@ fun App(
         darkTheme = darkTheme,
         dynamicColor = dynamicColor
     ) {
+
+        val context = LocalContext.current
+
+        val appModule = AppModule(context = context)
 
         val foodListViewModel: FoodListViewModel = getViewModel(
             key = "food-list-viewModel",
@@ -51,10 +55,8 @@ fun App(
             Navigator(
                 screen = FoodListScreen(
                     state = state,
-                    //newFood = foodListViewModel.newFood,
                     imagePicker = imagePicker,
                     foodListViewModel = foodListViewModel,
-                    appModule = appModule,
                     onEvent = foodListViewModel::onEvent
                 )
             )

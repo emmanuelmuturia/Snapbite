@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -45,12 +46,13 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        installSplashScreen()
+
         setContent {
 
             App(
                 darkTheme = isSystemInDarkTheme(),
                 dynamicColor = true,
-                appModule = AppModule(context = LocalContext.current.applicationContext),
                 imagePicker = ImagePickerFactory().createPicker()
             )
         }

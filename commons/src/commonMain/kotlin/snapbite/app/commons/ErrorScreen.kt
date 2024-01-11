@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import snapbite.app.R
-import snapbite.app.commons.SnapbiteProgressIndicator
 
 @Composable
 fun ErrorScreen() {

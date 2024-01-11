@@ -8,6 +8,7 @@ import snapbite.app.food.data.SqlDelightFoodDataSource
 import snapbite.app.food.domain.FoodDataSource
 import snapbite.app.notifications.data.NotificationRepositoryImplementation
 import snapbite.app.notifications.domain.NotificationRepository
+import java.io.Serializable
 
 actual class AppModule(
     private val context: Context

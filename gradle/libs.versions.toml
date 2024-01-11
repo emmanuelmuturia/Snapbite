@@ -21,6 +21,7 @@ mokoResourcesVersion = "0.22.3"
 secretsGradlePlugin = "2.0.1"
 timberVersion = "5.0.1"
 googleGeminiVersion = "0.1.2"
+splashScreenApiVersion = "1.0.1"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "androidxCoreVersion" }
@@ -53,6 +54,7 @@ gms-play-services = { module = "com.google.android.gms:play-services-auth", vers
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
 google-gemini = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "googleGeminiVersion" }
+splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreenApiVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

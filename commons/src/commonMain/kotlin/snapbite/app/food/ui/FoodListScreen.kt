@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,7 +55,6 @@ data class FoodListScreen(
     val state: FoodListState,
     val imagePicker: ImagePicker,
     val foodListViewModel: FoodListViewModel,
-    val appModule: AppModule,
     val onEvent: (FoodListEvent) -> Unit
 ) : Screen {
 
@@ -65,6 +65,10 @@ data class FoodListScreen(
         val navigator = LocalNavigator.currentOrThrow
 
         val foodList by foodListViewModel.foods.collectAsState()
+
+        val context = LocalContext.current
+
+        val appModule = AppModule(context = context)
 
         LaunchedEffect(key1 = foodList) {}
 
@@ -128,8 +132,7 @@ data class FoodListScreen(
                                                     imagePicker.pickImage()
                                                 }
                                                 onEvent(event)
-                                            },
-                                            appModule = appModule
+                                            }
                                         )
                                     )
                                 }),

@@ -139,6 +139,10 @@ data class EditFood(
                     }
 
                     item {
+                        Spacer(Modifier.height(16.dp))
+                    }
+
+                    item {
                         FoodSuggestions(
                             foodListViewModel = foodListViewModel,
                             generativeModel = GenerativeModel(
@@ -183,7 +187,6 @@ private fun EditRow(
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
                 navigator.push(item = AddNewFood(
                     state = state,
-                    appModule = appModule,
                     foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker,
                     onEvent = { event ->
@@ -232,19 +235,21 @@ private fun FoodInfoSection(
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(space = 3.5.dp)
         ) {
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
                 color = Color.Black,
-                fontSize = 12.sp
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold
             )
             Text(
                 text = value,
                 modifier = Modifier.fillMaxWidth(),
                 color = Color.Black,
-                fontSize = 18.sp
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Normal
             )
         }
     }
@@ -261,8 +266,6 @@ fun FoodSuggestions(
     var foodSuggestions by remember { mutableStateOf<String?>(value = null) }
 
     val isResponseLoading by foodListViewModel.isResponseLoading.collectAsState()
-
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -282,7 +285,7 @@ fun FoodSuggestions(
                 contentColor = Color.Black
             )
         ) {
-            Text(text = "Get Suggestions...")
+            Text(text = "Get Suggestions...", style = MaterialTheme.typography.bodyLarge)
         }
 
         foodListViewModel.foodSuggestions?.let {
