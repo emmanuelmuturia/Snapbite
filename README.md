@@ -82,7 +82,10 @@ This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the use
 - You will be presented with a QR Code. On the "Developer Options" under "Wireless Debugging", choose "Pair using QR Code" and scan the QR code that has been presented to you in Android Studio. Alternatively, select the "Pair using Pairing Code" and do the same on your device still under "Wireless Debugging". Wait for Android Studio to scan and discover your device...
 - That's it!
 
-## Screenshot
+## Screenshots
+![Snapbite Screenshot 1](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/d8c7b6ea-8416-4416-9803-65f08611fa24)
+![Snapbite Screenshot 2](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/24d8220c-d2d5-49dd-889e-55cff67b2f5d)
+![Snapbite Screenshot 3](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/c3762d9d-e7d0-4793-a367-9b4abe4fb445)
 
 ## Trivia
 - The term "Snapbite" is a portmanteau similar to Snapchat that represents the functionality of using food photos...
