@@ -1,4 +1,5 @@
 # Snapbite
+![Snapbite Logo](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/ab2a6e70-5a6b-4c1f-8bb2-684bf05d412e)
 
 ## Overview
 This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the user to also get suggestions on how to make their foods healthier...
