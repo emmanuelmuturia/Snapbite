@@ -53,7 +53,6 @@ class MainActivity : ComponentActivity() {
             App(
                 darkTheme = isSystemInDarkTheme(),
                 dynamicColor = true,
-                appModule = AppModule(context = LocalContext.current.applicationContext),
                 imagePicker = ImagePickerFactory().createPicker()
             )
         }

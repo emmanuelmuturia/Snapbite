@@ -47,8 +47,7 @@ data class AddNewFood(
     val imagePicker: ImagePicker,
     val foodListViewModel: FoodListViewModel,
     val state: FoodListState,
-    val onEvent: (FoodListEvent) -> Unit,
-    val appModule: AppModule
+    val onEvent: (FoodListEvent) -> Unit
 ) : Screen {
 
     @Composable
@@ -79,7 +78,6 @@ data class AddNewFood(
                 AddNewFoodHeader(
                     onEvent = onEvent,
                     state = state,
-                    appModule = appModule,
                     foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker
                 )
@@ -169,7 +167,6 @@ fun AddNewFoodHeader(
     state: FoodListState,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
-    appModule: AppModule
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -200,7 +197,6 @@ fun AddNewFoodHeader(
                         state = state,
                         imagePicker = imagePicker,
                         foodListViewModel = foodListViewModel,
-                        appModule = appModule,
                         onEvent = onEvent
                     )
                 )

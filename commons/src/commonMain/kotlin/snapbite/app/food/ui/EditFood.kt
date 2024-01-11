@@ -187,7 +187,6 @@ private fun EditRow(
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
                 navigator.push(item = AddNewFood(
                     state = state,
-                    appModule = appModule,
                     foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker,
                     onEvent = { event ->
