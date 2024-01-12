@@ -29,7 +29,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +42,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.ai.client.generativeai.GenerativeModel
 import snapbite.app.BuildConfig
+import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
@@ -57,7 +57,8 @@ data class EditFood(
     val appModule: AppModule,
     val state: FoodListState,
     val foodListViewModel: FoodListViewModel,
-    val imagePicker: ImagePicker
+    val imagePicker: ImagePicker,
+    val aboutScreenViewModel: AboutScreenViewModel
 ) : Screen {
 
     @Composable
@@ -117,12 +118,12 @@ data class EditFood(
                                 onEvent(FoodListEvent.DeleteFood)
                                 navigator.popUntilRoot()
                             },
-                            appModule = appModule,
                             imagePicker = imagePicker,
                             foodListViewModel = foodListViewModel,
                             state = state,
                             selectedFood = selectedFood,
-                            onEvent = onEvent
+                            onEvent = onEvent,
+                            aboutScreenViewModel = aboutScreenViewModel
                         )
                     }
 
@@ -171,12 +172,12 @@ data class EditFood(
 @Composable
 private fun EditRow(
     onDeleteClick: () -> Unit,
-    appModule: AppModule,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
     state: FoodListState,
     selectedFood: Food?,
-    onEvent: (FoodListEvent) -> Unit
+    onEvent: (FoodListEvent) -> Unit,
+    aboutScreenViewModel: AboutScreenViewModel
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -194,7 +195,8 @@ private fun EditRow(
                             imagePicker.pickImage()
                         }
                         onEvent(event)
-                    }
+                    },
+                    aboutScreenViewModel = aboutScreenViewModel
                 ))
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(

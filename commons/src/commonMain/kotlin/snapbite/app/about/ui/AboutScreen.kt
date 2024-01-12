@@ -20,20 +20,16 @@ import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.commons.SnapbiteHeader
+import snapbite.app.di.AppModule
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
 
-class AboutScreen : Screen {
+data class AboutScreen(
+    val aboutScreenViewModel: AboutScreenViewModel
+) : Screen {
 
     @Composable
     override fun Content() {
-
-        val aboutScreenViewModel: AboutScreenViewModel = getViewModel(
-            key = "aboutScreenViewModel",
-            factory = viewModelFactory<AboutScreenViewModel> {
-                AboutScreenViewModel()
-            }
-        )
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -57,8 +53,6 @@ class AboutScreen : Screen {
 @Composable
 private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
 
-    val context = LocalContext.current
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +64,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             AboutListItem(
                 //imageId = R.drawable.privacy,
                 text = "Privacy Policy",
-                onClick = { aboutScreenViewModel.getPrivacyPolicy(context = context) }
+                onClick = { aboutScreenViewModel.getPrivacyPolicy() }
             )
         }
 
@@ -78,7 +72,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             AboutListItem(
                 //imageId = R.drawable.terms,
                 text = "Terms & Conditions",
-                onClick = { aboutScreenViewModel.getTermsAndConditions(context = context) }
+                onClick = { aboutScreenViewModel.getTermsAndConditions() }
             )
         }
 
@@ -96,7 +90,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             ) {
 
                 Text(
-                    text = aboutScreenViewModel.getAppVersion(context = context),
+                    text = aboutScreenViewModel.getAppVersion(),
                     style = MaterialTheme.typography.bodyLarge
                 )
 

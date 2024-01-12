@@ -33,11 +33,14 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.about.ui.AboutScreen
+import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-class SettingsScreen : Screen {
+data class SettingsScreen(
+    val aboutScreenViewModel: AboutScreenViewModel
+) : Screen {
 
     @Composable
     override fun Content() {
@@ -62,7 +65,7 @@ class SettingsScreen : Screen {
                     headerTitle = "Settings"
                 )
 
-                SettingsContent(settingsScreenViewModel = settingsScreenViewModel)
+                SettingsContent(settingsScreenViewModel = settingsScreenViewModel, aboutScreenViewModel = aboutScreenViewModel)
 
                 Spacer(modifier = Modifier.weight(weight = 1f))
 
@@ -76,7 +79,7 @@ class SettingsScreen : Screen {
 
 
 @Composable
-private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
+private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel, aboutScreenViewModel: AboutScreenViewModel) {
 
     val navigator = LocalNavigator.currentOrThrow
 
@@ -143,7 +146,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = { navigator.push(item = AboutScreen()) }),
+                    .clickable(onClick = { navigator.push(item = AboutScreen(aboutScreenViewModel = aboutScreenViewModel)) }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {

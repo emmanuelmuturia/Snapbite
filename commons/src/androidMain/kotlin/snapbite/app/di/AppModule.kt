@@ -1,6 +1,8 @@
 package snapbite.app.di
 
 import android.content.Context
+import snapbite.app.about.data.AboutRepositoryImplementation
+import snapbite.app.about.domain.AboutRepository
 import snapbite.app.core.data.DatabaseDriverFactory
 import snapbite.app.core.data.ImageStorage
 import snapbite.app.database.SnapbiteDatabase
@@ -29,6 +31,10 @@ actual class AppModule(
                 driver = DatabaseDriverFactory(context = context).createSnapbiteDatabase()
             )
         )
+    }
+
+    actual val aboutRepository: AboutRepository by lazy {
+        AboutRepositoryImplementation(context = context)
     }
 
 }

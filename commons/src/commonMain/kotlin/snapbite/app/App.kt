@@ -15,6 +15,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
@@ -45,6 +46,13 @@ fun App(
             }
         )
 
+        val aboutScreenViewModel: AboutScreenViewModel = getViewModel(
+            key = "aboutScreenViewModel",
+            factory = viewModelFactory<AboutScreenViewModel> {
+                AboutScreenViewModel(aboutRepository = appModule.aboutRepository)
+            }
+        )
+
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -57,7 +65,8 @@ fun App(
                     state = state,
                     imagePicker = imagePicker,
                     foodListViewModel = foodListViewModel,
-                    onEvent = foodListViewModel::onEvent
+                    onEvent = foodListViewModel::onEvent,
+                    aboutScreenViewModel = aboutScreenViewModel
                 )
             )
 

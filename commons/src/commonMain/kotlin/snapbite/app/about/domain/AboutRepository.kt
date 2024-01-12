@@ -1,13 +1,11 @@
 package snapbite.app.about.domain
 
-import android.content.Context
+expect interface AboutRepository {
 
-interface AboutRepository {
+    suspend fun getPrivacyPolicy()
 
-    suspend fun getPrivacyPolicy(context: Context)
+    suspend fun getTermsAndConditions()
 
-    suspend fun getTermsAndConditions(context: Context)
-
-    fun getAppVersion(context: Context): String
+    fun getAppVersion(): String
 
 }

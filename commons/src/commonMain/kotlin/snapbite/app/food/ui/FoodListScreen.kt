@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
 import snapbite.app.food.components.FoodListItem
@@ -55,7 +56,8 @@ data class FoodListScreen(
     val state: FoodListState,
     val imagePicker: ImagePicker,
     val foodListViewModel: FoodListViewModel,
-    val onEvent: (FoodListEvent) -> Unit
+    val onEvent: (FoodListEvent) -> Unit,
+    val aboutScreenViewModel: AboutScreenViewModel
 ) : Screen {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -91,7 +93,8 @@ data class FoodListScreen(
                             onEvent = onEvent,
                             appModule = appModule,
                             imagePicker = imagePicker,
-                            state = state
+                            state = state,
+                            aboutScreenViewModel = aboutScreenViewModel
                         )
                     }
                 }
@@ -108,7 +111,9 @@ data class FoodListScreen(
                         Icon(
                             modifier = Modifier
                                 .size(size = 40.dp)
-                                .clickable(onClick = { navigator.push(item = SettingsScreen()) }),
+                                .clickable(onClick = { navigator.push(item = SettingsScreen(
+                                    aboutScreenViewModel = aboutScreenViewModel
+                                )) }),
                             imageVector = Icons.Rounded.Settings,
                             tint = Color.Black,
                             contentDescription = "Settings Button"
@@ -132,7 +137,8 @@ data class FoodListScreen(
                                                     imagePicker.pickImage()
                                                 }
                                                 onEvent(event)
-                                            }
+                                            },
+                                            aboutScreenViewModel = aboutScreenViewModel
                                         )
                                     )
                                 }),
@@ -227,7 +233,8 @@ fun FilledHomeScreenContent(
     onEvent: (FoodListEvent) -> Unit,
     appModule: AppModule,
     imagePicker: ImagePicker,
-    state: FoodListState
+    state: FoodListState,
+    aboutScreenViewModel: AboutScreenViewModel
 ) {
 
     val foodList by foodListViewModel.foods.collectAsState()
@@ -255,7 +262,8 @@ fun FilledHomeScreenContent(
                                 modifier = Modifier,
                                 state = state,
                                 foodListViewModel = foodListViewModel,
-                                imagePicker = imagePicker
+                                imagePicker = imagePicker,
+                                aboutScreenViewModel = aboutScreenViewModel
                             ))
                         }
                         .padding(horizontal = 16.dp)
