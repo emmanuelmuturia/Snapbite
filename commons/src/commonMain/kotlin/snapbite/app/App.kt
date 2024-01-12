@@ -19,6 +19,7 @@ import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
+import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 
@@ -53,6 +54,13 @@ fun App(
             }
         )
 
+        val faqScreenViewModel: FAQScreenViewModel = getViewModel(
+            key = "faqScreenViewModel",
+            factory = viewModelFactory<FAQScreenViewModel> {
+                FAQScreenViewModel(faqRepository = appModule.faqRepository)
+            }
+        )
+
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -66,7 +74,8 @@ fun App(
                     imagePicker = imagePicker,
                     foodListViewModel = foodListViewModel,
                     onEvent = foodListViewModel::onEvent,
-                    aboutScreenViewModel = aboutScreenViewModel
+                    aboutScreenViewModel = aboutScreenViewModel,
+                    faqScreenViewModel = faqScreenViewModel
                 )
             )
 

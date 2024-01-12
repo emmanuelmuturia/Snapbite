@@ -48,17 +48,12 @@ import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.domain.FAQ
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-class FAQScreen : Screen {
+data class FAQScreen(
+    val faqScreenViewModel: FAQScreenViewModel
+) : Screen {
 
     @Composable
     override fun Content() {
-
-        val faqScreenViewModel: FAQScreenViewModel = getViewModel(
-            key = "faqScreenViewModel",
-            factory = viewModelFactory<FAQScreenViewModel> {
-                FAQScreenViewModel()
-            }
-        )
 
         val faqList by faqScreenViewModel.faqList.collectAsState()
 

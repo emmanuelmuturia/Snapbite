@@ -39,6 +39,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
+import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.EmojiPicker
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
@@ -49,7 +50,8 @@ data class AddNewFood(
     val foodListViewModel: FoodListViewModel,
     val state: FoodListState,
     val onEvent: (FoodListEvent) -> Unit,
-    val aboutScreenViewModel: AboutScreenViewModel
+    val aboutScreenViewModel: AboutScreenViewModel,
+    val faqScreenViewModel: FAQScreenViewModel
 ) : Screen {
 
     @Composable
@@ -82,7 +84,8 @@ data class AddNewFood(
                     state = state,
                     foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker,
-                    aboutScreenViewModel = aboutScreenViewModel
+                    aboutScreenViewModel = aboutScreenViewModel,
+                    faqScreenViewModel = faqScreenViewModel
                 )
 
                 if (newFood?.foodImage == null) {
@@ -170,7 +173,8 @@ fun AddNewFoodHeader(
     state: FoodListState,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
-    aboutScreenViewModel: AboutScreenViewModel
+    aboutScreenViewModel: AboutScreenViewModel,
+    faqScreenViewModel: FAQScreenViewModel
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -202,7 +206,8 @@ fun AddNewFoodHeader(
                         imagePicker = imagePicker,
                         foodListViewModel = foodListViewModel,
                         onEvent = onEvent,
-                        aboutScreenViewModel = aboutScreenViewModel
+                        aboutScreenViewModel = aboutScreenViewModel,
+                        faqScreenViewModel = faqScreenViewModel
                     )
                 )
             },

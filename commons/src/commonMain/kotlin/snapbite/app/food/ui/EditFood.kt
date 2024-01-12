@@ -46,6 +46,7 @@ import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.di.AppModule
+import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
 import snapbite.app.theme.snapbiteMaroon
@@ -58,7 +59,8 @@ data class EditFood(
     val state: FoodListState,
     val foodListViewModel: FoodListViewModel,
     val imagePicker: ImagePicker,
-    val aboutScreenViewModel: AboutScreenViewModel
+    val aboutScreenViewModel: AboutScreenViewModel,
+    val faqScreenViewModel: FAQScreenViewModel
 ) : Screen {
 
     @Composable
@@ -123,7 +125,8 @@ data class EditFood(
                             state = state,
                             selectedFood = selectedFood,
                             onEvent = onEvent,
-                            aboutScreenViewModel = aboutScreenViewModel
+                            aboutScreenViewModel = aboutScreenViewModel,
+                            faqScreenViewModel = faqScreenViewModel
                         )
                     }
 
@@ -177,7 +180,8 @@ private fun EditRow(
     state: FoodListState,
     selectedFood: Food?,
     onEvent: (FoodListEvent) -> Unit,
-    aboutScreenViewModel: AboutScreenViewModel
+    aboutScreenViewModel: AboutScreenViewModel,
+    faqScreenViewModel: FAQScreenViewModel
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -196,7 +200,8 @@ private fun EditRow(
                         }
                         onEvent(event)
                     },
-                    aboutScreenViewModel = aboutScreenViewModel
+                    aboutScreenViewModel = aboutScreenViewModel,
+                    faqScreenViewModel = faqScreenViewModel
                 ))
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(

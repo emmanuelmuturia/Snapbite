@@ -36,10 +36,12 @@ import snapbite.app.about.ui.AboutScreen
 import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.ui.FAQScreen
+import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
 data class SettingsScreen(
-    val aboutScreenViewModel: AboutScreenViewModel
+    val aboutScreenViewModel: AboutScreenViewModel,
+    val faqScreenViewModel: FAQScreenViewModel
 ) : Screen {
 
     @Composable
@@ -65,7 +67,11 @@ data class SettingsScreen(
                     headerTitle = "Settings"
                 )
 
-                SettingsContent(settingsScreenViewModel = settingsScreenViewModel, aboutScreenViewModel = aboutScreenViewModel)
+                SettingsContent(
+                    settingsScreenViewModel = settingsScreenViewModel,
+                    aboutScreenViewModel = aboutScreenViewModel,
+                    faqScreenViewModel = faqScreenViewModel
+                )
 
                 Spacer(modifier = Modifier.weight(weight = 1f))
 
@@ -79,7 +85,11 @@ data class SettingsScreen(
 
 
 @Composable
-private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel, aboutScreenViewModel: AboutScreenViewModel) {
+private fun SettingsContent(
+    settingsScreenViewModel: SettingsScreenViewModel,
+    aboutScreenViewModel: AboutScreenViewModel,
+    faqScreenViewModel: FAQScreenViewModel
+) {
 
     val navigator = LocalNavigator.currentOrThrow
 
@@ -185,7 +195,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel, ab
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = { navigator.push(item = FAQScreen()) }),
+                    .clickable(onClick = { navigator.push(item = FAQScreen(faqScreenViewModel = faqScreenViewModel)) }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
