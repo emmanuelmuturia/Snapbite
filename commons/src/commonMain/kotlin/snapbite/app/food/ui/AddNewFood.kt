@@ -36,12 +36,12 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import org.koin.androidx.compose.koinViewModel
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.components.EmojiPicker
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
 import snapbite.app.theme.snapbiteMaroon
+
 
 data class AddNewFood(
     val imagePicker: ImagePicker,
@@ -52,8 +52,6 @@ data class AddNewFood(
 
     @Composable
     override fun Content() {
-
-        //val foodListViewModel: FoodListViewModel = koinViewModel()
 
         imagePicker.registerPicker { imageBytes ->
             onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
