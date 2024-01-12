@@ -14,26 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
 
-class AboutScreen : Screen {
+class AboutScreen: Screen {
 
     @Composable
     override fun Content() {
 
-        val aboutScreenViewModel: AboutScreenViewModel = getViewModel(
-            key = "aboutScreenViewModel",
-            factory = viewModelFactory<AboutScreenViewModel> {
-                AboutScreenViewModel()
-            }
-        )
+        val aboutScreenViewModel: AboutScreenViewModel = koinViewModel()
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -57,8 +51,6 @@ class AboutScreen : Screen {
 @Composable
 private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
 
-    val context = LocalContext.current
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +62,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             AboutListItem(
                 //imageId = R.drawable.privacy,
                 text = "Privacy Policy",
-                onClick = { aboutScreenViewModel.getPrivacyPolicy(context = context) }
+                onClick = { aboutScreenViewModel.getPrivacyPolicy() }
             )
         }
 
@@ -78,7 +70,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             AboutListItem(
                 //imageId = R.drawable.terms,
                 text = "Terms & Conditions",
-                onClick = { aboutScreenViewModel.getTermsAndConditions(context = context) }
+                onClick = { aboutScreenViewModel.getTermsAndConditions() }
             )
         }
 
@@ -96,7 +88,7 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
             ) {
 
                 Text(
-                    text = aboutScreenViewModel.getAppVersion(context = context),
+                    text = aboutScreenViewModel.getAppVersion(),
                     style = MaterialTheme.typography.bodyLarge
                 )
 

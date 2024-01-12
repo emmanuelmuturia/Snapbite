@@ -1,7 +1,5 @@
 package snapbite.app.food.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +27,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,27 +38,29 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.google.ai.client.generativeai.GenerativeModel
-import snapbite.app.BuildConfig
+import org.koin.androidx.compose.koinViewModel
+import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
+import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
+import snapbite.app.settings.ui.SettingsScreenViewModel
 import snapbite.app.theme.snapbiteMaroon
 
 data class EditFood(
     val selectedFood: Food?,
     val onEvent: (FoodListEvent) -> Unit,
     val modifier: Modifier = Modifier,
-    val appModule: AppModule,
     val state: FoodListState,
-    val foodListViewModel: FoodListViewModel,
-    val imagePicker: ImagePicker
+    val imagePicker: ImagePicker,
+    val foodListViewModel: FoodListViewModel
 ) : Screen {
 
     @Composable
     override fun Content() {
+
+        //val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val navigator = LocalNavigator.currentOrThrow
 
@@ -117,7 +116,6 @@ data class EditFood(
                                 onEvent(FoodListEvent.DeleteFood)
                                 navigator.popUntilRoot()
                             },
-                            appModule = appModule,
                             imagePicker = imagePicker,
                             foodListViewModel = foodListViewModel,
                             state = state,
@@ -145,15 +143,7 @@ data class EditFood(
                     item {
                         FoodSuggestions(
                             foodListViewModel = foodListViewModel,
-                            generativeModel = GenerativeModel(
-                                modelName = "gemini-pro-vision",
-                                apiKey = BuildConfig.geminiApiKey,
-                            ),
-                            image = BitmapFactory.decodeByteArray(
-                                selectedFood?.foodImage,
-                                0,
-                                selectedFood?.foodImage?.size ?: 0
-                            )
+                            selectedFood = selectedFood
                         )
                     }
 
@@ -171,7 +161,6 @@ data class EditFood(
 @Composable
 private fun EditRow(
     onDeleteClick: () -> Unit,
-    appModule: AppModule,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
     state: FoodListState,
@@ -187,14 +176,14 @@ private fun EditRow(
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
                 navigator.push(item = AddNewFood(
                     state = state,
-                    foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker,
                     onEvent = { event ->
                         if (event is FoodListEvent.OnAddFoodImage) {
                             imagePicker.pickImage()
                         }
                         onEvent(event)
-                    }
+                    },
+                    foodListViewModel = foodListViewModel
                 ))
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(
@@ -259,8 +248,7 @@ private fun FoodInfoSection(
 @Composable
 fun FoodSuggestions(
     foodListViewModel: FoodListViewModel,
-    generativeModel: GenerativeModel,
-    image: Bitmap
+    selectedFood: Food?
 ) {
 
     var foodSuggestions by remember { mutableStateOf<String?>(value = null) }
@@ -275,10 +263,7 @@ fun FoodSuggestions(
 
         Button(
             onClick = {
-                foodListViewModel.getSuggestion(
-                    generativeModel = generativeModel,
-                    image = image
-                )
+                foodListViewModel.getSuggestion(selectedFood = selectedFood)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = snapbiteMaroon,

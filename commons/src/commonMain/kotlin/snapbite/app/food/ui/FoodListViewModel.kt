@@ -1,14 +1,9 @@
 package snapbite.app.food.ui
 
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.content
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,11 +17,13 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import snapbite.app.food.domain.Food
 import snapbite.app.food.domain.FoodDataSource
+import snapbite.app.food.domain.FoodRepository
 import snapbite.app.food.domain.FoodValidator
 import timber.log.Timber
 
 class FoodListViewModel(
-    private val foodDataSource: FoodDataSource
+    private val foodDataSource: FoodDataSource,
+    private val foodRepository: FoodRepository
 ) : ViewModel() {
 
     private var _state = MutableStateFlow(value = FoodListState())
@@ -212,20 +209,15 @@ class FoodListViewModel(
     }
 
 
-    fun getSuggestion(generativeModel: GenerativeModel, image: Bitmap) {
+    fun getSuggestion(selectedFood: Food?) {
 
         viewModelScope.launch {
 
             try {
                 _isResponseLoading.value = true
-                val response = generativeModel.generateContent(
-                    content {
-                        image(image = image)
-                        text(text = "What are some of the ways in which I can make this food healthier to eat?")
-                    }
-                )
+                foodRepository.response(selectedFood = selectedFood)
                 _isResponseLoading.value = false
-                foodSuggestions = response.text
+                foodSuggestions = foodRepository.result(selectedFood = selectedFood)
             } catch (e: Exception) {
                 Timber.tag(tag = "Gemini Error").e(message = "Could not get response due to: ${e.printStackTrace()}")
             }

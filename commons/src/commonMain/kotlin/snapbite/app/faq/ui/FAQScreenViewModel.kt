@@ -1,20 +1,17 @@
 package snapbite.app.faq.ui
 
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObjects
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import snapbite.app.commons.SnapbiteState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import snapbite.app.commons.SnapbiteState
 import snapbite.app.faq.domain.FAQ
-import timber.log.Timber
+import snapbite.app.faq.domain.FAQRepository
 
 class FAQScreenViewModel(
-
+    private val faqRepository: FAQRepository
 ) : ViewModel() {
 
     private var _faqState =
@@ -24,25 +21,24 @@ class FAQScreenViewModel(
     private var _faqList = MutableStateFlow<List<FAQ>>(value = emptyList())
     val faqList: StateFlow<List<FAQ>> = _faqList.asStateFlow()
 
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-
     init {
-        viewModelScope.launch {
-            getFAQs()
-        }
+        getFAQs()
     }
 
-    private suspend fun getFAQs() {
+    private fun getFAQs() {
 
-        _faqState.update { SnapbiteState.Loading }
+        viewModelScope.launch {
 
-        return try {
-            _faqList.value = firestore.collection("FAQ").get().await().toObjects<FAQ>()
-            _faqState.update { SnapbiteState.Success(data = _faqList.value) }
-        } catch (e: Exception) {
-            Timber.tag(tag = "Firebase Cloud Firestore Error")
-                .e(message = "Could not fetch data due to: %s", e.printStackTrace())
-            _faqState.update { SnapbiteState.Error(error = e) }
+            _faqState.update { SnapbiteState.Loading }
+
+            try {
+                _faqList.value = faqRepository.getFAQs()
+                _faqState.update { SnapbiteState.Success(data = _faqList.value) }
+            } catch (e: Exception) {
+
+                _faqState.update { SnapbiteState.Error(error = e) }
+            }
+
         }
 
     }

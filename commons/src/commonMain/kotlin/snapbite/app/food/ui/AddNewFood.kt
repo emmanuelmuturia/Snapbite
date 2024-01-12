@@ -37,17 +37,17 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
 import snapbite.app.food.components.EmojiPicker
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
 import snapbite.app.theme.snapbiteMaroon
 
+
 data class AddNewFood(
     val imagePicker: ImagePicker,
-    val foodListViewModel: FoodListViewModel,
     val state: FoodListState,
-    val onEvent: (FoodListEvent) -> Unit
+    val onEvent: (FoodListEvent) -> Unit,
+    val foodListViewModel: FoodListViewModel
 ) : Screen {
 
     @Composable
@@ -78,8 +78,8 @@ data class AddNewFood(
                 AddNewFoodHeader(
                     onEvent = onEvent,
                     state = state,
-                    foodListViewModel = foodListViewModel,
-                    imagePicker = imagePicker
+                    imagePicker = imagePicker,
+                    foodListViewModel = foodListViewModel
                 )
 
                 if (newFood?.foodImage == null) {
@@ -166,7 +166,7 @@ fun AddNewFoodHeader(
     onEvent: (FoodListEvent) -> Unit,
     state: FoodListState,
     imagePicker: ImagePicker,
-    foodListViewModel: FoodListViewModel,
+    foodListViewModel: FoodListViewModel
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -194,10 +194,10 @@ fun AddNewFoodHeader(
                 onEvent(FoodListEvent.SaveFood)
                 navigator.push(
                     item = FoodListScreen(
-                        state = state,
                         imagePicker = imagePicker,
-                        foodListViewModel = foodListViewModel,
-                        onEvent = onEvent
+                        state = state,
+                        onEvent = onEvent,
+                        foodListViewModel = foodListViewModel
                     )
                 )
             },

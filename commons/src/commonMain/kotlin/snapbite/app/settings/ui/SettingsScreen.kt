@@ -25,29 +25,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.about.ui.AboutScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.ui.FAQScreen
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
-class SettingsScreen : Screen {
+class SettingsScreen: Screen {
 
     @Composable
     override fun Content() {
 
-        val settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
-            key = "settingsScreenViewModel",
-            factory = viewModelFactory<SettingsScreenViewModel> {
-                SettingsScreenViewModel()
-            }
-        )
+        val settingsScreenViewModel: SettingsScreenViewModel = koinViewModel()
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -62,7 +55,9 @@ class SettingsScreen : Screen {
                     headerTitle = "Settings"
                 )
 
-                SettingsContent(settingsScreenViewModel = settingsScreenViewModel)
+                SettingsContent(
+                    settingsScreenViewModel = settingsScreenViewModel
+                )
 
                 Spacer(modifier = Modifier.weight(weight = 1f))
 
@@ -76,11 +71,11 @@ class SettingsScreen : Screen {
 
 
 @Composable
-private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
+private fun SettingsContent(
+    settingsScreenViewModel: SettingsScreenViewModel
+) {
 
     val navigator = LocalNavigator.currentOrThrow
-
-    val context = LocalContext.current
 
     LazyColumn(
         modifier = Modifier
@@ -93,7 +88,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable { settingsScreenViewModel.navigateToNotificationsSettings(context = context) },
+                    .clickable { settingsScreenViewModel.navigateToNotificationsSettings() },
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -221,7 +216,7 @@ private fun SettingsContent(settingsScreenViewModel: SettingsScreenViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = { settingsScreenViewModel.rateUs(context = context) }),
+                    .clickable(onClick = { settingsScreenViewModel.rateUs() }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {

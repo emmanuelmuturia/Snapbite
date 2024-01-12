@@ -10,14 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
+import snapbite.app.dependencyinjection.AppModule
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
 
@@ -34,16 +33,7 @@ fun App(
         dynamicColor = dynamicColor
     ) {
 
-        val context = LocalContext.current
-
-        val appModule = AppModule(context = context)
-
-        val foodListViewModel: FoodListViewModel = getViewModel(
-            key = "food-list-viewModel",
-            factory = viewModelFactory {
-                FoodListViewModel(foodDataSource = appModule.foodDataSource)
-            }
-        )
+        val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val state by foodListViewModel.state.collectAsState()
 
@@ -56,8 +46,8 @@ fun App(
                 screen = FoodListScreen(
                     state = state,
                     imagePicker = imagePicker,
-                    foodListViewModel = foodListViewModel,
-                    onEvent = foodListViewModel::onEvent
+                    onEvent = foodListViewModel::onEvent,
+                    foodListViewModel = foodListViewModel
                 )
             )
 
