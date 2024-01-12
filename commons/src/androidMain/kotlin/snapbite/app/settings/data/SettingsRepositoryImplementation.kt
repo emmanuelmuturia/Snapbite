@@ -15,28 +15,23 @@ class SettingsRepositoryImplementation(
 
     override suspend fun navigateToNotificationsSettings() {
         try {
-            val notificationsSettingsIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-            } else {
-                val notificationsSettingsIntent = Intent(Settings.ACTION_SETTINGS)
-                notificationsSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                notificationsSettingsIntent.putExtra("app_package", context.packageName)
-                notificationsSettingsIntent
-            }
+            val notificationsSettingsIntent = Intent()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationsSettingsIntent.putExtra(
-                    Settings.EXTRA_APP_PACKAGE,
-                    context.packageName
-                )
+                notificationsSettingsIntent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                notificationsSettingsIntent.putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
             } else {
-                notificationsSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                notificationsSettingsIntent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                notificationsSettingsIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                notificationsSettingsIntent.data = Uri.parse("package:" + context.packageName)
             }
+
+            notificationsSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
             context.startActivity(notificationsSettingsIntent)
         } catch (e: Exception) {
             Timber.tag(tag = "Settings Intent Error")
-                .e(message = "Could not launch the Settings Intent due to: %s", e.printStackTrace())
+                .e(e, message = "Could not launch the Settings Intent due to: %s", e.message)
         }
     }
 
