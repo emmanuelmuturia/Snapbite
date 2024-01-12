@@ -1,7 +1,5 @@
 package snapbite.app.food.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,8 +38,6 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.google.ai.client.generativeai.GenerativeModel
-import snapbite.app.BuildConfig
 import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
@@ -49,6 +45,7 @@ import snapbite.app.di.AppModule
 import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
+import snapbite.app.settings.ui.SettingsScreenViewModel
 import snapbite.app.theme.snapbiteMaroon
 
 data class EditFood(
@@ -60,7 +57,8 @@ data class EditFood(
     val foodListViewModel: FoodListViewModel,
     val imagePicker: ImagePicker,
     val aboutScreenViewModel: AboutScreenViewModel,
-    val faqScreenViewModel: FAQScreenViewModel
+    val faqScreenViewModel: FAQScreenViewModel,
+    val settingsScreenViewModel: SettingsScreenViewModel
 ) : Screen {
 
     @Composable
@@ -126,7 +124,8 @@ data class EditFood(
                             selectedFood = selectedFood,
                             onEvent = onEvent,
                             aboutScreenViewModel = aboutScreenViewModel,
-                            faqScreenViewModel = faqScreenViewModel
+                            faqScreenViewModel = faqScreenViewModel,
+                            settingsScreenViewModel = settingsScreenViewModel
                         )
                     }
 
@@ -149,15 +148,7 @@ data class EditFood(
                     item {
                         FoodSuggestions(
                             foodListViewModel = foodListViewModel,
-                            generativeModel = GenerativeModel(
-                                modelName = "gemini-pro-vision",
-                                apiKey = BuildConfig.geminiApiKey,
-                            ),
-                            image = BitmapFactory.decodeByteArray(
-                                selectedFood?.foodImage,
-                                0,
-                                selectedFood?.foodImage?.size ?: 0
-                            )
+                            selectedFood = selectedFood
                         )
                     }
 
@@ -181,7 +172,8 @@ private fun EditRow(
     selectedFood: Food?,
     onEvent: (FoodListEvent) -> Unit,
     aboutScreenViewModel: AboutScreenViewModel,
-    faqScreenViewModel: FAQScreenViewModel
+    faqScreenViewModel: FAQScreenViewModel,
+    settingsScreenViewModel: SettingsScreenViewModel
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -201,7 +193,8 @@ private fun EditRow(
                         onEvent(event)
                     },
                     aboutScreenViewModel = aboutScreenViewModel,
-                    faqScreenViewModel = faqScreenViewModel
+                    faqScreenViewModel = faqScreenViewModel,
+                    settingsScreenViewModel = settingsScreenViewModel
                 ))
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(
@@ -266,8 +259,7 @@ private fun FoodInfoSection(
 @Composable
 fun FoodSuggestions(
     foodListViewModel: FoodListViewModel,
-    generativeModel: GenerativeModel,
-    image: Bitmap
+    selectedFood: Food?
 ) {
 
     var foodSuggestions by remember { mutableStateOf<String?>(value = null) }
@@ -282,10 +274,7 @@ fun FoodSuggestions(
 
         Button(
             onClick = {
-                foodListViewModel.getSuggestion(
-                    generativeModel = generativeModel,
-                    image = image
-                )
+                foodListViewModel.getSuggestion(selectedFood = selectedFood)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = snapbiteMaroon,

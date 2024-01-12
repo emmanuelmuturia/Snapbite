@@ -50,6 +50,7 @@ import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.profile.ui.SignInScreen
 import snapbite.app.search.SearchScreen
 import snapbite.app.settings.ui.SettingsScreen
+import snapbite.app.settings.ui.SettingsScreenViewModel
 import snapbite.app.theme.Caveat
 
 
@@ -59,7 +60,8 @@ data class FoodListScreen(
     val foodListViewModel: FoodListViewModel,
     val onEvent: (FoodListEvent) -> Unit,
     val aboutScreenViewModel: AboutScreenViewModel,
-    val faqScreenViewModel: FAQScreenViewModel
+    val faqScreenViewModel: FAQScreenViewModel,
+    val settingsScreenViewModel: SettingsScreenViewModel
 ) : Screen {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -97,7 +99,8 @@ data class FoodListScreen(
                             imagePicker = imagePicker,
                             state = state,
                             aboutScreenViewModel = aboutScreenViewModel,
-                            faqScreenViewModel = faqScreenViewModel
+                            faqScreenViewModel = faqScreenViewModel,
+                            settingsScreenViewModel = settingsScreenViewModel
                         )
                     }
                 }
@@ -116,7 +119,8 @@ data class FoodListScreen(
                                 .size(size = 40.dp)
                                 .clickable(onClick = { navigator.push(item = SettingsScreen(
                                     aboutScreenViewModel = aboutScreenViewModel,
-                                    faqScreenViewModel = faqScreenViewModel
+                                    faqScreenViewModel = faqScreenViewModel,
+                                    settingsScreenViewModel = settingsScreenViewModel
                                 )) }),
                             imageVector = Icons.Rounded.Settings,
                             tint = Color.Black,
@@ -143,7 +147,8 @@ data class FoodListScreen(
                                                 onEvent(event)
                                             },
                                             aboutScreenViewModel = aboutScreenViewModel,
-                                            faqScreenViewModel = faqScreenViewModel
+                                            faqScreenViewModel = faqScreenViewModel,
+                                            settingsScreenViewModel = settingsScreenViewModel
                                         )
                                     )
                                 }),
@@ -240,7 +245,8 @@ fun FilledHomeScreenContent(
     imagePicker: ImagePicker,
     state: FoodListState,
     aboutScreenViewModel: AboutScreenViewModel,
-    faqScreenViewModel: FAQScreenViewModel
+    faqScreenViewModel: FAQScreenViewModel,
+    settingsScreenViewModel: SettingsScreenViewModel
 ) {
 
     val foodList by foodListViewModel.foods.collectAsState()
@@ -270,7 +276,8 @@ fun FilledHomeScreenContent(
                                 foodListViewModel = foodListViewModel,
                                 imagePicker = imagePicker,
                                 aboutScreenViewModel = aboutScreenViewModel,
-                                faqScreenViewModel = faqScreenViewModel
+                                faqScreenViewModel = faqScreenViewModel,
+                                settingsScreenViewModel = settingsScreenViewModel
                             ))
                         }
                         .padding(horizontal = 16.dp)

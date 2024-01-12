@@ -10,9 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import snapbite.app.about.ui.AboutScreenViewModel
@@ -22,6 +20,7 @@ import snapbite.app.di.AppModule
 import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
+import snapbite.app.settings.ui.SettingsScreenViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -43,7 +42,10 @@ fun App(
         val foodListViewModel: FoodListViewModel = getViewModel(
             key = "food-list-viewModel",
             factory = viewModelFactory {
-                FoodListViewModel(foodDataSource = appModule.foodDataSource)
+                FoodListViewModel(
+                    foodDataSource = appModule.foodDataSource,
+                    foodRepository = appModule.foodRepository
+                )
             }
         )
 
@@ -61,6 +63,13 @@ fun App(
             }
         )
 
+        val settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
+            key = "settingsScreenViewModel",
+            factory = viewModelFactory<SettingsScreenViewModel> {
+                SettingsScreenViewModel(settingsRepository = appModule.settingsRepository)
+            }
+        )
+
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -75,7 +84,8 @@ fun App(
                     foodListViewModel = foodListViewModel,
                     onEvent = foodListViewModel::onEvent,
                     aboutScreenViewModel = aboutScreenViewModel,
-                    faqScreenViewModel = faqScreenViewModel
+                    faqScreenViewModel = faqScreenViewModel,
+                    settingsScreenViewModel = settingsScreenViewModel
                 )
             )
 

@@ -41,18 +41,12 @@ import snapbite.app.food.components.SnapbiteBackgroundImage
 
 data class SettingsScreen(
     val aboutScreenViewModel: AboutScreenViewModel,
-    val faqScreenViewModel: FAQScreenViewModel
+    val faqScreenViewModel: FAQScreenViewModel,
+    val settingsScreenViewModel: SettingsScreenViewModel
 ) : Screen {
 
     @Composable
     override fun Content() {
-
-        val settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
-            key = "settingsScreenViewModel",
-            factory = viewModelFactory<SettingsScreenViewModel> {
-                SettingsScreenViewModel()
-            }
-        )
 
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -106,7 +100,7 @@ private fun SettingsContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable { settingsScreenViewModel.navigateToNotificationsSettings(context = context) },
+                    .clickable { settingsScreenViewModel.navigateToNotificationsSettings() },
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -234,7 +228,7 @@ private fun SettingsContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp)
-                    .clickable(onClick = { settingsScreenViewModel.rateUs(context = context) }),
+                    .clickable(onClick = { settingsScreenViewModel.rateUs() }),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
