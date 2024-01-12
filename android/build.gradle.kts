@@ -1,4 +1,5 @@
 plugins {
+
     alias(notation = libs.plugins.androidApplication)
     alias(notation = libs.plugins.kotlinAndroid)
     alias(notation = libs.plugins.jetBrainsCompose)

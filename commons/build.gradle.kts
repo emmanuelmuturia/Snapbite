@@ -5,6 +5,7 @@ plugins {
     alias(notation = libs.plugins.sql.delight)
     alias(notation = libs.plugins.moko.resources)
     alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(notation = libs.plugins.kotlin.parcelize)
 }
 
 kotlin {

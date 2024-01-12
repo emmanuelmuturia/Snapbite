@@ -32,6 +32,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import snapbite.app.about.domain.AboutRepository
 import snapbite.app.about.ui.AboutScreen
 import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
@@ -86,8 +87,6 @@ private fun SettingsContent(
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
-
-    val context = LocalContext.current
 
     LazyColumn(
         modifier = Modifier
