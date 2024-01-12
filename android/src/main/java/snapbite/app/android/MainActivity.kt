@@ -7,17 +7,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import snapbite.app.App
 import snapbite.app.core.ui.ImagePickerFactory
-import snapbite.app.di.AppModule
 import snapbite.app.notifications.domain.NotificationRepository
 import snapbite.app.notifications.handler.NotificationsHandler
 import timber.log.Timber
@@ -33,8 +30,7 @@ class MainActivity : ComponentActivity() {
 
         CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsRepository: NotificationRepository =
-                AppModule(context = this@MainActivity).notificationRepository
+            val notificationsRepository: NotificationRepository by inject<NotificationRepository>()
 
             try {
                 NotificationsHandler(notificationRepository = notificationsRepository).handleNotificationIntent(
@@ -62,8 +58,7 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         CoroutineScope(context = Dispatchers.Main).launch {
 
-            val notificationsRepository: NotificationRepository =
-                AppModule(context = this@MainActivity).notificationRepository
+            val notificationsRepository: NotificationRepository by inject<NotificationRepository>()
 
             try {
                 intent?.let {

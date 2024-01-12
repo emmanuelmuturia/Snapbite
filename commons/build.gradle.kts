@@ -5,7 +5,6 @@ plugins {
     alias(notation = libs.plugins.sql.delight)
     alias(notation = libs.plugins.moko.resources)
     alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
-    alias(notation = libs.plugins.kotlin.parcelize)
 }
 
 kotlin {
@@ -108,4 +107,9 @@ dependencies {
     implementation(dependencyNotation = libs.voyager.bottomSheetNavigator)
     implementation(dependencyNotation = libs.timber)
     implementation(dependencyNotation = libs.google.gemini)
+    implementation(dependencyNotation = libs.koin.core)
+    //implementation(dependencyNotation = libs.koin.compose)
+    implementation(dependencyNotation = libs.koin.annotations)
+    implementation(dependencyNotation = libs.koin.android)
+    implementation(dependencyNotation = libs.koin.androidx.compose)
 }

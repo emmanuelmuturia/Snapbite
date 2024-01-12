@@ -3,11 +3,10 @@ package snapbite.app.about.ui
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 import snapbite.app.about.domain.AboutRepository
-import java.io.Serializable
 
 class AboutScreenViewModel(
     private val aboutRepository: AboutRepository
-) : ViewModel(), Serializable {
+) : ViewModel() {
 
     fun getPrivacyPolicy() {
         viewModelScope.launch {

@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,41 +39,35 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import snapbite.app.about.ui.AboutScreenViewModel
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
-import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.FoodListItem
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.profile.ui.SignInScreen
 import snapbite.app.search.SearchScreen
 import snapbite.app.settings.ui.SettingsScreen
-import snapbite.app.settings.ui.SettingsScreenViewModel
 import snapbite.app.theme.Caveat
 
 
 data class FoodListScreen(
     val state: FoodListState,
     val imagePicker: ImagePicker,
-    val foodListViewModel: FoodListViewModel,
     val onEvent: (FoodListEvent) -> Unit,
-    val aboutScreenViewModel: AboutScreenViewModel,
-    val faqScreenViewModel: FAQScreenViewModel,
-    val settingsScreenViewModel: SettingsScreenViewModel
+    val foodListViewModel: FoodListViewModel
 ) : Screen {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     override fun Content() {
 
+        val onEvent: (FoodListEvent) -> Unit = foodListViewModel::onEvent
+
+        val state: FoodListState by foodListViewModel.state.collectAsState()
+
         val navigator = LocalNavigator.currentOrThrow
 
         val foodList by foodListViewModel.foods.collectAsState()
-
-        val context = LocalContext.current
-
-        val appModule = AppModule(context = context)
 
         LaunchedEffect(key1 = foodList) {}
 
@@ -86,7 +79,7 @@ data class FoodListScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
 
-                HomeScreenHeader(appModule = appModule)
+                HomeScreenHeader()
 
                 Box(modifier = Modifier.weight(weight = 1f)) {
                     if (foodList.isEmpty()) {
@@ -95,12 +88,8 @@ data class FoodListScreen(
                         FilledHomeScreenContent(
                             foodListViewModel = foodListViewModel,
                             onEvent = onEvent,
-                            appModule = appModule,
                             imagePicker = imagePicker,
-                            state = state,
-                            aboutScreenViewModel = aboutScreenViewModel,
-                            faqScreenViewModel = faqScreenViewModel,
-                            settingsScreenViewModel = settingsScreenViewModel
+                            state = state
                         )
                     }
                 }
@@ -117,11 +106,7 @@ data class FoodListScreen(
                         Icon(
                             modifier = Modifier
                                 .size(size = 40.dp)
-                                .clickable(onClick = { navigator.push(item = SettingsScreen(
-                                    aboutScreenViewModel = aboutScreenViewModel,
-                                    faqScreenViewModel = faqScreenViewModel,
-                                    settingsScreenViewModel = settingsScreenViewModel
-                                )) }),
+                                .clickable(onClick = { navigator.push(item = SettingsScreen()) }),
                             imageVector = Icons.Rounded.Settings,
                             tint = Color.Black,
                             contentDescription = "Settings Button"
@@ -138,7 +123,6 @@ data class FoodListScreen(
                                     navigator.push(
                                         item = AddNewFood(
                                             imagePicker = imagePicker,
-                                            foodListViewModel = foodListViewModel,
                                             state = state,
                                             onEvent = { event ->
                                                 if (event is FoodListEvent.OnAddFoodImage) {
@@ -146,9 +130,7 @@ data class FoodListScreen(
                                                 }
                                                 onEvent(event)
                                             },
-                                            aboutScreenViewModel = aboutScreenViewModel,
-                                            faqScreenViewModel = faqScreenViewModel,
-                                            settingsScreenViewModel = settingsScreenViewModel
+                                            foodListViewModel = foodListViewModel
                                         )
                                     )
                                 }),
@@ -184,7 +166,7 @@ data class FoodListScreen(
 
 
 @Composable
-fun HomeScreenHeader(appModule: AppModule) {
+fun HomeScreenHeader() {
 
     val navigator = LocalNavigator.currentOrThrow
 
@@ -222,9 +204,7 @@ fun HomeScreenHeader(appModule: AppModule) {
                     .size(size = 30.dp)
                     .clickable(onClick = {
                         navigator.push(
-                            item = NotificationsScreen(
-                                appModule = appModule
-                            )
+                            item = NotificationsScreen()
                         )
                     }),
                 imageVector = Icons.Rounded.Notifications,
@@ -241,12 +221,8 @@ fun HomeScreenHeader(appModule: AppModule) {
 fun FilledHomeScreenContent(
     foodListViewModel: FoodListViewModel,
     onEvent: (FoodListEvent) -> Unit,
-    appModule: AppModule,
     imagePicker: ImagePicker,
-    state: FoodListState,
-    aboutScreenViewModel: AboutScreenViewModel,
-    faqScreenViewModel: FAQScreenViewModel,
-    settingsScreenViewModel: SettingsScreenViewModel
+    state: FoodListState
 ) {
 
     val foodList by foodListViewModel.foods.collectAsState()
@@ -270,14 +246,10 @@ fun FilledHomeScreenContent(
                             navigator.push(item = EditFood(
                                 selectedFood = food,
                                 onEvent = onEvent,
-                                appModule = appModule,
                                 modifier = Modifier,
                                 state = state,
-                                foodListViewModel = foodListViewModel,
                                 imagePicker = imagePicker,
-                                aboutScreenViewModel = aboutScreenViewModel,
-                                faqScreenViewModel = faqScreenViewModel,
-                                settingsScreenViewModel = settingsScreenViewModel
+                                foodListViewModel = foodListViewModel
                             ))
                         }
                         .padding(horizontal = 16.dp)

@@ -13,14 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.navigator.Navigator
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
-import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.core.theme.SnapbiteTheme
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
-import snapbite.app.faq.ui.FAQScreenViewModel
+import snapbite.app.dependencyinjection.AppModule
 import snapbite.app.food.ui.FoodListScreen
 import snapbite.app.food.ui.FoodListViewModel
-import snapbite.app.settings.ui.SettingsScreenViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -34,6 +31,8 @@ fun App(
         darkTheme = darkTheme,
         dynamicColor = dynamicColor
     ) {
+
+        //val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val context = LocalContext.current
 
@@ -49,27 +48,6 @@ fun App(
             }
         )
 
-        val aboutScreenViewModel: AboutScreenViewModel = getViewModel(
-            key = "aboutScreenViewModel",
-            factory = viewModelFactory<AboutScreenViewModel> {
-                AboutScreenViewModel(aboutRepository = appModule.aboutRepository)
-            }
-        )
-
-        val faqScreenViewModel: FAQScreenViewModel = getViewModel(
-            key = "faqScreenViewModel",
-            factory = viewModelFactory<FAQScreenViewModel> {
-                FAQScreenViewModel(faqRepository = appModule.faqRepository)
-            }
-        )
-
-        val settingsScreenViewModel: SettingsScreenViewModel = getViewModel(
-            key = "settingsScreenViewModel",
-            factory = viewModelFactory<SettingsScreenViewModel> {
-                SettingsScreenViewModel(settingsRepository = appModule.settingsRepository)
-            }
-        )
-
         val state by foodListViewModel.state.collectAsState()
 
         Surface(
@@ -81,11 +59,8 @@ fun App(
                 screen = FoodListScreen(
                     state = state,
                     imagePicker = imagePicker,
-                    foodListViewModel = foodListViewModel,
                     onEvent = foodListViewModel::onEvent,
-                    aboutScreenViewModel = aboutScreenViewModel,
-                    faqScreenViewModel = faqScreenViewModel,
-                    settingsScreenViewModel = settingsScreenViewModel
+                    foodListViewModel = foodListViewModel
                 )
             )
 

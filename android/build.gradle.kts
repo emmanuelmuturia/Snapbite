@@ -1,5 +1,4 @@
 plugins {
-
     alias(notation = libs.plugins.androidApplication)
     alias(notation = libs.plugins.kotlinAndroid)
     alias(notation = libs.plugins.jetBrainsCompose)
@@ -57,4 +56,8 @@ dependencies {
     implementation(dependencyNotation = libs.voyager.navigator)
     implementation(dependencyNotation = libs.timber)
     implementation(dependencyNotation = libs.splash.screen)
+    implementation(dependencyNotation = libs.koin.core)
+    implementation(dependencyNotation = libs.koin.android)
+    //implementation(dependencyNotation = libs.koin.compose)
+    implementation(dependencyNotation = libs.koin.androidx.compose)
 }

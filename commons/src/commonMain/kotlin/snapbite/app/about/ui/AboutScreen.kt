@@ -14,22 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.di.AppModule
 import snapbite.app.food.components.SnapbiteBackgroundImage
 
 
-data class AboutScreen(
-    val aboutScreenViewModel: AboutScreenViewModel
-) : Screen {
+class AboutScreen: Screen {
 
     @Composable
     override fun Content() {
+
+        val aboutScreenViewModel: AboutScreenViewModel = koinViewModel()
 
         Box(modifier = Modifier.fillMaxSize()) {
 

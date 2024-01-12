@@ -38,10 +38,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.di.AppModule
 import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.domain.Food
@@ -52,17 +52,15 @@ data class EditFood(
     val selectedFood: Food?,
     val onEvent: (FoodListEvent) -> Unit,
     val modifier: Modifier = Modifier,
-    val appModule: AppModule,
     val state: FoodListState,
-    val foodListViewModel: FoodListViewModel,
     val imagePicker: ImagePicker,
-    val aboutScreenViewModel: AboutScreenViewModel,
-    val faqScreenViewModel: FAQScreenViewModel,
-    val settingsScreenViewModel: SettingsScreenViewModel
+    val foodListViewModel: FoodListViewModel
 ) : Screen {
 
     @Composable
     override fun Content() {
+
+        //val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val navigator = LocalNavigator.currentOrThrow
 
@@ -122,10 +120,7 @@ data class EditFood(
                             foodListViewModel = foodListViewModel,
                             state = state,
                             selectedFood = selectedFood,
-                            onEvent = onEvent,
-                            aboutScreenViewModel = aboutScreenViewModel,
-                            faqScreenViewModel = faqScreenViewModel,
-                            settingsScreenViewModel = settingsScreenViewModel
+                            onEvent = onEvent
                         )
                     }
 
@@ -170,10 +165,7 @@ private fun EditRow(
     foodListViewModel: FoodListViewModel,
     state: FoodListState,
     selectedFood: Food?,
-    onEvent: (FoodListEvent) -> Unit,
-    aboutScreenViewModel: AboutScreenViewModel,
-    faqScreenViewModel: FAQScreenViewModel,
-    settingsScreenViewModel: SettingsScreenViewModel
+    onEvent: (FoodListEvent) -> Unit
 ) {
 
     val navigator = LocalNavigator.currentOrThrow
@@ -184,7 +176,6 @@ private fun EditRow(
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
                 navigator.push(item = AddNewFood(
                     state = state,
-                    foodListViewModel = foodListViewModel,
                     imagePicker = imagePicker,
                     onEvent = { event ->
                         if (event is FoodListEvent.OnAddFoodImage) {
@@ -192,9 +183,7 @@ private fun EditRow(
                         }
                         onEvent(event)
                     },
-                    aboutScreenViewModel = aboutScreenViewModel,
-                    faqScreenViewModel = faqScreenViewModel,
-                    settingsScreenViewModel = settingsScreenViewModel
+                    foodListViewModel = foodListViewModel
                 ))
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(
