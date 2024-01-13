@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface FoodDataSource {
 
-    fun getFoods(): Flow<List<Food>>
+    fun getFoods(): Flow<List<FoodEntity>>
 
-    suspend fun insertFood(food: Food)
+    suspend fun insertFood(food: FoodEntity)
 
     suspend fun deleteFood(foodId: Long)
 

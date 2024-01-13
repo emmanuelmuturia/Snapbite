@@ -5,14 +5,14 @@ import android.graphics.BitmapFactory
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.google.ai.client.generativeai.type.content
-import snapbite.app.food.domain.Food
+import snapbite.app.food.domain.FoodEntity
 import snapbite.app.food.domain.FoodRepository
 
 class FoodRepositoryImplementation(
     private val generativeModel: GenerativeModel
 ) : FoodRepository {
 
-    override suspend fun response(selectedFood: Food?): GenerateContentResponse {
+    override suspend fun response(selectedFood: FoodEntity?): GenerateContentResponse {
 
         val image: Bitmap = BitmapFactory.decodeByteArray(
             selectedFood?.foodImage,
@@ -28,7 +28,7 @@ class FoodRepositoryImplementation(
         )
     }
 
-    override suspend fun result(selectedFood: Food?): String? {
+    override suspend fun result(selectedFood: FoodEntity?): String? {
         return response(selectedFood = selectedFood).text
     }
 

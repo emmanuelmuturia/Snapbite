@@ -30,11 +30,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.food.ui.FoodListViewModel
 import snapbite.app.profile.google.GoogleAuthUiClient
 import snapbite.app.profile.google.UserData
 import snapbite.app.theme.snapbiteMaroon
@@ -45,16 +45,11 @@ class ProfileScreen : Screen {
     @Composable
     override fun Content() {
 
-        val profileScreenViewModel: ProfileScreenViewModel = getViewModel(
-            key = "profileScreenViewModel",
-            factory = viewModelFactory<ProfileScreenViewModel> {
-                ProfileScreenViewModel()
-            }
-        )
-
-        val context = LocalContext.current
+        val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val scope = rememberCoroutineScope()
+
+        val context = LocalContext.current
 
         val googleAuthUiClient by lazy {
             GoogleAuthUiClient(
@@ -93,7 +88,7 @@ class ProfileScreen : Screen {
                     }
 
                     item(key = 3) {
-                        ProfileScreenCard(profileScreenViewModel = profileScreenViewModel)
+                        ProfileScreenCard(foodListViewModel = foodListViewModel)
                     }
 
                     item(key = 4) {
@@ -144,9 +139,9 @@ fun ProfileScreenContent(
 
 
 @Composable
-fun ProfileScreenCard(profileScreenViewModel: ProfileScreenViewModel) {
+fun ProfileScreenCard(foodListViewModel: FoodListViewModel) {
 
-    val foodList by profileScreenViewModel.foodList.collectAsState()
+    val foodList by foodListViewModel.foods.collectAsState()
 
     Card(
         modifier = Modifier
@@ -163,7 +158,7 @@ fun ProfileScreenCard(profileScreenViewModel: ProfileScreenViewModel) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(text = "${foodList.size} Diaries", style = MaterialTheme.typography.titleLarge)
+            Text(text = "${foodList.size} Food Entries", style = MaterialTheme.typography.titleLarge)
         }
 
     }

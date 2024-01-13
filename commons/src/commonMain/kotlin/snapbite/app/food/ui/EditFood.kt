@@ -25,9 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,18 +35,14 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import org.koin.androidx.compose.koinViewModel
-import snapbite.app.about.ui.AboutScreenViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.faq.ui.FAQScreenViewModel
 import snapbite.app.food.components.SnapbiteBackgroundImage
-import snapbite.app.food.domain.Food
-import snapbite.app.settings.ui.SettingsScreenViewModel
+import snapbite.app.food.domain.FoodEntity
 import snapbite.app.theme.snapbiteMaroon
 
 data class EditFood(
-    val selectedFood: Food?,
+    val selectedFood: FoodEntity?,
     val onEvent: (FoodListEvent) -> Unit,
     val modifier: Modifier = Modifier,
     val state: FoodListState,
@@ -164,7 +157,7 @@ private fun EditRow(
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
     state: FoodListState,
-    selectedFood: Food?,
+    selectedFood: FoodEntity?,
     onEvent: (FoodListEvent) -> Unit
 ) {
 
@@ -248,10 +241,9 @@ private fun FoodInfoSection(
 @Composable
 fun FoodSuggestions(
     foodListViewModel: FoodListViewModel,
-    selectedFood: Food?
+    selectedFood: FoodEntity?
 ) {
-
-    var foodSuggestions by remember { mutableStateOf<String?>(value = null) }
+    val foodSuggestions by foodListViewModel.foodSuggestions.collectAsState()
 
     val isResponseLoading by foodListViewModel.isResponseLoading.collectAsState()
 
@@ -273,25 +265,12 @@ fun FoodSuggestions(
             Text(text = "Get Suggestions...", style = MaterialTheme.typography.bodyLarge)
         }
 
-        foodListViewModel.foodSuggestions?.let {
-            foodSuggestions = it
-        }
-
         if (isResponseLoading) {
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                CircularProgressIndicator(
-                    color = Color.Black,
-                    strokeWidth = 3.5.dp
-                )
-
-            }
-
+            CircularProgressIndicator(
+                modifier = Modifier.padding(all = 16.dp),
+                color = Color.Black,
+                strokeWidth = 3.5.dp
+            )
         } else {
             foodSuggestions?.let {
                 Text(
@@ -301,6 +280,5 @@ fun FoodSuggestions(
                 )
             }
         }
-
     }
 }

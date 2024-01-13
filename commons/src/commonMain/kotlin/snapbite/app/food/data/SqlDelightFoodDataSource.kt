@@ -10,7 +10,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.datetime.Clock
 import snapbite.app.core.data.ImageStorage
 import snapbite.app.database.SnapbiteDatabase
-import snapbite.app.food.domain.Food
+import snapbite.app.food.domain.FoodEntity
 import snapbite.app.food.domain.FoodDataSource
 
 class SqlDelightFoodDataSource(
@@ -20,7 +20,7 @@ class SqlDelightFoodDataSource(
 
     private val queries = snapbiteDatabase.foodQueries
 
-    override fun getFoods(): Flow<List<Food>> {
+    override fun getFoods(): Flow<List<FoodEntity>> {
         return queries
             .getFoods()
             .asFlow()
@@ -36,7 +36,7 @@ class SqlDelightFoodDataSource(
             }
     }
 
-    override suspend fun insertFood(food: Food) {
+    override suspend fun insertFood(food: FoodEntity) {
 
         val foodImage = food.foodImage?.let {
             imageStorage.saveImage(bytes = it)
@@ -47,8 +47,8 @@ class SqlDelightFoodDataSource(
             foodName = food.foodName,
             foodImage = foodImage,
             foodCaption = food.foodCaption,
-            foodEmoji = food.foodEmoji ?: "",
-            foodDate = Clock.System.now().toEpochMilliseconds()
+            foodEmoji = food.foodEmoji,
+            foodDate = 7L
         )
     }
 

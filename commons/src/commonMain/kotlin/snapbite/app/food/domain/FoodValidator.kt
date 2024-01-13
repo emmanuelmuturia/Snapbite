@@ -2,7 +2,7 @@ package snapbite.app.food.domain
 
 object FoodValidator {
 
-    fun validateFood(food: Food): ValidationResult {
+    fun validateFood(food: FoodEntity): ValidationResult {
 
         var result = ValidationResult()
 

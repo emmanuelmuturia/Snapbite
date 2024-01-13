@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import snapbite.app.food.domain.Food
+import snapbite.app.food.domain.FoodEntity
 import snapbite.app.food.domain.FoodDataSource
 import snapbite.app.food.domain.FoodRepository
 import snapbite.app.food.domain.FoodValidator
@@ -42,17 +43,17 @@ class FoodListViewModel(
         FoodListState()
     )
 
-    var foodSuggestions: String? by mutableStateOf(value = "")
-        private set
+    private var _foodSuggestions = MutableStateFlow<String?>(value = null)
+    val foodSuggestions: StateFlow<String?> = _foodSuggestions.asStateFlow()
 
-    var newFood: Food? by mutableStateOf(value = null)
+    var newFood: FoodEntity? by mutableStateOf(value = null)
         private set
 
     var foodEmoji: String by mutableStateOf(value = "\uD83D\uDE0B")
         private set
 
-    private var _foods = MutableStateFlow<List<Food>>(value = listOf())
-    val foods: StateFlow<List<Food>> = _foods.asStateFlow()
+    private var _foods = MutableStateFlow<List<FoodEntity>>(value = listOf())
+    val foods: StateFlow<List<FoodEntity>> = _foods.asStateFlow()
 
     private var _isResponseLoading = MutableStateFlow(value = false)
     val isResponseLoading: StateFlow<Boolean> = _isResponseLoading.asStateFlow()
@@ -123,7 +124,7 @@ class FoodListViewModel(
                         isAddFoodSheetOpen = true
                     )
                 }
-                newFood = Food(
+                newFood = FoodEntity(
                     foodId = null,
                     foodName = "",
                     foodEmoji = foodEmoji,
@@ -209,21 +210,17 @@ class FoodListViewModel(
     }
 
 
-    fun getSuggestion(selectedFood: Food?) {
-
-        viewModelScope.launch {
-
+    fun getSuggestion(selectedFood: FoodEntity?) {
+        viewModelScope.launch(context = Dispatchers.IO) {
             try {
                 _isResponseLoading.value = true
-                foodRepository.response(selectedFood = selectedFood)
-                _isResponseLoading.value = false
-                foodSuggestions = foodRepository.result(selectedFood = selectedFood)
+                _foodSuggestions.value = foodRepository.result(selectedFood = selectedFood)
             } catch (e: Exception) {
                 Timber.tag(tag = "Gemini Error").e(message = "Could not get response due to: ${e.printStackTrace()}")
+            } finally {
+                _isResponseLoading.value = false
             }
-
         }
-
     }
 
 }

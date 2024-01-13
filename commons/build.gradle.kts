@@ -5,6 +5,7 @@ plugins {
     alias(notation = libs.plugins.sql.delight)
     alias(notation = libs.plugins.moko.resources)
     alias(notation = libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(notation = libs.plugins.kotlin.parcelize)
 }
 
 kotlin {
@@ -48,6 +49,8 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(dependencyNotation = libs.kotlin.test)
+            implementation(dependencyNotation = libs.kotlinx.coroutines.test)
+            implementation(dependencyNotation = libs.mockK)
         }
         androidMain {
             dependsOn(other = commonMain.get())
@@ -55,6 +58,7 @@ kotlin {
                 implementation(dependencyNotation = libs.sql.delight.android.driver)
                 implementation(dependencyNotation = libs.app.compat)
                 implementation(dependencyNotation = libs.androidx.activity.compose)
+                implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
             }
         }
         /*iosMain.dependencies {
@@ -112,4 +116,6 @@ dependencies {
     implementation(dependencyNotation = libs.koin.annotations)
     implementation(dependencyNotation = libs.koin.android)
     implementation(dependencyNotation = libs.koin.androidx.compose)
+    testImplementation(dependencyNotation = libs.robolectric)
+    testImplementation("app.cash.sqldelight:sqlite-driver:2.0.1")
 }
