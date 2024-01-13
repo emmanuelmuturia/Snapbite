@@ -49,6 +49,8 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(dependencyNotation = libs.kotlin.test)
+            implementation(dependencyNotation = libs.kotlinx.coroutines.test)
+            implementation(dependencyNotation = libs.mockK)
         }
         androidMain {
             dependsOn(other = commonMain.get())
@@ -113,4 +115,5 @@ dependencies {
     implementation(dependencyNotation = libs.koin.annotations)
     implementation(dependencyNotation = libs.koin.android)
     implementation(dependencyNotation = libs.koin.androidx.compose)
+    testImplementation(dependencyNotation = libs.robolectric)
 }

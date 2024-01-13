@@ -47,7 +47,7 @@ class SqlDelightFoodDataSource(
             foodName = food.foodName,
             foodImage = foodImage,
             foodCaption = food.foodCaption,
-            foodEmoji = food.foodEmoji ?: "",
+            foodEmoji = food.foodEmoji,
             foodDate = Clock.System.now().toEpochMilliseconds()
         )
     }
