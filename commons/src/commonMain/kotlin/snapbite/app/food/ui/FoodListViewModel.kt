@@ -20,6 +20,7 @@ import snapbite.app.food.domain.FoodDataSource
 import snapbite.app.food.domain.FoodRepository
 import snapbite.app.food.domain.FoodValidator
 import timber.log.Timber
+import java.io.Serializable
 
 class FoodListViewModel(
     private val foodDataSource: FoodDataSource,

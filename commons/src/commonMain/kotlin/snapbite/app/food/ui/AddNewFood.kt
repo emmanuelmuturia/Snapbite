@@ -193,12 +193,7 @@ fun AddNewFoodHeader(
             onClick = {
                 onEvent(FoodListEvent.SaveFood)
                 navigator.push(
-                    item = FoodListScreen(
-                        imagePicker = imagePicker,
-                        state = state,
-                        onEvent = onEvent,
-                        foodListViewModel = foodListViewModel
-                    )
+                    item = FoodListScreen()
                 )
             },
             colors = ButtonDefaults.buttonColors(

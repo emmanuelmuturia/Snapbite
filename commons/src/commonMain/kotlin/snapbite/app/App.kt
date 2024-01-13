@@ -24,8 +24,7 @@ import snapbite.app.food.ui.FoodListViewModel
 @Composable
 fun App(
     darkTheme: Boolean,
-    dynamicColor: Boolean,
-    imagePicker: ImagePicker
+    dynamicColor: Boolean
 ) {
 
     SnapbiteTheme(
@@ -43,12 +42,7 @@ fun App(
         ) {
 
             Navigator(
-                screen = FoodListScreen(
-                    state = state,
-                    imagePicker = imagePicker,
-                    onEvent = foodListViewModel::onEvent,
-                    foodListViewModel = foodListViewModel
-                )
+                screen = FoodListScreen()
             )
 
         }

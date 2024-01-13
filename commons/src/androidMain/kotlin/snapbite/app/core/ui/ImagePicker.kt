@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 actual class ImagePicker(
     private val activity: ComponentActivity
 ) {
+
     private lateinit var getContent: ActivityResultLauncher<String>
+
 
     @Composable
     actual fun registerPicker(onImagePicked: (ByteArray) -> Unit) {

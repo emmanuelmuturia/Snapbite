@@ -2,6 +2,7 @@ package snapbite.app.food.ui
 
 import snapbite.app.food.domain.Food
 
+
 sealed interface FoodListEvent {
 
     data object OnAddNewFoodClick: FoodListEvent
