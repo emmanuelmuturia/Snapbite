@@ -5,6 +5,7 @@
         android:name=".SnapbiteApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
+        android:icon="@mipmap/ic_launcher"
         android:theme="@style/Theme.App.Starting">
         <activity
             android:name=".MainActivity"
