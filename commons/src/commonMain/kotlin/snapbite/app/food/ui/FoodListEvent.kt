@@ -1,6 +1,6 @@
 package snapbite.app.food.ui
 
-import snapbite.app.food.domain.Food
+import snapbite.app.food.domain.FoodEntity
 
 
 sealed interface FoodListEvent {
@@ -21,9 +21,9 @@ sealed interface FoodListEvent {
 
     data object SaveFood: FoodListEvent
 
-    data class SelectFood(val food: Food): FoodListEvent
+    data class SelectFood(val food: FoodEntity): FoodListEvent
 
-    data class EditFood(val food: Food): FoodListEvent
+    data class EditFood(val food: FoodEntity): FoodListEvent
 
     data object DeleteFood: FoodListEvent
 

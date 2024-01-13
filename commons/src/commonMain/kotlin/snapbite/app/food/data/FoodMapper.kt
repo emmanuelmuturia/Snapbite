@@ -2,10 +2,9 @@ package snapbite.app.food.data
 
 import snapbite.app.core.data.ImageStorage
 import snapbite.app.database.FoodEntity
-import snapbite.app.food.domain.Food
 
-suspend fun FoodEntity.toFood(imageStorage: ImageStorage): Food {
-    return Food(
+suspend fun FoodEntity.toFood(imageStorage: ImageStorage): snapbite.app.food.domain.FoodEntity {
+    return snapbite.app.food.domain.FoodEntity(
         foodId = foodId,
         foodName = foodName,
         foodCaption = foodCaption,

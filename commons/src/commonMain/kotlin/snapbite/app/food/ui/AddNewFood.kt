@@ -39,7 +39,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.food.components.EmojiPicker
 import snapbite.app.food.components.SnapbiteBackgroundImage
-import snapbite.app.food.domain.Food
+import snapbite.app.food.domain.FoodEntity
 import snapbite.app.theme.snapbiteMaroon
 
 
@@ -59,7 +59,7 @@ data class AddNewFood(
 
         var foodEmoji by rememberSaveable { mutableStateOf(value = foodListViewModel.foodEmoji) }
 
-        val newFood: Food? = foodListViewModel.newFood
+        val newFood: FoodEntity? = foodListViewModel.newFood
 
         Box(
             modifier = Modifier.fillMaxSize(),

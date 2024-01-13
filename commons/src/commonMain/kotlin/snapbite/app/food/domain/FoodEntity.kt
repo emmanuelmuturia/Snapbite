@@ -1,6 +1,6 @@
 package snapbite.app.food.domain
 
-data class Food(
+data class FoodEntity(
     val foodId: Long?,
     var foodName: String,
     var foodCaption: String,
