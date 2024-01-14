@@ -44,7 +44,7 @@ import snapbite.app.commons.ErrorScreen
 import snapbite.app.commons.LoadingScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.commons.SnapbiteState
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.notifications.domain.Notification
 
 class NotificationsScreen() : Screen {

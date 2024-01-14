@@ -30,7 +30,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.profile.google.GoogleAuthUiClient
 import snapbite.app.theme.snapbiteMaroon
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 
 
 class AboutScreen: Screen {

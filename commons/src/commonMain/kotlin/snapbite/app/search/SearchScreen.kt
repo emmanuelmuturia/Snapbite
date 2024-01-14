@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -22,9 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import org.koin.androidx.compose.koinViewModel
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.theme.Caveat
 
 
@@ -35,9 +35,7 @@ class SearchScreen : Screen {
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            val searchScreenViewModel: SearchScreenViewModel = koinViewModel()
-
-            var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
+            var searchItem by rememberSaveable { mutableStateOf(value = "") }
 
             SnapbiteBackgroundImage()
 

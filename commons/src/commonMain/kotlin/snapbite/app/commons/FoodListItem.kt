@@ -1,4 +1,4 @@
-package snapbite.app.food.components
+package snapbite.app.commons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

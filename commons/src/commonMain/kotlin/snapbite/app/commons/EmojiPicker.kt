@@ -1,4 +1,4 @@
-package snapbite.app.food.components
+package snapbite.app.commons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import snapbite.app.theme.snapbiteMaroon
-import snapbite.app.theme.snapbiteOrange
 
 @Composable
 fun EmojiPicker(

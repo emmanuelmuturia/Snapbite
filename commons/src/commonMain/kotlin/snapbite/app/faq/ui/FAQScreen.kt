@@ -45,7 +45,7 @@ import snapbite.app.commons.LoadingScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.commons.SnapbiteState
 import snapbite.app.faq.domain.FAQ
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 
 class FAQScreen: Screen {
 

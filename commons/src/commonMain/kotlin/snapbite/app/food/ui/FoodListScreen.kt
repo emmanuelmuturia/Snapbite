@@ -44,9 +44,9 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.androidx.compose.koinViewModel
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.core.ui.ImagePickerFactory
-import snapbite.app.food.components.FoodListItem
-import snapbite.app.food.components.SnapbiteBackgroundImage
-import snapbite.app.food.components.backHandler
+import snapbite.app.commons.FoodListItem
+import snapbite.app.commons.SnapbiteBackgroundImage
+import snapbite.app.commons.backHandler
 import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.profile.ui.SignInScreen
 import snapbite.app.search.SearchScreen

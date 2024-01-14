@@ -38,8 +38,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.food.components.EmojiPicker
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.EmojiPicker
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.food.domain.FoodEntity
 import snapbite.app.theme.snapbiteMaroon
 
