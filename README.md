@@ -1,4 +1,5 @@
 # Snapbite
+![Snapbite Logo](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/c87b372a-4673-4a73-8e73-95c011317a59)
 
 ## Overview
 This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the user to also get suggestions on how to make their foods healthier...
@@ -85,7 +86,13 @@ This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the use
 - You will be presented with a QR Code. On the "Developer Options" under "Wireless Debugging", choose "Pair using QR Code" and scan the QR code that has been presented to you in Android Studio. Alternatively, select the "Pair using Pairing Code" and do the same on your device still under "Wireless Debugging". Wait for Android Studio to scan and discover your device...
 - That's it!
 
-## Screenshot
+## Screenshots
+
+| Screenshot | Description |
+|---|---|
+| ![Snapbite Screenshot 1](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/d8c7b6ea-8416-4416-9803-65f08611fa24) | Uploading a food item... |
+| ![Snapbite Screenshot 2](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/24d8220c-d2d5-49dd-889e-55cff67b2f5d) | Displaying the saved food item... |
+| ![Snapbite Screenshot 3](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/c3762d9d-e7d0-4793-a367-9b4abe4fb445) | Healthier suggestions for the food item... |
 
 ## Trivia
 - The term "Snapbite" is a portmanteau similar to Snapchat that represents the functionality of using food photos...

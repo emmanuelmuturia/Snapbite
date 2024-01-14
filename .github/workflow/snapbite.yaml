@@ -1,0 +1,41 @@
+name: Snapbite (CI)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17...
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          cache: gradle
+
+      - name: Load the Google Service JSON file...
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA | base64 -di > app/google-services.json
+
+      - name: Create local.properties...
+        run: |
+          echo "privacyPolicy=${{ secrets.PRIVACY_POLICY }}" > local.properties
+          echo "termsAndConditions=${{ secrets.TERMS_AND_CONDITIONS }}" >> local.properties
+          echo "firebaseServerClientId=${{ secrets.FIREBASE_CLIENT_SERVER_ID }}" >> local.properties
+          echo "github=${{ secrets.GITHUB }}" >> local.properties
+          echo "geminiApiKey=${{ secrets.GEMINI_API_KEY }}" >> local.properties
+
+      - name: Make gradlew executable...
+        run: chmod +x gradlew
+
+      - name: Build the Gradle...
+        run: ./gradlew build
