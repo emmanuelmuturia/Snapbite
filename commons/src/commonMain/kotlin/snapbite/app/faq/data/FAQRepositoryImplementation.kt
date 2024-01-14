@@ -16,7 +16,7 @@ class FAQRepositoryImplementation(
             firebaseFirestore.collection("FAQ").get().await().toObjects<FAQ>()
         } catch (e: Exception) {
             Timber.tag(tag = "Firebase Cloud Firestore Error")
-                .e(message = "Could not fetch data due to: %s", e.printStackTrace())
+                .e(message = "Could not fetch data due to: %s", e.message)
             emptyList()
         }
     }

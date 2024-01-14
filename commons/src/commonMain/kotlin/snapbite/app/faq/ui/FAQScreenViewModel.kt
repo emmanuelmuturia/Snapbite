@@ -35,7 +35,6 @@ class FAQScreenViewModel(
                 _faqList.value = faqRepository.getFAQs()
                 _faqState.update { SnapbiteState.Success(data = _faqList.value) }
             } catch (e: Exception) {
-
                 _faqState.update { SnapbiteState.Error(error = e) }
             }
 
