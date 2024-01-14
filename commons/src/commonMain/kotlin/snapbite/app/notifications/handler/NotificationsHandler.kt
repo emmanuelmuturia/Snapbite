@@ -28,7 +28,7 @@ class NotificationsHandler(private val notificationRepository: NotificationRepos
     }
 
 
-    suspend fun saveNotification(
+    private suspend fun saveNotification(
         notificationId: String,
         notificationTitle: String?,
         notificationBody: String?,

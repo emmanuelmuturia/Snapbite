@@ -1,6 +1,5 @@
 package snapbite.app.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,17 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
-import snapbite.app.R
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.theme.Caveat
@@ -40,12 +35,7 @@ class SearchScreen : Screen {
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            val searchScreenViewModel: SearchScreenViewModel = getViewModel(
-                key = "searchScreenViewModel",
-                factory = viewModelFactory<SearchScreenViewModel> {
-                    SearchScreenViewModel()
-                }
-            )
+            val searchScreenViewModel: SearchScreenViewModel = koinViewModel()
 
             var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
 

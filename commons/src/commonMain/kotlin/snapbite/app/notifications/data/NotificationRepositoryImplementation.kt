@@ -30,7 +30,7 @@ class NotificationRepositoryImplementation(
             Timber.tag(tag = "Notification Insertion Exception")
                 .e(
                     message = "Could not insert the notification due to: %s",
-                    e.printStackTrace()
+                    e.message
                 )
         }
     }
@@ -54,7 +54,7 @@ class NotificationRepositoryImplementation(
             Timber.tag(tag = "Notification Deletion Exception")
                 .e(
                     message = "Could not delete the notification due to: %s",
-                    e.printStackTrace()
+                    e.message
                 )
             throw e
         }
@@ -69,7 +69,7 @@ class NotificationRepositoryImplementation(
             Timber.tag(tag = "Notification Deletion Exception")
                 .e(
                     message = "Could not delete the notification due to: %s",
-                    e.printStackTrace()
+                    e.message
                 )
         }
     }

@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.sp
 import snapbite.app.R
 
 val Caveat = FontFamily(
-    Font(R.font.caveat_regular),
-    Font(R.font.caveat_medium),
-    Font(R.font.caveat_semi_bold),
-    Font(R.font.caveat_bold)
+    Font(resId = R.font.caveat_regular),
+    Font(resId = R.font.caveat_medium),
+    Font(resId = R.font.caveat_semi_bold),
+    Font(resId = R.font.caveat_bold)
 )
 
 val Typography = Typography(

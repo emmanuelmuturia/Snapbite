@@ -27,9 +27,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.profile.google.GoogleAuthUiClient
@@ -40,12 +39,7 @@ class SignInScreen : Screen {
     @Composable
     override fun Content() {
 
-        val signInViewModel: SignInViewModel = getViewModel(
-            key = "signInScreenViewModel",
-            factory = viewModelFactory<SignInViewModel> {
-                SignInViewModel()
-            }
-        )
+        val signInViewModel: SignInViewModel = koinViewModel()
 
         val signInState by signInViewModel.state.collectAsState()
 
