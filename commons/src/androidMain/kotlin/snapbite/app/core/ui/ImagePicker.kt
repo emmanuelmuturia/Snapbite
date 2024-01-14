@@ -12,7 +12,6 @@ actual class ImagePicker(
 
     private lateinit var getContent: ActivityResultLauncher<String>
 
-
     @Composable
     actual fun registerPicker(onImagePicked: (ByteArray) -> Unit) {
         getContent = rememberLauncherForActivityResult(
@@ -29,4 +28,5 @@ actual class ImagePicker(
     actual fun pickImage() {
         getContent.launch("image/*")
     }
+
 }
