@@ -1,6 +1,5 @@
 package snapbite.app.food.components
 
-import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
