@@ -3,6 +3,7 @@ package snapbite.app.commons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -38,9 +39,7 @@ fun SnapbiteHeader(headerTitle: String) {
                 .weight(weight = 1f)
         ) {
 
-            IconButton(onClick = {
-                navigator.pop()
-            }) {
+            IconButton(onClick = navigator::pop) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
                     contentDescription = null,
@@ -58,7 +57,7 @@ fun SnapbiteHeader(headerTitle: String) {
             )
         }
 
-        Row(modifier = Modifier.weight(weight = 1f)) {}
+        Spacer(modifier = Modifier.weight(weight = 1f))
 
     }
 
