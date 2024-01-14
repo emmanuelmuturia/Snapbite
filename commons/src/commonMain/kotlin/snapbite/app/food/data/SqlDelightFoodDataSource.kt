@@ -7,11 +7,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.supervisorScope
-import kotlinx.datetime.Clock
 import snapbite.app.core.data.ImageStorage
 import snapbite.app.database.SnapbiteDatabase
-import snapbite.app.food.domain.FoodEntity
 import snapbite.app.food.domain.FoodDataSource
+import snapbite.app.food.domain.FoodEntity
 
 class SqlDelightFoodDataSource(
     snapbiteDatabase: SnapbiteDatabase,

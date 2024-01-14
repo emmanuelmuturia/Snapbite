@@ -30,7 +30,6 @@ fun FoodListItem(food: FoodEntity, modifier: Modifier) {
             .height(height = 149.dp)
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-            //.clickable(onClick = onClick)
         ,
         elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = snapbiteOrange)
@@ -38,7 +37,7 @@ fun FoodListItem(food: FoodEntity, modifier: Modifier) {
         Row(
             modifier = modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween // Use SpaceBetween here
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = modifier.padding(7.dp).fillMaxSize(),
@@ -49,26 +48,9 @@ fun FoodListItem(food: FoodEntity, modifier: Modifier) {
                 Spacer(modifier = Modifier.height(height = 7.dp))
                 Text(text = food.foodName, style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(height = 7.dp))
-                food.foodEmoji?.let { Text(text = it, style = MaterialTheme.typography.titleLarge) }
+                Text(text = food.foodEmoji, style = MaterialTheme.typography.titleLarge)
             }
 
-            Column(
-                modifier = modifier.padding(7.dp),
-                verticalArrangement = Arrangement.spacedBy(3.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-
-            }
-
-            /*// Move the Box outside the Column and use horizontal alignment
-            Box(
-                modifier = modifier
-                    .background(color = Color.Transparent)
-                    .padding(end = 16.dp),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                food.foodEmoji?.let { Text(text = it) }
-            }*/
         }
     }
 

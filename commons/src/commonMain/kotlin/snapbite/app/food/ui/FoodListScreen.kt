@@ -133,14 +133,13 @@ class FoodListScreen : Screen {
                                     navigator.push(
                                         item = AddNewFood(
                                             imagePicker = imagePicker,
-                                            state = state,
+                                            foodListViewModel = foodListViewModel,
                                             onEvent = { event ->
                                                 if (event is FoodListEvent.OnAddFoodImage) {
                                                     imagePicker.pickImage()
                                                 }
                                                 onEvent(event)
-                                            },
-                                            foodListViewModel = foodListViewModel
+                                            }
                                         )
                                     )
                                 }),
@@ -247,23 +246,25 @@ fun FilledHomeScreenContent(
 
         items(foodList) { food ->
 
-                FoodListItem(
-                    food = food,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onEvent(FoodListEvent.SelectFood(food = food))
-                            navigator.push(item = EditFood(
+            FoodListItem(
+                food = food,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onEvent(FoodListEvent.SelectFood(food = food))
+                        navigator.push(
+                            item = EditFood(
                                 selectedFood = food,
                                 onEvent = onEvent,
                                 modifier = Modifier,
                                 state = state,
                                 imagePicker = imagePicker,
                                 foodListViewModel = foodListViewModel
-                            ))
-                        }
-                        .padding(horizontal = 16.dp)
-                )
+                            )
+                        )
+                    }
+                    .padding(horizontal = 16.dp)
+            )
         }
     }
 
