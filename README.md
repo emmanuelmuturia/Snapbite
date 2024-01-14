@@ -4,6 +4,8 @@
 ## Overview
 This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the user to also get suggestions on how to make their foods healthier...
 
+https://github.com/emmanuelmuturia/Snapbite/assets/55001497/e560452b-7bf9-46f1-8cc7-b4eb33e6ff9a
+
 ## Table of Contents
 
 1. [BackGround](#Background)
