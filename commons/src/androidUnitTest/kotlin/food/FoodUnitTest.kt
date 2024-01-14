@@ -23,7 +23,7 @@ class FoodUnitTest {
 
     @BeforeTest
     fun setup() {
-        val mockKContext: Context = mockk(relaxed = true)
+        val mockKContext: Context = mockk()
         val driver =
             DatabaseDriverFactory(context = mockKContext, inMemory = true).createSnapbiteDatabase()
         val database = SnapbiteDatabase(driver = driver)
@@ -75,7 +75,6 @@ class FoodUnitTest {
 
         val result: List<FoodEntity> = foodQueries.getFoods().executeAsList()
 
-        // Sort both lists before comparing
         val sortedExpected = foodList.sortedBy { it.foodId }
         val sortedResult = result.sortedBy { it.foodId }
 
