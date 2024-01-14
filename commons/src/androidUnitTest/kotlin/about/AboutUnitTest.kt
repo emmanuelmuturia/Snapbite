@@ -35,7 +35,7 @@ class AboutUnitTest {
 
     @Before
     fun setup() {
-        MockKAnnotations.init(this)
+        MockKAnnotations.init(obj = arrayOf(this))
         mockKAboutScreenViewModel = AboutScreenViewModel(
             aboutRepository = mockKAboutRepository
         )
