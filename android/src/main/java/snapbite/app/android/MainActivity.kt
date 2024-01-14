@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import snapbite.app.App
-import snapbite.app.core.ui.ImagePickerFactory
 import snapbite.app.notifications.domain.NotificationRepository
 import snapbite.app.notifications.handler.NotificationsHandler
 import timber.log.Timber
@@ -38,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 )
             } catch (e: IOException) {
                 Timber.tag(tag = "Notifications Handling Exception")
-                    .e(message = "Could not handle notifications due to ${e.printStackTrace()}")
+                    .e(message = "Could not handle notifications due to ${e.message}")
             }
         }
 
@@ -67,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 }
             } catch (e: IOException) {
                 Timber.tag(tag = "Notifications Handling Exception")
-                    .e(message = "Could not handle notifications due to ${e.printStackTrace()}")
+                    .e(message = "Could not handle notifications due to ${e.message}")
             }
         }
     }

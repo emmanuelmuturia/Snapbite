@@ -40,7 +40,6 @@ private fun getFCMToken() {
 
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
         if (!task.isSuccessful) {
-            // Handle the error
             Timber.tag(tag = "FCM Token Error")
                 .e(message = "Could not retrieve your FCM Token due to ${task.exception}")
             return@OnCompleteListener
@@ -75,7 +74,7 @@ private fun createNotificationChannels(context: Context) {
         }
     } catch (e: SecurityException) {
         Timber.tag(tag = "Security Exception (Notification Channels)")
-            .e(message = "Could not create Notification Channel(s) due to ${e.printStackTrace()}")
+            .e(message = "Could not create Notification Channel(s) due to ${e.message}")
     }
 
 }
