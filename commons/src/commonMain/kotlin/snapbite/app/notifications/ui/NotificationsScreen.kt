@@ -44,10 +44,8 @@ import snapbite.app.commons.ErrorScreen
 import snapbite.app.commons.LoadingScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.commons.SnapbiteState
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.notifications.domain.Notification
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class NotificationsScreen() : Screen {
 
@@ -55,7 +53,7 @@ class NotificationsScreen() : Screen {
     @Composable
     override fun Content() {
 
-        val notificationsScreenViewModel: NotificationsScreenViewModel  = koinViewModel()
+        val notificationsScreenViewModel: NotificationsScreenViewModel = koinViewModel()
 
         val notificationsList by notificationsScreenViewModel.notificationsList.collectAsState()
 
@@ -100,55 +98,55 @@ private fun NotificationScreenContent(notificationsScreenViewModel: Notification
 
     val notificationsList by notificationsScreenViewModel.notificationsList.collectAsState()
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(space = 7.dp)
-        ) {
-            items(notificationsList, key = { notificationEntity ->
-                notificationEntity.notificationId
-            }) { notification ->
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(space = 7.dp)
+    ) {
+        items(notificationsList, key = { notificationEntity ->
+            notificationEntity.notificationId
+        }) { notification ->
 
-                val swipeToDismissState = rememberDismissState()
+            val swipeToDismissState = rememberDismissState()
 
-                DisposableEffect(swipeToDismissState) {
-                    onDispose {
-                        if (swipeToDismissState.isDismissed(direction = DismissDirection.EndToStart)) {
-                            notificationsScreenViewModel.deleteNotification(notification = notification)
-                        }
+            DisposableEffect(swipeToDismissState) {
+                onDispose {
+                    if (swipeToDismissState.isDismissed(direction = DismissDirection.EndToStart)) {
+                        notificationsScreenViewModel.deleteNotification(notification = notification)
                     }
                 }
+            }
 
-                AnimatedVisibility(
-                    visible = !swipeToDismissState.isDismissed(direction = DismissDirection.EndToStart),
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    SwipeToDismiss(
-                        modifier = Modifier.fillMaxWidth(),
-                        state = swipeToDismissState,
-                        directions = setOf(DismissDirection.EndToStart),
-                        background = {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Transparent),
-                                contentAlignment = Alignment.CenterEnd
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete",
-                                    tint = Color.White
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                            }
-                        },
-                        dismissContent = {
-                            NotificationsCard(notification = notification)
-                        },
-                    )
-                }
+            AnimatedVisibility(
+                visible = !swipeToDismissState.isDismissed(direction = DismissDirection.EndToStart),
+                enter = fadeIn() + slideInVertically(),
+                exit = fadeOut() + slideOutVertically()
+            ) {
+                SwipeToDismiss(
+                    modifier = Modifier.fillMaxWidth(),
+                    state = swipeToDismissState,
+                    directions = setOf(DismissDirection.EndToStart),
+                    background = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Transparent),
+                            contentAlignment = Alignment.CenterEnd
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete",
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                    },
+                    dismissContent = {
+                        NotificationsCard(notification = notification)
+                    },
+                )
             }
         }
+    }
 
 }
 
@@ -178,16 +176,6 @@ private fun NotificationsCard(notification: Notification) {
             Text(
                 text = notification.notificationBody!!,
                 style = MaterialTheme.typography.bodyLarge
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Received on ${
-                    SimpleDateFormat(
-                        "MMM dd, yyyy hh:mm a",
-                        Locale.getDefault()
-                    ).format(notification.notificationTimestamp)
-                }",
-                style = MaterialTheme.typography.labelLarge
             )
         }
 

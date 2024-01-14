@@ -1,4 +1,4 @@
-package snapbite.app.food.components
+package snapbite.app.commons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape

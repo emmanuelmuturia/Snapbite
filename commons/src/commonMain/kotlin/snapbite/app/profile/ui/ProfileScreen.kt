@@ -32,8 +32,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.food.ui.FoodListViewModel
 import snapbite.app.profile.google.GoogleAuthUiClient
 import snapbite.app.profile.google.UserData
@@ -120,13 +120,6 @@ fun ProfileScreenContent(
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
 
-        /*GlideImage(
-            modifier = Modifier.size(size = 140.dp),
-            model = userData?.profilePictureUrl,
-            contentDescription = "Profile Image",
-            contentScale = ContentScale.Crop
-        )*/
-
         Column(modifier = Modifier.fillMaxSize()) {
 
             userData?.userName?.let { Text(text = it, style = MaterialTheme.typography.bodyLarge) }
@@ -148,7 +141,6 @@ fun ProfileScreenCard(foodListViewModel: FoodListViewModel) {
             .height(height = 121.dp)
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-            //.clickable(onClick = onClick),
         ,elevation = CardDefaults.cardElevation(7.dp),
         colors = CardDefaults.cardColors(containerColor = snapbiteOrange)
     ) {

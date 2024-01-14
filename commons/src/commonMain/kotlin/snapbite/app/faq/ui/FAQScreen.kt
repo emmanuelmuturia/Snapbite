@@ -45,7 +45,7 @@ import snapbite.app.commons.LoadingScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.commons.SnapbiteState
 import snapbite.app.faq.domain.FAQ
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 
 class FAQScreen: Screen {
 
@@ -58,30 +58,28 @@ class FAQScreen: Screen {
 
         val faqState by faqScreenViewModel.faqState.collectAsState()
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        when (faqState) {
+            is SnapbiteState.Loading -> LoadingScreen()
+            is SnapbiteState.Error -> ErrorScreen()
+            else ->  Box(modifier = Modifier.fillMaxSize()) {
 
-            SnapbiteBackgroundImage()
+                SnapbiteBackgroundImage()
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                SnapbiteHeader(
-                    headerTitle = "FAQ"
-                )
+                    SnapbiteHeader(
+                        headerTitle = "FAQ"
+                    )
 
-                when (faqState) {
-                    is SnapbiteState.Success -> FAQContent(faqList = faqList)
-                    is SnapbiteState.Error -> ErrorScreen()
-                    else -> LoadingScreen()
+                    FAQContent(faqList = faqList)
+
                 }
 
-                Spacer(modifier = Modifier.weight(weight = 1f))
-
             }
-
         }
 
     }

@@ -33,7 +33,7 @@ class FCMService : FirebaseMessagingService() {
 
         Timber.tag(tag = "This is the Notification Entity").d(message = notificationEntity.toString())
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             sendNotification(
                 notificationTitle = remoteMessage.notification?.title ?: "",
                 notificationBody = remoteMessage.notification?.body ?: "",
@@ -63,7 +63,6 @@ class FCMService : FirebaseMessagingService() {
         }
 
         val notificationBuilder = NotificationCompat.Builder(context, "emmanuelmuturia")
-            //.setSmallIcon(R.drawable.notification)
             .setContentTitle(notificationTitle)
             .setContentText(notificationBody)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -33,7 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 import snapbite.app.about.ui.AboutScreen
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.faq.ui.FAQScreen
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 
 class SettingsScreen: Screen {
 

@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,21 +38,22 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.food.components.EmojiPicker
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.EmojiPicker
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.food.domain.FoodEntity
 import snapbite.app.theme.snapbiteMaroon
 
 
 data class AddNewFood(
     val imagePicker: ImagePicker,
-    val state: FoodListState,
-    val onEvent: (FoodListEvent) -> Unit,
-    val foodListViewModel: FoodListViewModel
+    val foodListViewModel: FoodListViewModel,
+    val onEvent: (FoodListEvent) -> Unit
 ) : Screen {
 
     @Composable
     override fun Content() {
+
+        val state: FoodListState by foodListViewModel.state.collectAsState()
 
         imagePicker.registerPicker { imageBytes ->
             onEvent(FoodListEvent.OnFoodImagePicked(bytes = imageBytes))
@@ -76,10 +78,7 @@ data class AddNewFood(
                 Spacer(Modifier.height(60.dp))
 
                 AddNewFoodHeader(
-                    onEvent = onEvent,
-                    state = state,
-                    imagePicker = imagePicker,
-                    foodListViewModel = foodListViewModel
+                    onEvent = onEvent
                 )
 
                 if (newFood?.foodImage == null) {
@@ -163,10 +162,7 @@ data class AddNewFood(
 
 @Composable
 fun AddNewFoodHeader(
-    onEvent: (FoodListEvent) -> Unit,
-    state: FoodListState,
-    imagePicker: ImagePicker,
-    foodListViewModel: FoodListViewModel
+    onEvent: (FoodListEvent) -> Unit
 ) {
 
     val navigator = LocalNavigator.currentOrThrow

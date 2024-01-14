@@ -49,7 +49,10 @@ This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the use
 2. #### :commonMain
 - It houses the features of the app which have been categorised using packages in a Clean Architecture format...
 
-3. #### :iosMain
+2. #### :androidUnitTest
+- It comprises of the Unit Tests written for the About, Settings, and Food features using MockK and Robolectric...
+
+4. #### :iosMain
 - It contains the iOS-specific logic of the app...
 
 1. #### :main
@@ -99,21 +102,23 @@ This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the use
 
 1. ### Jetpack Compose
 - The project's User Interface (UI) has been built using Jetpack Compose which is Google's Kotlin-first UI toolkit...
-
-2. ### Kotlin Multiplatform (KMP)
 - Snapbite has been built to support both Android and iOS platforms through Jetbrain's multiplatform technology: Kotlin Multiplatform (KMP)...
 
-3. ### Moko
+2. ### Moko
 - To allow for sharing of ViewModels and assets, Moko MVVM and Moko Resources have been respectively implemented...
 
-4. ### Voyager
+3. ### Voyager
 - Navigation between screens was made easy by Voyager, which is a library that supports KMP projects...
 
-5. ### Firebase
+4. ### Firebase
 - The project's core functionalities are based on Firebase product such as Firebase Authentication (SignIn with Google), Firebase Cloud Firestore (Database), and Firebase Cloud Messaging (Push Notifications)...
-
-6. ### Gemini Pro
 - Snapbite has utilised Google's Gemini Pro AI Model to provide recommendations on making the user's food healthier using the Gemini API...
 
-7. ### SQLDelight
+5. ### SQLDelight
 - The project has utilised SQLDelight to provide an offline-first experience to the user through local storage...
+
+6. ### MockK
+- MockK has been used to mock various dependencies that were required during the Unit Tests in an effieicent and Kotlin-first manner...
+
+7. ### Robolectric
+- To simulate an Android environment, Robolectric was used and it allowed for the dependencies to work together, just like they would in a real-world Android environment...

@@ -58,6 +58,5 @@ dependencies {
     implementation(dependencyNotation = libs.splash.screen)
     implementation(dependencyNotation = libs.koin.core)
     implementation(dependencyNotation = libs.koin.android)
-    //implementation(dependencyNotation = libs.koin.compose)
     implementation(dependencyNotation = libs.koin.androidx.compose)
 }

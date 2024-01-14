@@ -44,9 +44,9 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.androidx.compose.koinViewModel
 import snapbite.app.core.ui.ImagePicker
 import snapbite.app.core.ui.ImagePickerFactory
-import snapbite.app.food.components.FoodListItem
-import snapbite.app.food.components.SnapbiteBackgroundImage
-import snapbite.app.food.components.backHandler
+import snapbite.app.commons.FoodListItem
+import snapbite.app.commons.SnapbiteBackgroundImage
+import snapbite.app.commons.backHandler
 import snapbite.app.notifications.ui.NotificationsScreen
 import snapbite.app.profile.ui.SignInScreen
 import snapbite.app.search.SearchScreen
@@ -133,14 +133,13 @@ class FoodListScreen : Screen {
                                     navigator.push(
                                         item = AddNewFood(
                                             imagePicker = imagePicker,
-                                            state = state,
+                                            foodListViewModel = foodListViewModel,
                                             onEvent = { event ->
                                                 if (event is FoodListEvent.OnAddFoodImage) {
                                                     imagePicker.pickImage()
                                                 }
                                                 onEvent(event)
-                                            },
-                                            foodListViewModel = foodListViewModel
+                                            }
                                         )
                                     )
                                 }),
@@ -247,23 +246,25 @@ fun FilledHomeScreenContent(
 
         items(foodList) { food ->
 
-                FoodListItem(
-                    food = food,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onEvent(FoodListEvent.SelectFood(food = food))
-                            navigator.push(item = EditFood(
+            FoodListItem(
+                food = food,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onEvent(FoodListEvent.SelectFood(food = food))
+                        navigator.push(
+                            item = EditFood(
                                 selectedFood = food,
                                 onEvent = onEvent,
                                 modifier = Modifier,
                                 state = state,
                                 imagePicker = imagePicker,
                                 foodListViewModel = foodListViewModel
-                            ))
-                        }
-                        .padding(horizontal = 16.dp)
-                )
+                            )
+                        )
+                    }
+                    .padding(horizontal = 16.dp)
+            )
         }
     }
 

@@ -35,7 +35,8 @@ class SettingsUnitTest {
 
     @Before
     fun setup() {
-        MockKAnnotations.init(this, relaxed = true)
+        MockKAnnotations.init(this)
+        coEvery { mockKContext.packageName } returns "snapbite.app"
         mockKSettingsScreenViewModel = SettingsScreenViewModel(
             settingsRepository = mockKSettingsRepository
         )

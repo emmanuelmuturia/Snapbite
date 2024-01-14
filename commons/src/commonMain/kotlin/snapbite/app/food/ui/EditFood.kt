@@ -37,7 +37,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import snapbite.app.commons.SnapbiteHeader
 import snapbite.app.core.ui.ImagePicker
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.food.domain.FoodEntity
 import snapbite.app.theme.snapbiteMaroon
 
@@ -52,8 +52,6 @@ data class EditFood(
 
     @Composable
     override fun Content() {
-
-        //val foodListViewModel: FoodListViewModel = koinViewModel()
 
         val navigator = LocalNavigator.currentOrThrow
 
@@ -111,9 +109,13 @@ data class EditFood(
                             },
                             imagePicker = imagePicker,
                             foodListViewModel = foodListViewModel,
-                            state = state,
                             selectedFood = selectedFood,
-                            onEvent = onEvent
+                            onEvent = { event ->
+                                if (event is FoodListEvent.OnAddFoodImage) {
+                                    imagePicker.pickImage()
+                                }
+                                onEvent(event)
+                            }
                         )
                     }
 
@@ -156,7 +158,6 @@ private fun EditRow(
     onDeleteClick: () -> Unit,
     imagePicker: ImagePicker,
     foodListViewModel: FoodListViewModel,
-    state: FoodListState,
     selectedFood: FoodEntity?,
     onEvent: (FoodListEvent) -> Unit
 ) {
@@ -167,17 +168,13 @@ private fun EditRow(
         FilledTonalIconButton(
             onClick = {
                 foodListViewModel.onEvent(event = FoodListEvent.EditFood(food = selectedFood!!))
-                navigator.push(item = AddNewFood(
-                    state = state,
-                    imagePicker = imagePicker,
-                    onEvent = { event ->
-                        if (event is FoodListEvent.OnAddFoodImage) {
-                            imagePicker.pickImage()
-                        }
-                        onEvent(event)
-                    },
-                    foodListViewModel = foodListViewModel
-                ))
+                navigator.push(
+                    item = AddNewFood(
+                        imagePicker = imagePicker,
+                        foodListViewModel = foodListViewModel,
+                        onEvent = onEvent
+                    )
+                )
             },
             colors = IconButtonDefaults.filledTonalIconButtonColors(
                 containerColor = snapbiteMaroon,

@@ -9,7 +9,7 @@ actual class ImageStorage(
     private val context: Context
 ) {
     actual suspend fun saveImage(bytes: ByteArray): String {
-        return withContext(Dispatchers.IO) {
+        return withContext(context = Dispatchers.IO) {
             val fileName = UUID.randomUUID().toString() + ".jpg"
             context.openFileOutput(fileName, Context.MODE_PRIVATE).use { outputStream ->
                 outputStream.write(bytes)
@@ -19,7 +19,7 @@ actual class ImageStorage(
     }
 
     actual suspend fun getImage(fileName: String): ByteArray? {
-        return withContext(Dispatchers.IO) {
+        return withContext(context = Dispatchers.IO) {
             context.openFileInput(fileName).use { inputStream ->
                 inputStream.readBytes()
             }
@@ -27,7 +27,7 @@ actual class ImageStorage(
     }
 
     actual suspend fun deleteImage(fileName: String) {
-        return withContext(Dispatchers.IO) {
+        return withContext(context = Dispatchers.IO) {
             context.deleteFile(fileName)
         }
     }

@@ -1,6 +1,5 @@
 package snapbite.app.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,24 +11,20 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
-import snapbite.app.R
+import snapbite.app.commons.SnapbiteBackgroundImage
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
 import snapbite.app.theme.Caveat
 
 
@@ -40,14 +35,7 @@ class SearchScreen : Screen {
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            val searchScreenViewModel: SearchScreenViewModel = getViewModel(
-                key = "searchScreenViewModel",
-                factory = viewModelFactory<SearchScreenViewModel> {
-                    SearchScreenViewModel()
-                }
-            )
-
-            var searchItem by rememberSaveable { searchScreenViewModel.searchItem }
+            var searchItem by rememberSaveable { mutableStateOf(value = "") }
 
             SnapbiteBackgroundImage()
 

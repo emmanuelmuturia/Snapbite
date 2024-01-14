@@ -12,8 +12,8 @@ actual class DatabaseDriverFactory(
 ) {
     actual fun createSnapbiteDatabase(): SqlDriver {
         return if (inMemory) {
-            JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).apply {
-                SnapbiteDatabase.Schema.create(this)
+            JdbcSqliteDriver(url = JdbcSqliteDriver.IN_MEMORY).apply {
+                SnapbiteDatabase.Schema.create(driver = this)
             }
         } else {
             return AndroidSqliteDriver(

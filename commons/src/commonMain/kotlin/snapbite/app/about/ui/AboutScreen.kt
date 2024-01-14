@@ -16,10 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import dev.icerock.moko.mvvm.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 import snapbite.app.commons.SnapbiteHeader
-import snapbite.app.food.components.SnapbiteBackgroundImage
+import snapbite.app.commons.SnapbiteBackgroundImage
 
 
 class AboutScreen: Screen {
@@ -60,30 +59,29 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
 
         item(key = 1) {
             AboutListItem(
-                //imageId = R.drawable.privacy,
                 text = "Privacy Policy",
-                onClick = { aboutScreenViewModel.getPrivacyPolicy() }
+                onClick = aboutScreenViewModel::getPrivacyPolicy
             )
         }
 
         item(key = 2) {
             AboutListItem(
-                //imageId = R.drawable.terms,
                 text = "Terms & Conditions",
-                onClick = { aboutScreenViewModel.getTermsAndConditions() }
+                onClick = aboutScreenViewModel::getTermsAndConditions
             )
         }
 
         item(key = 3) {
 
             AboutListItem(
-                //imageId = R.drawable.version,
-                text = "App Version") { }
+                text = "App Version",
+                onClick = aboutScreenViewModel::getAppVersion
+            )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 57.dp),
+                    .padding(start = 10.dp),
                 horizontalArrangement = Arrangement.Start
             ) {
 
@@ -102,7 +100,6 @@ private fun AboutScreenContent(aboutScreenViewModel: AboutScreenViewModel) {
 
 @Composable
 private fun AboutListItem(
-    //imageId: Int,
     text: String,
     onClick: () -> Unit) {
 
@@ -114,13 +111,6 @@ private fun AboutListItem(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        /*Image(
-            imageVector = ImageVector.vectorResource(id = imageId),
-            contentDescription = text
-        )
-
-        Spacer(modifier = Modifier.width(width = 21.dp))*/
 
         Text(text = text, style = MaterialTheme.typography.titleLarge)
 
