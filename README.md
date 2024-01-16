@@ -4,8 +4,6 @@
 ## Overview
 This is a Kotlin Multiplatform (KMP) food journal mobile app that allows the user to also get suggestions on how to make their foods healthier...
 
-https://github.com/emmanuelmuturia/Snapbite/assets/55001497/1e639c99-d161-4175-8b32-1cd0f0cbf498
-
 ## Table of Contents
 
 1. [BackGround](#Background)
@@ -13,7 +11,7 @@ https://github.com/emmanuelmuturia/Snapbite/assets/55001497/1e639c99-d161-4175-8
 3. [Project Structure](#Structure)
 4. [Procedure](#Procedure)
 5. [Screenshot](#Screenshot)
-6. [Trivia](#Trivia)
+6. [Demo](#Demo)
 7. [Tools, Technologies, & Libraries](#Credits)
 
 
@@ -96,8 +94,8 @@ https://github.com/emmanuelmuturia/Snapbite/assets/55001497/1e639c99-d161-4175-8
 | ![Snapbite Screenshot 2](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/24d8220c-d2d5-49dd-889e-55cff67b2f5d) | Displaying the saved food item... |
 | ![Snapbite Screenshot 3](https://github.com/emmanuelmuturia/Snapbite/assets/55001497/c3762d9d-e7d0-4793-a367-9b4abe4fb445) | Healthier suggestions for the food item... |
 
-## Trivia
-- The term "Snapbite" is a portmanteau similar to Snapchat that represents the functionality of using food photos...
+## Demo
+https://github.com/emmanuelmuturia/Snapbite/assets/55001497/1e639c99-d161-4175-8b32-1cd0f0cbf498
 
 ## Credits
 - This project has been developed and supported by the following Tools, Technologies, and Libraries:
@@ -107,20 +105,20 @@ https://github.com/emmanuelmuturia/Snapbite/assets/55001497/1e639c99-d161-4175-8
 - Snapbite has been built to support both Android and iOS platforms through Jetbrain's multiplatform technology: Kotlin Multiplatform (KMP)...
 
 2. ### Moko
-- To allow for sharing of ViewModels and assets, Moko MVVM and Moko Resources have been respectively implemented...
+- To allow for the sharing of ViewModels and assets, Moko MVVM and Moko Resources have been respectively implemented...
 
 3. ### Voyager
 - Navigation between screens was made easy by Voyager, which is a library that supports KMP projects...
 
 4. ### Firebase
-- The project's core functionalities are based on Firebase product such as Firebase Authentication (SignIn with Google), Firebase Cloud Firestore (Database), and Firebase Cloud Messaging (Push Notifications)...
+- The project's core functionalities are based on Firebase products such as Firebase Authentication (SignIn with Google), Firebase Cloud Firestore (Database), and Firebase Cloud Messaging (Push Notifications)...
 - Snapbite has utilised Google's Gemini Pro AI Model to provide recommendations on making the user's food healthier using the Gemini API...
 
 5. ### SQLDelight
 - The project has utilised SQLDelight to provide an offline-first experience to the user through local storage...
 
 6. ### MockK
-- MockK has been used to mock various dependencies that were required during the Unit Tests in an effieicent and Kotlin-first manner...
+- MockK has been used to mock various dependencies that were required during the Unit Tests in an efficient and Kotlin-first manner...
 
 7. ### Robolectric
 - To simulate an Android environment, Robolectric was used and it allowed for the dependencies to work together, just like they would in a real-world Android environment...
